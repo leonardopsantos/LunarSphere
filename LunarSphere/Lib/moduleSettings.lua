@@ -23,7 +23,7 @@ if (not Lunar.Settings) then
 end
 
 -- Set our current version for the module (used for version checking later on)
-Lunar.Settings.version = 1.41;
+Lunar.Settings.version = 1.50;
 
 local GetCursorInfo = GetCursorInfo;
 
@@ -571,6 +571,8 @@ function Lunar.Settings:Initialize()
 			end);
 
 			-- Gauge uses animaion option
+
+
 			tempObject = Lunar.Object:CreateCheckbox(10, sectionY - 160, Lunar.Locale["GAUGE_SHOW_ANIMATION"], "gaugeAnimate", true, tempFrameContainer,
 			function(self)
 				local func = Lunar.Sphere["Show" .. _G["LSSettingsgaugeName"].currentGauge .. "Animation"]
@@ -671,6 +673,7 @@ function Lunar.Settings:Initialize()
 
 		-- Create slider bar
 		tempObject = CreateFrame("Slider", "LSSettingsButtonsListSlider", tempFrameContainer, "LunarVerticalSlider");
+
 		tempObject:SetPoint("TopRight", tempFrameContainer, "TopRight", -8, sectionY - 4);
 		tempObject:SetWidth(15);
 		tempObject:SetHeight(362);
@@ -949,6 +952,7 @@ function Lunar.Settings:Initialize()
 
 			-- Create slider bar
 			tempObject = CreateFrame("Slider", "LSSettingsReagentSlider", tempFrameContainer, "LunarVerticalSlider");
+
 			tempObject:SetPoint("TopRight", tempFrameContainer, "TopRight", -18, -104);
 			tempObject:SetWidth(15);
 			tempObject:SetHeight(116);
@@ -963,6 +967,7 @@ function Lunar.Settings:Initialize()
 
 				-- Create message text box
 				tempObject = CreateFrame("EditBox", "LSReagentCount" .. index, tempFrameContainer, "LunarEditBox");
+
 				tempObject:ClearAllPoints();
 				tempObject:SetPoint("Topright", tempFrameContainer, "Topright", -42, -85 - (index * 27))
 				tempObject:SetWidth(44);
@@ -1144,26 +1149,26 @@ function Lunar.Settings:Initialize()
 
 				end
 
-			-- Create AH Caption
-			sectionY = -240;
-			tempObject = Lunar.Object:CreateCaption(10, sectionY, 150, 20, "|cFFFFFFFF"..Lunar.Locale["AH_OPTIONS"], "ahOptions", tempFrameContainer);
-
-				if (LunarSphereSettings.memoryDisableAHTotals) then
-
-					-- Create Disabled Caption
-					tempObject = Lunar.Object:CreateCaption(20, sectionY - 18, 100, 20, Lunar.Locale["MEMORY_DISABLED"], "memAHTotalsDisabled", tempFrameContainer, true);
-
-				else
-						
-					-- Show bid totals option
-					tempObject = Lunar.Object:CreateCheckbox(10, sectionY - 18, Lunar.Locale["SHOW_TOTALS_AH"], "showTotalAH", true, tempFrameContainer,
-					function (self)
-						LunarSphereSettings.showTotalAH = (self:GetChecked() == true);
-						Lunar.API:ShowAuctionTotals((self:GetChecked() == true));
-					end);
-					tempObject:SetHitRectInsets(0, -175, 0, 0);
-
-				end
+--			-- Create AH Caption
+--			sectionY = -240;
+--			tempObject = Lunar.Object:CreateCaption(10, sectionY, 150, 20, "|cFFFFFFFF"..Lunar.Locale["AH_OPTIONS"], "ahOptions", tempFrameContainer);
+--
+--				if (LunarSphereSettings.memoryDisableAHTotals) then
+--
+--					-- Create Disabled Caption
+--					tempObject = Lunar.Object:CreateCaption(20, sectionY - 18, 100, 20, Lunar.Locale["MEMORY_DISABLED"], "memAHTotalsDisabled", tempFrameContainer, true);
+--
+--				else
+--						
+--					-- Show bid totals option
+--					tempObject = Lunar.Object:CreateCheckbox(10, sectionY - 18, Lunar.Locale["SHOW_TOTALS_AH"], "showTotalAH", true, tempFrameContainer,
+--					function (self)
+--						LunarSphereSettings.showTotalAH = (self:GetChecked() == true);
+--						Lunar.API:ShowAuctionTotals((self:GetChecked() == true));
+--					end);
+--					tempObject:SetHitRectInsets(0, -175, 0, 0);
+--
+--				end
 
 	-- Create our sixth tab container. This holds our "Speech Settings"
 	tempObject = Lunar.Object:Create("container", "LSSettingsMainTab1306Container", _G[tempFrame:GetName() .. "WindowContainer"], "", containerWidth, containerHeight);
@@ -1185,6 +1190,7 @@ function Lunar.Settings:Initialize()
 					
 			-- Current speech edit box
 			tempObject = CreateFrame("EditBox", "LSSettingsScriptName", tempFrameContainer, "LunarEditBox");
+
 			tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 26, sectionY - 4)
 			tempObject:SetWidth(166);
 			tempObject:Hide();
@@ -1334,6 +1340,7 @@ function Lunar.Settings:Initialize()
 
 				-- Create slider bar
 				tempObject = CreateFrame("Slider", "LSSettingsSpeechSlider", tempFrameContainer, "LunarVerticalSlider");
+
 				tempObject:SetPoint("TopRight", tempFrameContainer, "TopRight", -16, sectionY - 23);
 				tempObject:SetWidth(15);
 				tempObject:SetHeight(76);
@@ -1386,6 +1393,7 @@ function Lunar.Settings:Initialize()
 
 				-- Current speech edit box
 				tempObject = CreateFrame("EditBox", "LSSettingsCurrentSpeech", tempFrameContainer, "LunarEditBox");
+
 				tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 16, sectionY - 17)
 				tempObject:SetWidth(206);
 				tempObject:Show();
@@ -1499,6 +1507,7 @@ function Lunar.Settings:Initialize()
 
 				-- Create slider bar
 				tempObject = CreateFrame("Slider", "LSSettingsAssignActionSlider", tempFrameContainer, "LunarVerticalSlider");
+
 				tempObject:SetPoint("TopRight", tempFrameContainer, "TopRight", -18, sectionY - 36);
 				tempObject:SetWidth(15);
 				tempObject:SetHeight(66);
@@ -1657,6 +1666,7 @@ function Lunar.Settings:Initialize()
 
 			-- Create slider bar
 			tempObject = CreateFrame("Slider", "LSTextureScrollerSlider", tempFrameContainer, "LunarVerticalSlider");
+
 			tempObject:SetPoint("TopRight", tempFrameContainer, "TopRight", -18, -71);
 			tempObject:SetWidth(15);
 			tempObject:SetHeight(74);
@@ -1759,7 +1769,8 @@ function Lunar.Settings:Initialize()
 							end
 						end);
 
-						tempObject = CreateFrame("PlayerModel", "LSSettingsSkin3D", tempFrameContainer);
+						tempObject = CreateFrame("PlayerModel", "LSSettingsSkin3D", tempFrameContainer, "BackdropTemplate, GameTooltipTemplate");
+
 						tempObject:SetWidth(32);
 						tempObject:SetHeight(32);
 						tempObject:SetScript("OnUpdate", function (self) self:SetCamera(0) end);
@@ -2018,6 +2029,7 @@ function Lunar.Settings:Initialize()
 				_G["LSSettingstooltipBackgroundColor"]:SetColorTexture(db[1], db[2], db[3]);
 			end);
 
+
 			-- Tooltip background color changer
 			tempObject = Lunar.Object:CreateColorSelector(112, sectionY - 26, Lunar.Locale["TOOLTIP_BACKGROUND"], "tooltipBackground", tempFrameContainer, Lunar.API.BlankFunction, true);
 
@@ -2162,6 +2174,7 @@ function Lunar.Settings:Initialize()
 
 				-- Create slider bar
 				tempObject = CreateFrame("Slider", "LSSettingsTemplateListSlider", tempFrameContainer, "LunarVerticalSlider");
+
 				tempObject:SetPoint("TopRight", tempFrameContainer, "TopRight", -16, sectionY - 23);
 				tempObject:SetWidth(15);
 				tempObject:SetHeight(151);
@@ -2323,7 +2336,8 @@ function Lunar.Settings:Initialize()
 				end);
 				tempObject:Disable();
 
-				tempObject = CreateFrame("Button", "LSSettingsDualSpecWarning", _G["LSSettingstemplatePrimary"]);
+				tempObject = CreateFrame("Button", "LSSettingsDualSpecWarning", _G["LSSettingstemplatePrimary"], "BackdropTemplate, GameTooltipTemplate");
+
 				tempObject:SetWidth(216);
 				tempObject:SetHeight(20);
 				tempObject:ClearAllPoints();
@@ -2594,6 +2608,7 @@ function Lunar.Settings:Initialize()
 				-- Enable Scrollwheel Zoom option
 				tempObject = Lunar.Object:CreateCheckbox(10, sectionY - 20, Lunar.Locale["SCROLL_ZOOM"], "minimapScroll", true, tempFrameContainer,
 				function (self)
+
 					Lunar.API:SetMinimapScroll((self:GetChecked() == true));
 				end);
 
@@ -2649,6 +2664,7 @@ function Lunar.Settings:Initialize()
 
 			-- Create message text box
 			tempObject = CreateFrame("EditBox", "LSSettingsStartUpMessage", tempFrameContainer, "LunarEditBox");
+
 			tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 40, sectionY - 20)
 			tempObject:SetWidth(178);
 			tempObject:Show();
@@ -2679,6 +2695,7 @@ function Lunar.Settings:Initialize()
 
 			-- Create message text box
 			tempObject = CreateFrame("EditBox", "LSSettingsXLocationEdit", tempFrameContainer, "LunarEditBox");
+
 			tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 36, sectionY - 20)
 			tempObject:SetWidth(40);
 			tempObject:Show();
@@ -2690,6 +2707,7 @@ function Lunar.Settings:Initialize()
 
 			-- Create message text box
 			tempObject = CreateFrame("EditBox", "LSSettingsYLocationEdit", tempFrameContainer, "LunarEditBox");
+
 			tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 112, sectionY - 20)
 			tempObject:SetWidth(40);
 			tempObject:Show();
@@ -2745,6 +2763,7 @@ function Lunar.Settings:Initialize()
 
 		-- Create slider bar
 		tempObject = CreateFrame("Slider", "LSSettingsMemoryListSlider", tempFrameContainer, "LunarVerticalSlider");
+
 		tempObject:SetPoint("TopRight", tempFrameContainer, "TopRight", -16, sectionY - 31);
 		tempObject:SetWidth(15);
 		tempObject:SetHeight(171);
@@ -2979,6 +2998,7 @@ function Lunar.Settings:Initialize()
 				-- All addon memory use value
 				tempObject = Lunar.Object:CreateCaption(110, sectionY - 48, 150, 20, "0", "memoryUseValueCaption", tempFrameContainer, true);
 
+
 				-- LS CPU use caption
 				tempObject = Lunar.Object:CreateCaption(10, sectionY - 64, 150, 20, Lunar.Locale["MEMORY_CPU_USAGE"], "memoryCPULSCaption", tempFrameContainer, true);
 				if (GetCVar("scriptProfile") == "0") then
@@ -3047,6 +3067,7 @@ function Lunar.Settings:Initialize()
 
 			-- Create slider bar
 			tempObject = CreateFrame("Slider", "LSSettingsCreditsListSlider", tempFrameContainer, "LunarVerticalSlider");
+
 			tempObject:SetPoint("TopRight", tempFrameContainer, "TopRight", -8, sectionY - 4);
 			tempObject:SetWidth(15);
 			tempObject:SetHeight(362);
@@ -3198,6 +3219,7 @@ function Lunar.Settings:Initialize()
 			
 			-- Create texture input text box
 			tempObject = CreateFrame("EditBox", "LSSettingsDebugSpellAdd", tempFrameContainer, "LunarEditBox");
+
 			tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 40, -180)
 			tempObject:SetWidth(178);
 			tempObject:Show();
@@ -3215,6 +3237,7 @@ function Lunar.Settings:Initialize()
 
 			-- Create stance input text box
 			tempObject = CreateFrame("EditBox", "LSSettingsDebugSpellAddStance", tempFrameContainer, "LunarEditBox");
+
 			tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 40, -200)
 			tempObject:SetWidth(48);
 			tempObject:Show();
@@ -3281,6 +3304,7 @@ function Lunar.Settings:Initialize()
 
 			-- Create message text box
 			tempObject = CreateFrame("EditBox", "LSSettingsDebugTooltipCode", tempFrameContainer, "LunarEditBox");
+
 			tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 40, -335)
 			tempObject:SetWidth(178);
 			tempObject:Show();
@@ -3301,6 +3325,7 @@ function Lunar.Settings:Initialize()
 
 	-- Create our menu dropdown
 	tempObject = CreateFrame("Frame", "LSSettingsMenuDropdown", _G["LSmain"], "UIDropDownMenuTemplate");
+
 	tempObject.lunarMenu = true;
 	UIDropDownMenu_Initialize(tempObject, Lunar.Settings.MenuDropdownInitialize); --, "MENU");
 
@@ -3362,6 +3387,7 @@ function Lunar.Settings:CreateButtonDialog()
 
 	-- Create slider bar
 	tempObject = CreateFrame("Slider", "LSSettingsButtonSettingsListSlider", tempFrameContainer, "LunarVerticalSlider");
+
 	tempObject:SetPoint("TopRight", tempFrameContainer, "TopRight", -15, sectionY - 19);
 	tempObject:SetPoint("BottomRight", tempFrameContainer, "BottomRight", -7, 38);
 	tempObject:SetWidth(15);
@@ -3376,6 +3402,7 @@ function Lunar.Settings:CreateButtonDialog()
 
 	-- Scroll frame contents
 	tempFrameContainer = Lunar.API:CreateFrame("Frame", "LSSettingsButtonSettingsScrollFrameChild", _G["LSSettingsButtonSettingsScrollFrame"], 184, 400, nil, nil, 0);
+
 	_G["LSSettingsButtonSettingsScrollFrame"]:SetScrollChild(tempFrameContainer);
 
 	_, Lunar.Settings.hasStances = UnitClass("player");
@@ -4205,11 +4232,8 @@ function Lunar.Settings:CreateStartupDialog()
 			end);
 			tempObject:ClearAllPoints();
 			tempObject:SetPoint("Bottom", 0, 10);
-
 		end
-
 	end
-
 end
 
 -- /***********************************************
@@ -4229,7 +4253,6 @@ function Lunar.Settings:ToggleSettingsFrame()
 	else
 		Lunar.Settings.Frame:Show();	
 	end
-
 end
 
 function Lunar.Settings.StanceIcon_Enter(self)
@@ -4574,7 +4597,6 @@ function Lunar.Settings:StanceIconSetup(stanceIconName, stanceIconWidthBoundry, 
 	else
 		_G[stanceIconName .. "StanceIcon0"]:EnableMouse(true);
 	end
-	
 end
 
 local dropInfo = {};
@@ -4626,7 +4648,6 @@ function Lunar.Settings:MenuDropdownInitialize()
 
 			UIDropDownMenu_AddButton(dropInfo);
 		end
-
 	end
 end
 
@@ -5599,6 +5620,7 @@ if not (LunarSphereSettings.memoryDisableTemplates) then
 
 		-- Create filename text box
 		tempObject = CreateFrame("EditBox", "LSSettingsTemplateNameTextbox", tempFrameContainer, "LunarEditBox");
+
 		tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 20, -30)
 		tempObject:SetWidth(198);
 		tempObject:Show();
@@ -5936,6 +5958,7 @@ if not (LunarSphereSettings.memoryDisableSkins) then
 
 		-- Create filename text box
 		tempObject = CreateFrame("EditBox", "LSSettingsImportArtFilenameTextbox", tempFrameContainer, "LunarEditBox");
+
 		tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 20, -30)
 		tempObject:SetWidth(168);
 		tempObject:Show();
@@ -5956,6 +5979,7 @@ if not (LunarSphereSettings.memoryDisableSkins) then
 
 		-- Create width text box
 		tempObject = CreateFrame("EditBox", "LSSettingsImportArtWidthTextbox", tempFrameContainer, "LunarEditBox");
+
 		tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 26, -110)
 		tempObject:SetWidth(64);
 		tempObject:Show();
@@ -5969,6 +5993,7 @@ if not (LunarSphereSettings.memoryDisableSkins) then
 
 		-- Create height text box
 		tempObject = CreateFrame("EditBox", "LSSettingsImportArtHeightTextbox", tempFrameContainer, "LunarEditBox");
+
 		tempObject:SetPoint("Topleft", tempFrameContainer, "Topleft", 118, -110)
 		tempObject:SetWidth(64);
 		tempObject:Show();
@@ -6228,7 +6253,7 @@ function Lunar.Settings:CreateAnchorPlaceholders()
 
 		else
 			frame:SetPoint(
-			--"TOPLEFT", "UIParent", "BOTTOMRIGHT", -CONTAINER_OFFSET_X - 13, CONTAINER_OFFSET_Y + 9);
+				--"TOPLEFT", "UIParent", "BOTTOMRIGHT", -CONTAINER_OFFSET_X - 13, CONTAINER_OFFSET_Y + 9);
 				(LunarSphereSettings.anchorCornerpoint or "Topleft"), UIParent,
 				(LunarSphereSettings.anchorCornerrelativePoint or "Bottomright"),
 				(LunarSphereSettings.anchorCornerxOfs or (-CONTAINER_OFFSET_X - 13)),

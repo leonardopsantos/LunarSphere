@@ -22,7 +22,7 @@ if (not Lunar.Button) then
 end
 
 -- Set our current version for the module (used for version checking later on)
-Lunar.Button.version = 1.41;
+Lunar.Button.version = 1.50;
 
 -- Create post WOW 2.2 bug fix, if Stage 5 comes out before 2.2 comes out.
 -- Otherwise, I will rename GetActionFromMacroText in this code to SecureCmdOptionParse
@@ -229,7 +229,7 @@ function Lunar.Button:Initialize()
 
 	Lunar.Button.enabledButtons = LunarSphereSettings.buttonEditMode;
 
-	_, Lunar.Items.reagentString = GetAuctionItemSubClasses(10);
+--	_, Lunar.Items.reagentString = GetAuctionItemSubClasses(10);
 
 	-- Create our locals
 	local newButton, menuHeader, parentButton, xLoc, yLoc, radians, index, subIndex, menuIndex;
@@ -250,6 +250,7 @@ function Lunar.Button:Initialize()
 	end
 
 	sphereMainHeader = CreateFrame("Frame", "LunarSphereMainButtonHeader", UIParent, "SecureHandlerStateTemplate")
+
 	sphereMainHeader:SetWidth(1);
 	sphereMainHeader:SetHeight(1);
 	sphereMainHeader:SetPoint("Topleft");
@@ -271,6 +272,7 @@ function Lunar.Button:Initialize()
 	_G["LSmain"]:SetParent(sphereMainHeader);
 
 	sphereHeader = CreateFrame("Frame", "LunarSphereButtonHeader", UIParent, "SecureHandlerStateTemplate")
+
 	sphereHeader:SetWidth(64);
 	sphereHeader:SetHeight(64);
 	sphereHeader:SetPoint("Topleft");
@@ -693,12 +695,13 @@ menuHeader:SetAttribute('_onclick',
 	-- assigning a button a new action. This method prevents the player
 	-- from automatically using an item that they place on the button when
 	-- they are assigning it)
-	Lunar.Button.updateFrame = CreateFrame("Frame", "LunarButtonUpdates", UIParent);
+	Lunar.Button.updateFrame = CreateFrame("Frame", "LunarButtonUpdates", UIParent, "BackdropTemplate, GameTooltipTemplate");
 
 	-- Create the update counter frame. This will run at all times and when a set amount
 	-- of time passes, it will run through all active buttons with a "canUpdate" flag
 	-- and run their OnUpdate code.
-	Lunar.Button.updateCounterFrame = CreateFrame("Frame", "LunarButtonUpdateTimer", UIParent);
+	Lunar.Button.updateCounterFrame = CreateFrame("Frame", "LunarButtonUpdateTimer", UIParent, "BackdropTemplate, GameTooltipTemplate");
+
 	Lunar.Button.updateCounterFrame.elapsed = 0;
 	Lunar.Button.updateCounterFrame.elapsedCooldown = 0;
 	Lunar.Button.updateCounterFrame.updateHighLowItems = 0
@@ -1300,6 +1303,7 @@ function Lunar.Button:Create(name, parent, includeHeader)
 	else
 		button = CreateFrame("CheckButton", name, parent, "SecureActionButtonTemplate, ActionButtonTemplate"); --, SecureHandlerClickTemplate, SecureHandlerEnterLeaveTemplate, SecureHandlerShowHideTemplate, ActionButtonTemplate")
 	end
+
 	-- Make our new button accept mouse clicks
 	button:RegisterForClicks("LeftButtonUp", "MiddleButtonUp", "RightButtonUp", "Button4Up", "Button5Up");
 	button:RegisterForDrag("LeftButton", "MiddleButton", "RightButton", "Button4", "Button5")
@@ -6865,7 +6869,7 @@ function Lunar.Button:TooltipOnShow()
 	if (LunarSphereSettings.skinTooltips == true) and ((Lunar.Button.tooltipCalled == true) or (LunarSphereSettings.skinAllTooltips == true)) then
 		if not (Lunar.Button.tooltipSkinned) then
 			Lunar.Button.tooltipSkinned = true;
-			GameTooltip:SetBackdrop(backdrop);
+			GameTooltip:SetBackdrop(LS_backdropTemplate);
 			GameTooltip:SetBackdropBorderColor(unpack(LunarSphereSettings.tooltipBorder));
 			GameTooltip:SetBackdropColor(unpack(LunarSphereSettings.tooltipBackground));
 		end
@@ -6882,6 +6886,7 @@ function Lunar.Button:TooltipOnShow()
 			if (Lunar.Button.tooltipCalled ~= true) then
 				Lunar.Button.tooltipSetOwner = true;
 				GameTooltip:SetOwner(GameTooltip:GetOwner(), "ANCHOR_NONE");
+
 				local pos = LunarSphereSettings.anchorCorner +  1;
 				GameTooltip:ClearAllPoints();
 				GameTooltip:SetPoint(Lunar.Button.tooltipPos[9 - pos], _G["LSSettingsAnchor"], Lunar.Button.tooltipPos[pos]);

@@ -25,7 +25,7 @@ if (not Lunar.Speech) then
 	Lunar.Speech = {};
 end
 
-Lunar.Speech.version = 1.41;
+Lunar.Speech.version = 1.50;
 
 -- The speech module uses the speechDatabase table and the LunarSphereGlobal.speechLibrary table
 -- for tracking and storing scripts and speeches. Below is the description of what each table
@@ -154,7 +154,8 @@ function Lunar.Speech:Initialize()
 	-- Create our watch frame for all spell events so we can react to them
 	-- and, well ... do speeches ^_^
 
-	Lunar.Speech.SpellSentry = CreateFrame("Frame", "LunarSpeechSpellSentry", UIParent);
+	Lunar.Speech.SpellSentry = CreateFrame("Frame", "LunarSpeechSpellSentry", UIParent, "BackdropTemplate, GameTooltipTemplate");
+
 	Lunar.Speech.SpellSentry:SetWidth(1);
 	Lunar.Speech.SpellSentry:SetHeight(1);
 	Lunar.Speech.SpellSentry:EnableMouse(false);

@@ -20,7 +20,7 @@ end
 Lunar.Sphere = {};
 
 -- Set our current version for the module (used for version checking later on)
-Lunar.Sphere.version = 1.41;
+Lunar.Sphere.version = 1.50;
 
 -- Set some settings for Lunar
 Lunar.combatLockdown = false;		-- Tracks if we're in combat
@@ -302,6 +302,7 @@ function Lunar.Sphere:Initialize()
 --	sphereData.main = Lunar.API:CreateFrame("Frame", "LSmain", mainAnchor, 64, 64, "", true, 0)
 
 	sphereData.main = CreateFrame("Button", "LSmain", UIParent, "SecureActionButtonTemplate");
+
 	sphereData.main:SetWidth(64);
 	sphereData.main:SetHeight(64);
 	sphereData.main:EnableMouse(true);
@@ -344,7 +345,8 @@ function Lunar.Sphere:Initialize()
 	sphereData.gaugeOuterBorder = Lunar.API:CreateFrame("Button", "LSgaugeOuterBorder", sphereData.main, 44, 44, "$addon\\art\\gaugeBorder_1", false, 0)
 	sphereData.gaugeInnerBorder = Lunar.API:CreateFrame("Button", "LSgaugeInnerBorder", sphereData.main, 30, 30, "$addon\\art\\gaugeBorder_1", false, 0)
 
-	sphereData.sphereTexture2 = CreateFrame("PlayerModel", "LSsphere2", sphereData.main);
+	sphereData.sphereTexture2 = CreateFrame("PlayerModel", "LSsphere2", sphereData.main, "BackdropTemplate, GameTooltipTemplate");
+
 	sphereData.sphereTexture2:SetWidth(64);
 	sphereData.sphereTexture2:SetHeight(64);
 	sphereData.sphereTexture2:SetScript("OnUpdate", function (self) self:SetCamera(0) end);
@@ -2376,10 +2378,10 @@ function Lunar.Sphere.Updates(self, elapsed)
 --			Lunar.Button:UpdateCount(_G["LSmain"]);
 
 			-- Load up some of our previously saved settings
-			if not (LunarSphereSettings.memoryDisableAHTotals) then
-				Lunar.API:ShowBidTotals(LunarSphereSettings.showTotalBid);
-				Lunar.API:ShowAuctionTotals(LunarSphereSettings.showTotalAH);
-			end
+--			if not (LunarSphereSettings.memoryDisableAHTotals) then
+--				Lunar.API:ShowBidTotals(LunarSphereSettings.showTotalBid);
+--				Lunar.API:ShowAuctionTotals(LunarSphereSettings.showTotalAH);
+--			end
 --[[
 			Lunar.API:HidePlayerFrame(LunarSphereSettings.hidePlayer, true);
 			Lunar.API:HideMinimapTime(LunarSphereSettings.hideTime, true);

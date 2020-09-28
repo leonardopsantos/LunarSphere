@@ -1,6 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/">
 
-	<EditBox name="LunarEditBox" toplevel="true" hidden="false" virtual="true" autofocus="false">
+	<EditBox name="LunarEditBox" toplevel="true" hidden="false" virtual="true" autofocus="false" inherits="BackdropTemplate, GameTooltipTemplate">
 		<Size>
 			<AbsDimension x="128" y="20"/>
 		</Size>
@@ -51,7 +51,7 @@
 		</Scripts>
 	</EditBox>
 
-	<Frame name="LunarWindow" movable="true" toplevel="true" enableMouse="true" hidden="true" parent="UIParent" virtual="true">
+	<Frame name="LunarWindow" movable="true" toplevel="true" enableMouse="true" hidden="true" parent="UIParent" virtual="true" inherits="BackdropTemplate, GameTooltipTemplate">
 		<Size>
 			<AbsDimension x="352" y="32"/>
 		</Size>
@@ -173,7 +173,7 @@
 		</Scripts>
 	</Frame>
 
-	<Frame name="LunarContainer" toplevel="false" hidden="false" virtual="true">
+	<Frame name="LunarContainer" toplevel="false" hidden="false" virtual="true" inherits="BackdropTemplate, GameTooltipTemplate">
 		<Size>
 			<AbsDimension x="128" y="128"/>
 		</Size>
@@ -187,7 +187,7 @@
 		</Backdrop>
 	</Frame>
 
-	<Frame name="LunarContainerSolid" toplevel="false" hidden="false" virtual="true">
+	<Frame name="LunarContainerSolid" toplevel="false" hidden="false" virtual="true" inherits="BackdropTemplate, GameTooltipTemplate">
 		<Size>
 			<AbsDimension x="128" y="128"/>
 		</Size>
@@ -245,7 +245,7 @@
 		</Frames>
 	</Slider>
 
-	<Slider name="LunarVerticalSlider" orientation="VERTICAL" minValue="0" maxValue="1" valueStep="1" defaultValue="0" virtual="true">
+	<Slider name="LunarVerticalSlider" orientation="VERTICAL" minValue="0" maxValue="1" valueStep="1" defaultValue="0" virtual="true" inherits="BackdropTemplate, GameTooltipTemplate">
 		<Size>
 			<AbsDimension x="16" y="110"/>
 		</Size>
@@ -267,7 +267,7 @@
 		</ThumbTexture>
 	</Slider>
 
-	<Frame name="LunarCaption" virtual="true">
+	<Frame name="LunarCaption" virtual="true" inherits="BackdropTemplate, GameTooltipTemplate">
 		<Layers>
 			<Layer level="ARTWORK">
 				<FontString name="$parentText" inherits="GameFontNormal" justifyH="LEFT" text="">
@@ -276,7 +276,7 @@
 		</Layers>
 	</Frame>
 
-	<Frame name="LunarCaptionSmall" virtual="true">
+	<Frame name="LunarCaptionSmall" virtual="true" inherits="BackdropTemplate, GameTooltipTemplate">
 		<Layers>
 			<Layer level="ARTWORK">
 				<FontString name="$parentText" inherits="GameFontNormalSmall" justifyH="LEFT" text="">
@@ -285,7 +285,7 @@
 		</Layers>
 	</Frame>
 
-	<Button name="LunarColorSelector" virtual="true" enableMouse="true">
+	<Button name="LunarColorSelector" virtual="true" enableMouse="true" inherits="BackdropTemplate, GameTooltipTemplate">
 		<Size>
 			<AbsDimension x="16" y="16"/>
 		</Size>
@@ -320,7 +320,7 @@
 		<HighlightTexture alphamode="ADD" file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight"/>
 	</Button>
 
-	<Frame name="LunarVerticalTab" toplevel="false" hidden="false" enableMouse="true" virtual="true">
+	<Frame name="LunarVerticalTab" toplevel="false" hidden="false" enableMouse="true" virtual="true" inherits="BackdropTemplate, GameTooltipTemplate">
 		<Size>
 			<AbsDimension x="92" y="32"/>
 		</Size>

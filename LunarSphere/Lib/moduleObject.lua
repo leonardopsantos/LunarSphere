@@ -24,7 +24,7 @@ if (not Lunar.Object) then
 end
 
 -- Set our current version for the module (used for version checking later on)
-Lunar.Object.version = 1.41;
+Lunar.Object.version = 1.50;
 
 -- Create our dropdown data if it doesn't exist yet
 if (not Lunar.Object.dropdownData) then
@@ -96,8 +96,8 @@ function Lunar.Object:Create(objectType, objectName, objectParent, objectTitle, 
 	if (objectType == "verticaltab") then
 
 		tempObject = CreateFrame("Frame", objectName, objectParent, "LunarVerticalTab");
+
 		_G[tempObject:GetName() .. "Text"]:SetText(objectTitle);
---		tempObject:SetHitRectInsets(0, 0, -5, 5);
 		tempObject:SetHitRectInsets(0, 0, 4, 5);
 
 --		tempObject:SetID(string.sub(objectName, string.len(objectName)));
@@ -112,7 +112,6 @@ function Lunar.Object:Create(objectType, objectName, objectParent, objectTitle, 
 		if (objectHeight) then
 			tempObject:SetHeight(objectHeight);
 		end
-
 	end
 
 	-- Set the width of the object, if specified
@@ -120,10 +119,12 @@ function Lunar.Object:Create(objectType, objectName, objectParent, objectTitle, 
 		tempObject:SetWidth(objectWidth);
 	end
 
-	-- Set the color of the object's background, if specified;
-	if ((foregroundR) and (foregroundG) and (foregroundB)) then
-		tempObject:SetBackdropColor(foregroundR, foregroundG, foregroundB, 1.0);
-	end
+	if (objectType == ("window" or "verticaltab" or "container")) then 
+		-- Set the color of the object's background, if specified;
+		if ((foregroundR) and (foregroundG) and (foregroundB)) then
+			tempObject:SetBackdropColor(foregroundR, foregroundG, foregroundB, 1.0);
+		end
+      end
 
 	-- return the object
 	return tempObject
@@ -135,6 +136,7 @@ function Lunar.Object:CreateCheckbox(xLoc, yLoc, objectText, objectSetting, enab
 	local tempObject;
 
 	tempObject = CreateFrame("CheckButton", "LSSettings" .. objectSetting, objectParent, "LunarCheckButton");
+
 	_G[tempObject:GetName() .. "Text"]:SetFont((select(1, GameFontNormal:GetFont())), 10); --Fonts\\FRIZQT__.TTF", 10);
 	_G[tempObject:GetName() .. "Text"]:SetJustifyV("Top");
 	_G[tempObject:GetName() .. "Text"]:SetJustifyH("Left");
@@ -174,6 +176,7 @@ function Lunar.Object:CreateRadio(xLoc, yLoc, objectText, objectSetting, ID, obj
 	local tempObject;
 
 	tempObject = CreateFrame("CheckButton", "LSSettings" .. objectSetting .. ID, objectParent, "UIRadioButtonTemplate");
+
 	tempObject:SetWidth(16);
 	tempObject:SetHeight(16);
 	tempObject:SetHitRectInsets(0, -100, 0, 0);
@@ -201,6 +204,7 @@ function Lunar.Object:CreateColorSelector(xLoc, yLoc, objectText, objectSetting,
 	local tempObject;
 
 	tempObject = CreateFrame("Button", "LSSettings" .. objectSetting, objectParent, "LunarColorSelector");
+
 	tempObject:EnableMouse(true);
 	_G[tempObject:GetName() .. "Text"]:SetText(objectText);
 
@@ -282,6 +286,7 @@ function Lunar.Object:CreateButton(xLoc, yLoc, objectWidth, objectName, objectTe
 	local tempObject;
 
 	tempObject = CreateFrame("Button", "LSSettings" .. objectName, objectParent, "OptionsButtonTemplate")
+
 	tempObject:SetPoint("Topleft", xLoc, yLoc);
 	tempObject:SetText(objectText);
 	tempObject:SetWidth(objectWidth);
@@ -298,7 +303,8 @@ function Lunar.Object:CreateImage(xLoc, yLoc, objectWidth, objectHeight, objectN
 	-- Parse the image page for the "$addon" string and replace it with the addon's path
 	imagePath = string.gsub(imagePath, "$addon", LUNAR_ADDON_PATH);
 
-	tempObject = CreateFrame("Button", "LSSettings" .. objectName, objectParent)
+	tempObject = CreateFrame("Button", "LSSettings" .. objectName, objectParent, "ActionButtonTemplate")
+
 	tempObject:SetPoint("Topleft", xLoc, yLoc);
 	tempObject:SetWidth(objectWidth);
 	tempObject:SetHeight(objectHeight);
@@ -314,6 +320,7 @@ function Lunar.Object:CreateIconPlaceholder(xLoc, yLoc, objectName, objectParent
 	local tempObject;
 
 	tempObject = CreateFrame("Button", "LSSettings" .. objectName, objectParent, "ActionButtonTemplate")
+
 	tempObject:SetPoint("Topleft", xLoc, yLoc);
 	tempObject:SetWidth(32);
 	tempObject:SetHeight(32);
@@ -346,6 +353,7 @@ function Lunar.Object:CreateSlider(xLoc, yLoc, objectText, objectSetting, object
 
 	if (useTextBox == true) then
 		tempObject = CreateFrame("Slider", "LSSettings" .. objectSetting, objectParent, "LunarHorizontalSliderWithTextbox");
+
 		tempObject.hasTextBox = true;
 		_G[tempObject:GetName() .. "Value"]:SetScript("OnEnterPressed", Lunar.Object.EditBox_OnEnterPressed);
 --		_G[tempObject:GetName() .. "Value"]:SetNumeric(true);
@@ -439,6 +447,7 @@ function Lunar.Object:CreateDropdown(xLoc, yLoc, width, objectName, objectText, 
 	local tempObject;
 
 	tempObject = CreateFrame("Frame", "LSSettings" .. objectName, objectParent, "LunarDropDown");
+
 	tempObject.lunarMenu = true;
 --	tempObject.displayMode = "MENU"
 
@@ -934,9 +943,9 @@ function Lunar.Object:SkinDropDown(level, value, dropDownFrame, anchorName, xOff
 
 	local backdrop = _G["DropDownList" .. UIDROPDOWNMENU_MENU_LEVEL .. "Backdrop"];
 	if not Lunar.Object.dropdownSkin then
-		Lunar.Object.dropdownSkin = backdrop:GetBackdrop()
 		Lunar.Object.dropdownSkinLS = _G["LSSetttingsGaugeOptionsContainer"]:GetBackdrop()
 		Lunar.Object.dropdownSkinColor = { backdrop:GetBackdropColor() };
+		Lunar.Object.dropdownSkin = backdrop:GetBackdrop()
 	end
 
 	local menuObj;

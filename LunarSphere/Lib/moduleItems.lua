@@ -35,7 +35,7 @@ if (not Lunar.Items) then
 end
 
 -- Set our current version for the module (used for version checking later on)
-Lunar.Items.version = 1.41;
+Lunar.Items.version = 1.50;
 
 -- Create our database settings
 Lunar.Items.RunInitialize = false;
@@ -220,7 +220,8 @@ Lunar.Items.updateButton = {
 --]]
 
 -- Create our tooltip sniffer
-Lunar.Items.tooltip = CreateFrame("GameTooltip", "LunarItemsTooltip", UIParent, "GameTooltipTemplate");
+Lunar.Items.tooltip = CreateFrame("GameTooltip", "LunarItemsTooltip", UIParent, "BackdropTemplate, GameTooltipTemplate");
+
 Lunar.Items.tooltip:SetOwner(UIParent, "ANCHOR_NONE");
 Lunar.Items.tooltip:ClearAllPoints();
 Lunar.Items.tooltip:SetPoint("Center");
@@ -242,7 +243,7 @@ Lunar.Items.tooltip:Hide();
 function Lunar.Items:Initialize()
 
 	-- Create our event frame
-	Lunar.Items.eventFrame = CreateFrame("Frame", "LunarItemsEvents", UIParent);
+	Lunar.Items.eventFrame = CreateFrame("Frame", "LunarItemsEvents", UIParent, "BackdropTemplate, GameTooltipTemplate");
 
 	-- Register the events we'll be tracking, and then set our frame's scripting
 --	Lunar.Items.eventFrame:RegisterEvent("PLAYER_LOGIN");
@@ -558,7 +559,7 @@ function Lunar.Items:BuildLookupStrings()
 			if (searchData[itemTableNames[index]] == nil) then
 
 				if (itemTableNames[index] == "smallPet") then
-					searchData[itemTableNames[index]] = select(3, GetAuctionItemSubClasses(11));
+					searchData[itemTableNames[index]] = select(3, C_AuctionHouse.GetAuctionItemSubClasses(11));
 				else
 
 					-- Add our current item spell type to the search table
@@ -584,9 +585,9 @@ function Lunar.Items:BuildLookupStrings()
 	end
 
 	local tempWeapon, tempArmor, tempConsume = LSAUCCLASSES1, LSAUCCLASSES2, LSAUCCLASSES3
-	local _, tempReagent = GetAuctionItemSubClasses(12);
+	local _, tempReagent = C_AuctionHouse.GetAuctionItemSubClasses(12);
 --	local tempWeapon,tempArmor,_,tempConsume;
---	local _, tempReagent = GetAuctionItemSubClasses(10);
+--	local _, tempReagent = C_AuctionHouse.GetAuctionItemSubClasses(10);
 
 	if (not searchData.weapon) or (searchData.weapon == "") then
 		searchData.weapon = tempWeapon;
@@ -633,6 +634,7 @@ function Lunar.Items:BuildLookupStrings()
 	end
 	if (not LunarSphereGlobal.searchData[GetLocale()]) then
 		LunarSphereGlobal.searchData[GetLocale()] = {};
+
 	end
 
 	-- Save our standard data
@@ -730,6 +732,7 @@ function Lunar.Items:UpdateLowHighItems()
 	local cooldown, isFavourite, minLevel;
 --	local hasEpicGroundMount, hasEpicFlyingMount, hasEpicFlyingMount310;
 	local canFly = false
+--	local canFly = Lunar.API:CanFly()
 	local inAQ = Lunar.API:IsInAQ();
 	local Lunar_Seahorse = 0;
     local Lunar_AbyssalMount_Name, _ = GetSpellInfo(75207);

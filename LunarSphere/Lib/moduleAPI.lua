@@ -26,7 +26,7 @@ if (not Lunar.API) then
 end
 
 -- Set our current version for the module (used for version checking later on)
-Lunar.API.version = 1.41;
+Lunar.API.version = 1.50;
 
 -- Set our default chat printing colors
 Lunar.API.chatRed	= 0.3;
@@ -44,12 +44,14 @@ Lunar.API.BlankFunction = function () end;
 --Lunar.Items.UpdateBagContents = Lunar.API.BlankFunction;
 
 -- Create our money tracker
-Lunar.API.moneyTracker = CreateFrame("GameTooltip", "LunarAPIMoneyTracker", UIParent);
+Lunar.API.moneyTracker = CreateFrame("GameTooltip", "LunarAPIMoneyTracker", UIParent, "BackdropTemplate, GameTooltipTemplate");
+
 Lunar.API.moneyTracker:SetScript("OnTooltipAddMoney", function(self, arg1) Lunar.API.sellPrice = arg1 end)
 Lunar.API.sellPrice = nil;
 
 -- Create our mail event watcher
-Lunar.API.eventWatcher = CreateFrame("Frame", "LunarAPIEventWatcher", UIParent);
+Lunar.API.eventWatcher = CreateFrame("Frame", "LunarAPIEventWatcher", UIParent, "BackdropTemplate, GameTooltipTemplate");
+
 Lunar.API.eventWatcher:SetWidth(1);
 Lunar.API.eventWatcher:SetHeight(1);
 Lunar.API.eventWatcher:EnableMouse(false);
@@ -60,7 +62,8 @@ Lunar.API.eventWatcher:Show();
 -- Define global variables for the path of LunarSphere, its art, and the import folder
 LUNAR_ADDON_PATH = "Interface\\AddOns\\LunarSphere";
 LUNAR_ART_PATH = "Interface\\AddOns\\LunarSphere\\Art\\";
-LUNAR_IMPORT_PATH = "Interface\\AddOns\\LunarSphereImports\\";
+LUNAR_IMPORT_PATH = "Interface\\AddOns\\LunarSphere\\Imports\\";
+--LUNAR_IMPORT_PATH = "Interface\\AddOns\\LunarSphereImports\\";
 
 -- Define a static variable for extra icons we have. 2 icons are the player
 -- portrait, 10 are the class icons, and 2 are the faction icons
@@ -69,8 +72,10 @@ LUNAR_EXTRA_SPHERE_ICON_COUNT = 14;
 -- Create our debug tooltip
 Lunar.API.debugFrameOver = _G["LSmain"];
 Lunar.API.debugTooltipTimer = 0;
-Lunar.API.debugTooltip = CreateFrame("GameTooltip", "LunarAPIDebugTooltip", UIParent, "GameTooltipTemplate");
-Lunar.API.debugTooltipUpdater = CreateFrame("Frame", "LunarAPIDebugTooltipUpdater", UIParent);
+Lunar.API.debugTooltip = CreateFrame("GameTooltip", "LunarAPIDebugTooltip", UIParent, "BackdropTemplate, GameTooltipTemplate");
+ 
+Lunar.API.debugTooltipUpdater = CreateFrame("Frame", "LunarAPIDebugTooltipUpdater", UIParent, "BackdropTemplate, GameTooltipTemplate");
+
 Lunar.API.debugTooltipUpdater:SetScript("OnUpdate", function(self, arg1)
 	if not (LunarSphereSettings.showDebugTooltip == true) then
 		return;
@@ -201,7 +206,8 @@ function Lunar.API:CreateFrame(frameType, frameName, frameParent, width, height,
 	end
 
 	-- Create a frame with the details provided
-	tempFrame = CreateFrame(frameType, frameName, frameParent);
+	tempFrame = CreateFrame(frameType, frameName, frameParent, "BackdropTemplate, GameTooltipTemplate");
+
 	tempFrame:SetWidth(width);
 	tempFrame:SetHeight(height);
 	tempFrame:EnableMouse(enableMouse);
@@ -513,6 +519,109 @@ end
 
 --function Lunar.API:CanFly()
 -- Replaced with IsFlyableArea()
+function Lunar.API:CanFly()
+
+	-- If the flyzone tables don't exist, create them now
+	--
+	if (not Lunar.API.flyzonePandaria) then
+		Lunar.API.flyzoneKalimdor = { GetMapZones(1) } ;
+		Lunar.API.flyzoneEasternKingdom = { GetMapZones(2) } ;
+		Lunar.API.flyzoneOutland = { GetMapZones(3) } ;
+		Lunar.API.flyzoneNorthrend = { GetMapZones(4) } ;
+		Lunar.API.flyzonePandaria = { GetMapZones(6) } ;
+		Lunar.API.flyzoneDraenor = { GetMapZones(7) } ;
+	end
+
+	local result = IsFlyableArea();
+
+	-- If we can fly, check to see if we the various Passive flying
+	-- spells.
+	--
+	if (result == true) then
+		-- Check for flight requirement spells
+		local hasExpertLicense = GetSpellLink(34090)
+		local hasFlightMastersLicense = GetSpellLink(90267)
+		local hasColdFlying = GetSpellLink(54197);
+		local hasWisdomoftheFourWinds = GetSpellLink(115913)
+		local draenorPathfinder = GetAchievementLink(10018)
+
+		-- Grab our current zone and compare it to all zones in the
+		-- flyzone table. If this zone is found, we can fly.
+
+		local currentZone = GetRealZoneText();
+
+		-- Check for Expert, then check if the zone you're in
+		-- is from Outland.
+		for index = 1, table.getn(Lunar.API.flyzoneOutland) do 
+			if (currentZone == Lunar.API.flyzoneOutland[index]) then
+				result = false;
+				if hasExpertLicense then
+					result = true;
+				end
+				break;
+			end
+		end
+
+		-- Check for Wisdom of the Four Winds, then check if the zone you're in
+		-- is from Pandaria.
+		for index = 1, table.getn(Lunar.API.flyzonePandaria) do 
+			if (currentZone == Lunar.API.flyzonePandaria[index]) then
+				result = false;
+				if hasWisdomoftheFourWinds then
+					result = true;
+				end
+				break;
+			end
+		end
+
+		-- Check for cold weather flying, then check if the zone you're in
+		-- is from Northrend.
+		for index = 1, table.getn(Lunar.API.flyzoneNorthrend) do 
+			if (currentZone == Lunar.API.flyzoneNorthrend[index]) then
+				result = false;
+				if hasColdFlying then
+					result = true;
+				end
+				break;
+			end
+		end
+
+		-- Check for Draenor Pathfinder, then check if the zone you're in
+		-- is from Dreanor.
+		for index = 1, table.getn(Lunar.API.flyzoneDraenor) do 
+			if (currentZone == Lunar.API.flyzoneDraenor[index]) then
+				result = false;
+				if draenorPathfinder then
+					result = true;
+				end
+				break;
+			end
+		end
+
+		-- Check for flight master's license, then check if the zone you're in
+		-- is from Azeroth.
+		for index = 1, table.getn(Lunar.API.flyzoneKalimdor) do 
+			if (currentZone == Lunar.API.flyzoneKalimdor[index]) then
+				result = false;
+				if hasFlightMastersLicense then
+					result = true;
+				end
+				break;
+			end
+		end
+		for index = 1, table.getn(Lunar.API.flyzoneEasternKingdom) do 
+			if (currentZone == Lunar.API.flyzoneEasternKingdom[index]) then
+				result = false;
+				if hasFlightMastersLicense then
+					result = true;
+				end
+				break;
+			end
+		end
+	end
+
+	return result;
+end
 
 
 function Lunar.API:IsInAQ()
@@ -1416,170 +1525,170 @@ function Lunar.API:Load()
 	end
 
 	if not (LunarSphereSettings.memoryDisableAHTotals) then
-
-		function Lunar.API:ShowAuctionTotals(toggle)
-
-			-- If our frame doesn't exist yet, make it
-			if (not Lunar.API.AuctionTotals) then
-				Lunar.API:CreateAuctionTotals();
-			end
-
-			Lunar.API.AuctionTotals.showMe = toggle;
-
-			if (toggle == true) then
-				Lunar.API.AuctionTotals:RegisterEvent("AUCTION_OWNED_LIST_UPDATE");
-				if (Lunar.API.AuctionTotals:GetParent() == _G["AuctionsCancelAuctionButton"]) then
-					Lunar.API.AuctionTotals:Show();
-				end
-			else
-				Lunar.API.AuctionTotals:UnregisterEvent("AUCTION_OWNED_LIST_UPDATE");
-				Lunar.API.AuctionTotals:Hide();
-			end
-
-			Lunar.API:ShowBidTotals(toggle);
-		end
-
-		function Lunar.API:CreateAuctionTotals()
-			
-			-- Create our new frame and hide it
-			Lunar.API.AuctionTotals = CreateFrame("Frame", "LSAuctionTotals", UIParent, "SmallMoneyFrameTemplate");
-			Lunar.API.AuctionTotals:SetPoint("Center");
-			Lunar.API.AuctionTotals.small = 1;
-			Lunar.API.AuctionTotals:Hide();
-
-			-- Reset the money frame scripts and build our own
-			Lunar.API.AuctionTotals:SetScript("OnShow", nil);
-			Lunar.API.AuctionTotals:SetScript("OnHide", nil);
-			Lunar.API.AuctionTotals:SetScript("OnUpdate", nil);
-			Lunar.API.AuctionTotals:SetScript("OnEvent", 
-			function (self, event)
-					
-				-- First, check if the frame has been attached to the auction house window yet. If not, do so
-				-- and make sure it's visible
-				if (AuctionFrameAuctions) then
-					if (self:GetParent() ~= _G["AuctionsCancelAuctionButton"]) then
-						self:ClearAllPoints()
-						self:SetParent("AuctionsCancelAuctionButton");
-						self:SetPoint("TOPRIGHT", _G["AuctionsCancelAuctionButton"], "TOPLEFT", -2, -4);
-						self:SetFrameStrata("HIGH");
-						self:Hide();
-						if (self.showMe) then
-							self:Show();
-						end
-					end
-				end
-
-				-- Create our locals
-				local index, buyoutPrice, bidAmount, minBid;
-				local numBatchAuctions = GetNumAuctionItems("owner");
-				local totalListed = 0;
-
-				-- If there's auctions to check, get shaking!
-				if (numBatchAuctions > 0) then
-					for index = 1, numBatchAuctions do
-
-						-- Grab the starting bid, buyout price, and current bid
-						_,_,_,_,_,_,minBid,_,buyoutPrice,bidAmount = GetAuctionItemInfo("owner", index);
-
-						-- If there is no buyout price, grab the current bid
-		--				if (not buyoutPrice) then
-		--					buyoutPrice = bidAmount;
-		--				end
-						-- Now, if there wasn't a current bid or buyout price, we grab the
-						-- starting bid
-		--				if (not buyoutPrice) then
-		--					buyoutPrice = minBid
-		--				end
-
-						totalListed = totalListed + (buyoutPrice or bidAmount or minBid);
-
-						-- Add it up!
-		--				totalListed = totalListed + buyoutPrice;
-					end
-				end
-
-				-- Update the money frame
-				MoneyFrame_Update(self:GetName(), totalListed);
-			end);
-
-			-- Set its default denomination
-			MoneyFrame_Update("LSAuctionTotals", 0)
-		end
-
-		function Lunar.API:ShowBidTotals(toggle)
-
-			-- If our frame doesn't exist yet, make it
-			if (not Lunar.API.BidTotals) then
-				Lunar.API:CreateBidTotals();
-			end
-
-			Lunar.API.BidTotals.showMe = toggle;
-
-			if (toggle == true) then
-				Lunar.API.BidTotals:RegisterEvent("AUCTION_BIDDER_LIST_UPDATE");
-				if (Lunar.API.BidTotals:GetParent() == _G["BidBidButton"]) then
-					Lunar.API.BidTotals:Show();
-				end
-			else
-				Lunar.API.BidTotals:UnregisterEvent("AUCTION_BIDDER_LIST_UPDATE");
-				Lunar.API.BidTotals:Hide();
-			end
-		end
-
-		function Lunar.API:CreateBidTotals()
-
-			-- Create our new frame and hide it
-			Lunar.API.BidTotals = CreateFrame("Frame", "LSBidTotals", UIParent, "SmallMoneyFrameTemplate");
-			Lunar.API.BidTotals:SetPoint("Center");
-			Lunar.API.BidTotals.small = 1;
-			Lunar.API.BidTotals:Hide();
-
-			-- Reset the money frame scripts and build our own
-			Lunar.API.BidTotals:SetScript("OnShow", nil);
-			Lunar.API.BidTotals:SetScript("OnHide", nil);
-			Lunar.API.BidTotals:SetScript("OnUpdate", nil);
-			Lunar.API.BidTotals:SetScript("OnEvent", 
-			function (self, event)
-					
-				-- First, check if the frame has been attached to the auction house window yet. If not, do so
-				-- and make sure it's visible
-				if (AuctionFrameBid) then
-					if (self:GetParent() ~= _G["BidBidButton"]) then
-						self:ClearAllPoints()
-						self:SetParent(_G["BidBidButton"]);
-						self:SetPoint("TOPRIGHT", _G["BidBidButton"], "TOPLEFT", -2, -4);
-						self:SetFrameStrata("HIGH");
-						self:Hide();
-						if (self.showMe) then
-							self:Show();
-						end
-					end
-				end
-
-				-- Create our locals
-				local index;
-				local numBatchAuctions = GetNumAuctionItems("bidder");
-				local totalBid = 0;
-
-				-- If there's auctions to check, get shaking!
-				if (numBatchAuctions > 0) then
-					for index = 1, numBatchAuctions do
-
-						-- Grab the current bid and add it up!
-						totalBid = totalBid + (select(10, GetAuctionItemInfo("bidder", index)) or 0);
-
-						-- Add it up!
-		--				totalBid = totalBid + bidAmount;
-					end
-	--				Lunar.API:Print(" Total Bid = " .. totalBid)
-				end
-
-				-- Update the money frame
-				MoneyFrame_Update(self:GetName(), totalBid);
-			end);
-
-			MoneyFrame_Update("LSBidTotals", 0)
-		end
+--
+--		function Lunar.API:ShowAuctionTotals(toggle)
+--
+--			-- If our frame doesn't exist yet, make it
+--			if (not Lunar.API.AuctionTotals) then
+--				Lunar.API:CreateAuctionTotals();
+--			end
+--
+--			Lunar.API.AuctionTotals.showMe = toggle;
+--
+--			if (toggle == true) then
+--				Lunar.API.AuctionTotals:RegisterEvent("AUCTION_OWNED_LIST_UPDATE");
+--				if (Lunar.API.AuctionTotals:GetParent() == _G["AuctionsCancelAuctionButton"]) then
+--					Lunar.API.AuctionTotals:Show();
+--				end
+--			else
+----				Lunar.API.AuctionTotals:UnregisterEvent("AUCTION_OWNED_LIST_UPDATE");
+--				Lunar.API.AuctionTotals:Hide();
+--			end
+--
+----			Lunar.API:ShowBidTotals(toggle);
+--		end
+--
+--		function Lunar.API:CreateAuctionTotals()
+--			
+--			-- Create our new frame and hide it
+--			Lunar.API.AuctionTotals = CreateFrame("Frame", "LSAuctionTotals", UIParent, "SmallMoneyFrameTemplate");
+--			Lunar.API.AuctionTotals:SetPoint("Center");
+--			Lunar.API.AuctionTotals.small = 1;
+--			Lunar.API.AuctionTotals:Hide();
+--
+--			-- Reset the money frame scripts and build our own
+--			Lunar.API.AuctionTotals:SetScript("OnShow", nil);
+--			Lunar.API.AuctionTotals:SetScript("OnHide", nil);
+--			Lunar.API.AuctionTotals:SetScript("OnUpdate", nil);
+--			Lunar.API.AuctionTotals:SetScript("OnEvent", 
+--			function (self, event)
+--					
+--				-- First, check if the frame has been attached to the auction house window yet. If not, do so
+--				-- and make sure it's visible
+--				if (AuctionFrameAuctions) then
+--					if (self:GetParent() ~= _G["AuctionsCancelAuctionButton"]) then
+--						self:ClearAllPoints()
+--						self:SetParent("AuctionsCancelAuctionButton");
+--						self:SetPoint("TOPRIGHT", _G["AuctionsCancelAuctionButton"], "TOPLEFT", -2, -4);
+--						self:SetFrameStrata("HIGH");
+--						self:Hide();
+--						if (self.showMe) then
+--							self:Show();
+--						end
+--					end
+--				end
+--
+--				-- Create our locals
+--				local index, buyoutPrice, bidAmount, minBid;
+--				local numBatchAuctions = C_AuctionHouse.GetNumReplicateItems("owner");
+--				local totalListed = 0;
+--
+--				-- If there's auctions to check, get shaking!
+--				if (numBatchAuctions > 0) then
+--					for index = 1, numBatchAuctions do
+--
+--						-- Grab the starting bid, buyout price, and current bid
+--						_,_,_,_,_,_,minBid,_,buyoutPrice,bidAmount = GetAuctionItemInfo("owner", index);
+--
+--						-- If there is no buyout price, grab the current bid
+--		--				if (not buyoutPrice) then
+--		--					buyoutPrice = bidAmount;
+--		--				end
+--						-- Now, if there wasn't a current bid or buyout price, we grab the
+--						-- starting bid
+--		--				if (not buyoutPrice) then
+--		--					buyoutPrice = minBid
+--		--				end
+--
+--						totalListed = totalListed + (buyoutPrice or bidAmount or minBid);
+--
+--						-- Add it up!
+--		--				totalListed = totalListed + buyoutPrice;
+--					end
+--				end
+--
+--				-- Update the money frame
+--				MoneyFrame_Update(self:GetName(), totalListed);
+--			end);
+--
+--			-- Set its default denomination
+--			MoneyFrame_Update("LSAuctionTotals", 0)
+--		end
+--
+--		function Lunar.API:ShowBidTotals(toggle)
+--
+--			-- If our frame doesn't exist yet, make it
+--			if (not Lunar.API.BidTotals) then
+--				Lunar.API:CreateBidTotals();
+--			end
+--
+--			Lunar.API.BidTotals.showMe = toggle;
+--
+----			if (toggle == true) then
+--				Lunar.API.BidTotals:RegisterEvent("AUCTION_BIDDER_LIST_UPDATE");
+--				if (Lunar.API.BidTotals:GetParent() == _G["BidBidButton"]) then
+--					Lunar.API.BidTotals:Show();
+--				end
+--			else
+--				Lunar.API.BidTotals:UnregisterEvent("AUCTION_BIDDER_LIST_UPDATE");
+--				Lunar.API.BidTotals:Hide();
+--			end
+--		end
+--
+--		function Lunar.API:CreateBidTotals()
+--
+--			-- Create our new frame and hide it
+--			Lunar.API.BidTotals = CreateFrame("Frame", "LSBidTotals", UIParent, "SmallMoneyFrameTemplate");
+--			Lunar.API.BidTotals:SetPoint("Center");
+--			Lunar.API.BidTotals.small = 1;
+--			Lunar.API.BidTotals:Hide();
+--
+--			-- Reset the money frame scripts and build our own
+--			Lunar.API.BidTotals:SetScript("OnShow", nil);
+--			Lunar.API.BidTotals:SetScript("OnHide", nil);
+--			Lunar.API.BidTotals:SetScript("OnUpdate", nil);
+--			Lunar.API.BidTotals:SetScript("OnEvent", 
+--			function (self, event)
+--					
+--				-- First, check if the frame has been attached to the auction house window yet. If not, do so
+--				-- and make sure it's visible
+--				if (AuctionFrameBid) then
+--					if (self:GetParent() ~= _G["BidBidButton"]) then
+--						self:ClearAllPoints()
+--						self:SetParent(_G["BidBidButton"]);
+--						self:SetPoint("TOPRIGHT", _G["BidBidButton"], "TOPLEFT", -2, -4);
+--						self:SetFrameStrata("HIGH");
+--						self:Hide();
+--						if (self.showMe) then
+--							self:Show();
+--						end
+--					end
+--				end
+--
+--				-- Create our locals
+--				local index;
+--				local numBatchAuctions = C_AuctionHouse.GetNumReplicateItems("bidder");
+--				local totalBid = 0;
+--
+--				-- If there's auctions to check, get shaking!
+--				if (numBatchAuctions > 0) then
+--					for index = 1, numBatchAuctions do
+--
+--						-- Grab the current bid and add it up!
+--						totalBid = totalBid + (select(10, GetAuctionItemInfo("bidder", index)) or 0);
+--
+--						-- Add it up!
+--		--				totalBid = totalBid + bidAmount;
+--					end
+--	--				Lunar.API:Print(" Total Bid = " .. totalBid)
+--				end
+--
+--				-- Update the money frame
+--				MoneyFrame_Update(self:GetName(), totalBid);
+--			end);
+--
+--			MoneyFrame_Update("LSBidTotals", 0)
+--		end
 	end
 
 	if not (LunarSphereSettings.memoryDisableAHMail) then
@@ -1878,7 +1987,8 @@ function Lunar.API:Load()
 		function Lunar.API:HideExpBars(toggle, loading)
 
 		--[[	if not _G["LSHideEXP"] then
-				local frame = CreateFrame("Frame", "LSHideEXP", UIParent);
+				local frame = CreateFrame("Frame", "LSHideEXP", UIParent, "BackdropTemplate, GameTooltipTemplate");
+
 				frame:SetPoint("Center");
 				MainMenuExpBar:SetParent(frame);
 				ReputationWatchBar:SetParent(frame);
@@ -1928,12 +2038,12 @@ function Lunar.API:Load()
 		function Lunar.API:HideGryphons(toggle, loading)
 
 			if (toggle) then
-				MainMenuBarLeftEndCap:Hide();
-				MainMenuBarRightEndCap:Hide();
+				MainMenuBarArtFrame.LeftEndCap:Hide();
+                        MainMenuBarArtFrame.RightEndCap:Hide();
 			else
 				if (not loading) then
-					MainMenuBarLeftEndCap:Show();
-					MainMenuBarRightEndCap:Show();
+                              MainMenuBarArtFrame.LeftEndCap:Show();
+                              MainMenuBarArtFrame.RightEndCap:Show();
 				end
 			end
 
@@ -1942,7 +2052,8 @@ function Lunar.API:Load()
 		function Lunar.API:HideMenus(toggle, loading)
 
 		--[[	if not _G["LSHideMenus"] then
-				local frame = CreateFrame("Frame", "LSHideMenus", UIParent);
+				local frame = CreateFrame("Frame", "LSHideMenus", UIParent, "BackdropTemplate, GameTooltipTemplate");
+
 				frame:SetPoint("Center");
 				frame:SetFrameLevel(MainMenuBar:GetFrameLevel() + 1);
 				CharacterMicroButton:SetParent(frame);
@@ -1974,7 +2085,8 @@ function Lunar.API:Load()
 		function Lunar.API:HideBags(toggle, loading)
 
 		--[[	if not _G["LSHideBags"] then
-				local frame = CreateFrame("Frame", "LSHideBags", UIParent);
+				local frame = CreateFrame("Frame", "LSHideBags", UIParent, "BackdropTemplate, GameTooltipTemplate");
+
 				frame:SetPoint("Center");
 				frame:SetFrameLevel(MainMenuBar:GetFrameLevel() + 1);
 				MainMenuBarBackpackButton:SetParent(frame);
@@ -2001,7 +2113,8 @@ function Lunar.API:Load()
 		function Lunar.API:HideBottomBar(toggle, loading)
 
 		--[[	if not _G["LSHideBottomArt"] then
-				local frame = CreateFrame("Frame", "LSHideBottomArt", UIParent);
+				local frame = CreateFrame("Frame", "LSHideBottomArt", UIParent, "BackdropTemplate, GameTooltipTemplate");
+
 				frame:SetPoint("Center");
 				frame:SetFrameLevel(MainMenuBar:GetFrameLevel());
 				MainMenuBarTexture0:SetParent(frame);
@@ -2288,7 +2401,8 @@ function Lunar.API:Load()
 		function Lunar.API:CreateMinimapText()
 
 			-- Create our new frame, set its anchors, and make sure it doesn't have mouse input
-			Lunar.API.MinimapTextUpdater = CreateFrame("Frame", "LSMinimapTextUpdater", UIParent);
+			Lunar.API.MinimapTextUpdater = CreateFrame("Frame", "LSMinimapTextUpdater", UIParent, "BackdropTemplate, GameTooltipTemplate");
+
 			Lunar.API.MinimapTextUpdater:Show();
 			Lunar.API.MinimapTextUpdater:SetPoint("TopLeft", MinimapZoneTextButton, "TopLeft");
 			Lunar.API.MinimapTextUpdater:SetPoint("BottomRight", MinimapZoneTextButton, "BottomRight");

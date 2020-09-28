@@ -35,7 +35,33 @@ local LSMACRO;
 local LS = "LunarSphere"		-- Not to be localized =)
 local LSE = "LunarSphereExporter"	-- Not to be localized =)
 
-local localeVersion = 1.41;
+local localeVersion = 1.50;
+
+---------------------
+-- Backdrop Settings
+---------------------
+local LS_BackdropTemplste = {
+	--The background texture Information
+	bginfo = "BACKDROP_DIALOG_12_12",
+
+	-- path to the background texture
+	bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
+
+	-- path to the border texture
+	edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+
+	-- true to repeat the background texture to fill the frame, false to scale it
+	tile = true,
+
+	-- size (width or height) of the square repeating background tiles (in pixels)
+	tileSize = 32,
+
+	-- thickness of edge segments and square size of edge corners (in pixels)
+	edgeSize = 10,
+
+	-- distance from the edges of the frame to those of the background texture (in pixels)
+	insets = { left = 1, right = 1, top = 1, bottom = 1 }
+}
 
 if (locale == "enUS") or (force_enUS == true) then
 	

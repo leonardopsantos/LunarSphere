@@ -19,7 +19,7 @@ Lunar = Lunar or {};
 -- Create our Template module
 Lunar.Template = {};
 
-Lunar.Template.version = 1.41;
+Lunar.Template.version = 1.50;
 
 -- Create our template database
 Lunar.Template.template = {};
