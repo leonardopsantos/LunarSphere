@@ -397,7 +397,7 @@
 		</Scripts>
 	</Frame>
 
-	<CheckButton name="LunarCheckButton" inherits="OptionsCheckButtonTemplate" virtual="true">
+	<CheckButton name="LunarCheckButton" inherits="UICheckButtonTemplate" virtual="true">
 	</CheckButton>
 
 	<Frame name="LunarDropDown" inherits="UIDropDownMenuTemplate" toplevel="false" hidden="false" enableMouse="true" virtual="true">

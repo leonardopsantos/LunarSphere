@@ -443,7 +443,7 @@ function Lunar.Sphere:Initialize()
 	-- will make it easier to read the text on some sphere colors. Also set
 	-- the size of the sphere texture.
 
-	sphereData.sphereTextBack = sphereData.overlay:CreateTexture(nil, "ART")
+	sphereData.sphereTextBack = sphereData.overlay:CreateTexture(nil, "ARTWORK")
 	sphereData.sphereTextBack:SetColorTexture(0,0,0,0.7)
 	sphereData.sphereTextBack:SetHeight(9);
 	if (LunarSphereSettings.showInner == true) then
@@ -507,7 +507,7 @@ function Lunar.Sphere:Initialize()
 	sphereData.background:RegisterEvent("GOSSIP_SHOW");
 
 	-- Item/Spell/Macro right-click assignment helper
---	sphereData.background:RegisterEvent("CURSOR_UPDATE");
+--	sphereData.background:RegisterEvent("CURSOR_CHANGED");
 
 	-- Auto-Scale helper for the settings windows (No more tiny windows if the user interface
 	-- scale is stupid small)
@@ -550,7 +550,7 @@ function Lunar.Sphere:Initialize()
 			Lunar.API:Print(GetActiveTalentGroup());
 		end
 
-		if (event == "CURSOR_UPDATE") then
+		if (event == "CURSOR_CHANGED") then
 			if (SpellIsTargeting()) then
 				Lunar.API:Print("Waiting Casting!");
 				if (IsCurrentItem("Superior Wizard Oil")) then
@@ -798,7 +798,7 @@ function Lunar.Sphere:SetSphereTexture(textureType)
 			sphereData.sphereTexture.tabardBackground:SetHeight(sphereData.sphereTexture:GetHeight());
 			sphereData.sphereTexture.tabardBackground:SetPoint("Center", sphereData.sphereTexture, "Center");
 			sphereData.sphereTexture.tabardBackground:Show();
-			sphereData.sphereTexture.tabardBorder = sphereData.sphereTexture:CreateTexture(nil, "ART")
+			sphereData.sphereTexture.tabardBorder = sphereData.sphereTexture:CreateTexture(nil, "ARTWORK")
 			sphereData.sphereTexture.tabardBorder:SetTexture("Interface\\GuildFrame\\GuildFrame");
 			sphereData.sphereTexture.tabardBorder:SetTexCoord(0.63183594, 0.69238281, 0.74414063, 0.86523438);
 			sphereData.sphereTexture.tabardBorder:ClearAllPoints();
@@ -2008,7 +2008,7 @@ function Lunar.Sphere.Events(self, event, arg1, arg2)
 		return;
 	end
 
-	if ((event == "CURSOR_UPDATE") or (event == "ITEM_LOCK_CHANGED") or (event == "ACTIONBAR_SHOWGRID")) then
+	if ((event == "CURSOR_CHANGED") or (event == "ITEM_LOCK_CHANGED") or (event == "ACTIONBAR_SHOWGRID")) then
 		local cursorType, objectID, objectData = GetCursorInfo();
 		local index, button;
 
@@ -2019,7 +2019,7 @@ function Lunar.Sphere.Events(self, event, arg1, arg2)
 
 			-- Add Cursor Update event to deal with "Dropping item into same bag
 			-- slot doesn't hide buttons" bug
-			sphereData.background:RegisterEvent("CURSOR_UPDATE");
+			sphereData.background:RegisterEvent("CURSOR_CHANGED");
 
 		elseif (not cursorType) then
 				
@@ -2027,7 +2027,7 @@ function Lunar.Sphere.Events(self, event, arg1, arg2)
 
 			-- Remove Cursor Update event that dealt with "Dropping item into
 			-- same bag slot doesn't hide buttons" bug.
-			sphereData.background:UnregisterEvent("CURSOR_UPDATE");
+			sphereData.background:UnregisterEvent("CURSOR_CHANGED");
 
 			if (Lunar.Button.currentMouseOver) and ((LunarSphereSettings.buttonEditMode == true) or (LunarSphereSettings.forceDragDrop == true)) then
 				if (IsMouseButtonDown("RightButton") )then
@@ -2249,7 +2249,8 @@ function Lunar.Sphere.Events(self, event, arg1, arg2)
 
 			-- Grab the type of gossip we have. If it is a banker, battlemaster, taxi, or vendor,
 			-- we'll skip the gossip. Anything else, we'll leave be, since we might want to select a different option
-			local _, gossipType, _, moreGossip = GetGossipOptions()
+			--local _, gossipType, _, moreGossip = GetGossipOptions()
+			local _, gossipType, _, moreGossip = C_GossipInfo.GetOptions();
 
 			if ((((gossipType == "banker") or (gossipType == "battlemaster") or (gossipType == "taxi") or (gossipType == "vendor")) and (not moreGossip)) or (gossipType == "trainer" and (not moreGossip))) then
 
@@ -2282,7 +2283,7 @@ function Lunar.Sphere.Events(self, event, arg1, arg2)
 
 		Lunar.Sphere:RunPlayerLoginGaugeSetup();
 
---		sphereData.background:RegisterEvent("CURSOR_UPDATE");
+--		sphereData.background:RegisterEvent("CURSOR_CHANGED");
 		
 		return;
 	end

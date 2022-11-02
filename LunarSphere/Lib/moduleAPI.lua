@@ -127,12 +127,12 @@ Lunar.API.debugTooltipUpdater:SetScript("OnUpdate", function(self, arg1)
 -- a3 = Lunar.Button:GetAssignedStance(frame);
 -- a4 = Lunar.Button:GetButtonSetting(a1, a2, LUNAR_GET_SHOW_COOLDOWN);
 -- a5 = frame.cooldownID;
--- a6 = Lunar.Button:GetButtonData(a1, a2, a4);
+ a6 = Lunar.Button:GetButtonData(a1, a2, a4);
 -- a7 = frame.actionNameCooldown;
 -- a8 = frame.cooldownText:GetText();
 -- a9 = frame.cooldownTextFrame:IsVisible();
 
--- a1 = frame:GetID(); a2 = frame.currentStance; a3 = Lunar.Button:GetAssignedStance(frame); a4 = Lunar.Button:GetButtonSetting(a1, a2, LUNAR_GET_SHOW_COOLDOWN); a5 = frame.cooldownID; a6 = Lunar.Button:GetButtonData(a1, a2, a4); a7 = frame.actionNameCooldown; if frame.cooldownText then a8 = frame.cooldownText:GetText(); a9 = frame.cooldownTextFrame:IsVisible(); end; 
+ --a1 = frame:GetID(); a2 = frame.currentStance; a3 = Lunar.Button:GetAssignedStance(frame); a4 = Lunar.Button:GetButtonSetting(a1, a2, LUNAR_GET_SHOW_COOLDOWN); a5 = frame.cooldownID; a6 = Lunar.Button:GetButtonData(a1, a2, a4); a7 = frame.actionNameCooldown; if frame.cooldownText then a8 = frame.cooldownText:GetText(); a9 = frame.cooldownTextFrame:IsVisible(); end; 
 		end
 
 	end

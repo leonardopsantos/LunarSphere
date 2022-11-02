@@ -2843,15 +2843,15 @@ function Lunar.Button:HideEmptyMenuButtons(compressionOnly)
 --				button:SetHeight(4);
 --				button:SetAttribute("height", 4);
 --				if (LunarSphereSettings.buttonData[button.parentID].useMenuAngle) then
-					point,relativeTo,relativePoint,xOfs,yOfs = button:GetPoint("Center");
+					--point,relativeTo,relativePoint,xOfs,yOfs = button:GetPoint("Center");
 --					button:ClearAllPoints();
 					if (index <= 12 * mainButtonCount + 10) then
-						if not (math.fmod((index + 1), 12) == 0) then
-							button:SetPoint(point, _G["LunarSub" .. index - 1 .. "Button"], relativePoint, 0,0)
---							button:SetPoint("Center", _G["LunarSub" .. index - 1 .. "Button"], "Center", 0,0)
-						else
-							button:SetPoint(point, relativeTo, relativePoint, xOfs - (xOfs / 1.1), yOfs - (yOfs / 1.1))
-						end
+						--if not (math.fmod((index + 1), 12) == 0) then
+							--button:SetPoint(point, _G["LunarSub" .. index - 1 .. "Button"], relativePoint, 0,0)
+							button:SetPoint("Center", _G["LunarSub" .. index - 1 .. "Button"], "Center", 0,0)
+						--else
+							--button:SetPoint(point, relativeTo, relativePoint, xOfs - (xOfs / 1.1), yOfs - (yOfs / 1.1))
+						--end
 					end
 --				end
 			end

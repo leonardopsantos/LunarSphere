@@ -220,7 +220,7 @@ function LunarSphere_OnEvent(self, event)
 		Lunar.Button:Initialize();
 		Lunar.API:SupportForDrDamage();
 
---		_G["LSbackground"]:RegisterEvent("CURSOR_UPDATE");
+--		_G["LSbackground"]:RegisterEvent("CURSOR_CHANGED");
 
 		-- Create our auction house frames
 		if not (LunarSphereSettings.memoryDisableAHTotals) then

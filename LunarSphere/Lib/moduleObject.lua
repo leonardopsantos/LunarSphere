@@ -285,7 +285,7 @@ function Lunar.Object:CreateButton(xLoc, yLoc, objectWidth, objectName, objectTe
 	-- Set our local
 	local tempObject;
 
-	tempObject = CreateFrame("Button", "LSSettings" .. objectName, objectParent, "OptionsButtonTemplate")
+	tempObject = CreateFrame("Button", "LSSettings" .. objectName, objectParent, "UIPanelButtonTemplate")
 
 	tempObject:SetPoint("Topleft", xLoc, yLoc);
 	tempObject:SetText(objectText);
