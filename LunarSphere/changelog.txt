@@ -1,4 +1,16 @@
 LunarSphere Public Release
+Version 1.61 Changelog
+
+======================
+Feature Changes
+======================
+
+* Support for Dragonflight in alpha stage.
+
+Many tanks to Zenyari1 for updating LS to Dragonflight and nicodemusmercy for 
+helping test it.
+
+LunarSphere Public Release
 Version 1.60 Changelog
 
 ======================
