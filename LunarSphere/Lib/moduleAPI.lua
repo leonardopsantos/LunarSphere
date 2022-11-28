@@ -46,7 +46,7 @@ Lunar.API.BlankFunction = function () end;
 -- Create our money tracker
 Lunar.API.moneyTracker = CreateFrame("GameTooltip", "LunarAPIMoneyTracker", UIParent, BackdropTemplateMixin and "BackdropTemplate, GameTooltipTemplate");
 
-Lunar.API.moneyTracker:SetScript("OnTooltipAddMoney", function(self, arg1) Lunar.API.sellPrice = arg1 end)
+--Lunar.API.moneyTracker:SetScript("OnTooltipAddMoney", function(self, arg1) Lunar.API.sellPrice = arg1 end)
 Lunar.API.sellPrice = nil;
 
 -- Create our mail event watcher
@@ -127,12 +127,12 @@ Lunar.API.debugTooltipUpdater:SetScript("OnUpdate", function(self, arg1)
 -- a3 = Lunar.Button:GetAssignedStance(frame);
 -- a4 = Lunar.Button:GetButtonSetting(a1, a2, LUNAR_GET_SHOW_COOLDOWN);
 -- a5 = frame.cooldownID;
- a6 = Lunar.Button:GetButtonData(a1, a2, a4);
+-- a6 = Lunar.Button:GetButtonData(a1, a2, a4);
 -- a7 = frame.actionNameCooldown;
 -- a8 = frame.cooldownText:GetText();
 -- a9 = frame.cooldownTextFrame:IsVisible();
 
- --a1 = frame:GetID(); a2 = frame.currentStance; a3 = Lunar.Button:GetAssignedStance(frame); a4 = Lunar.Button:GetButtonSetting(a1, a2, LUNAR_GET_SHOW_COOLDOWN); a5 = frame.cooldownID; a6 = Lunar.Button:GetButtonData(a1, a2, a4); a7 = frame.actionNameCooldown; if frame.cooldownText then a8 = frame.cooldownText:GetText(); a9 = frame.cooldownTextFrame:IsVisible(); end; 
+-- a1 = frame:GetID(); a2 = frame.currentStance; a3 = Lunar.Button:GetAssignedStance(frame); a4 = Lunar.Button:GetButtonSetting(a1, a2, LUNAR_GET_SHOW_COOLDOWN); a5 = frame.cooldownID; a6 = Lunar.Button:GetButtonData(a1, a2, a4); a7 = frame.actionNameCooldown; if frame.cooldownText then a8 = frame.cooldownText:GetText(); a9 = frame.cooldownTextFrame:IsVisible(); end; 
 		end
 
 	end
@@ -329,13 +329,13 @@ function Lunar.API:GetItemBagInfo(itemName)
 --	largestCount = 0;
 
 	for bagID = 0, 4  do 
-		slotTotal = GetContainerNumSlots(bagID);
+		slotTotal = C_Container.GetContainerNumSlots(bagID);
 		for slotID = 1, slotTotal do 
-			itemLink = GetContainerItemLink(bagID, slotID);
+			itemLink = C_Container.GetContainerItemLink(bagID, slotID);
 			if (itemLink) then
 				searchName, _, _, _, _, _, _, stackSize = GetItemInfo(itemLink);
 				if (itemName == searchName)  then
-					_, count, locked = GetContainerItemInfo(bagID, slotID);
+					_, count, locked = C_Container.GetContainerItemInfo(bagID, slotID);
 					if not locked then
 						if ((returnCount or (0)) < count) then
 							returnBag = bagID;
@@ -966,7 +966,7 @@ function Lunar.API:Load()
 				totalMerchItems = NUM_BANKGENERIC_SLOTS;
 				Lunar.API.bankBagInfo = Lunar.API.bankBagInfo or {};
 				for bagID = NUM_BAG_SLOTS + 1, NUM_BAG_SLOTS + NUM_BANKBAGSLOTS do
-					Lunar.API.bankBagInfo[bagID - NUM_BAG_SLOTS] = GetContainerNumSlots(bagID);
+					Lunar.API.bankBagInfo[bagID - NUM_BAG_SLOTS] = C_Container.GetContainerNumSlots(bagID);
 					totalMerchItems = totalMerchItems + Lunar.API.bankBagInfo[bagID - NUM_BAG_SLOTS];
 				end
 				currentBag = 1;
@@ -1046,7 +1046,7 @@ function Lunar.API:Load()
 							end
 
 							-- Now, obtain an item in the current bag;
-							itemName = GetItemInfo(GetContainerItemLink(currentBag + NUM_BAG_SLOTS, currentSlot) or (""));
+							itemName = GetItemInfo(C_Container.GetContainerItemLink(currentBag + NUM_BAG_SLOTS, currentSlot) or (""));
 
 						end
 
@@ -1088,7 +1088,7 @@ function Lunar.API:Load()
 								if (itemIndex <= NUM_BANKGENERIC_SLOTS) then
 									maxBuyAmount = GetInventoryItemCount("player", BankButtonIDToInvSlotID(itemIndex));
 								else
-									_, maxBuyAmount = GetContainerItemInfo(currentBag + NUM_BAG_SLOTS, currentSlot);
+									_, maxBuyAmount = C_Container.GetContainerItemInfo(currentBag + NUM_BAG_SLOTS, currentSlot);
 								end
 							elseif (Lunar.API.isGuildBanker) then
 								maxBuyAmount = numAvailable;
@@ -1114,7 +1114,7 @@ function Lunar.API:Load()
 												local bagIndex = nil;
 												local i;
 												for i = 0, 4 do
-													if (GetContainerNumFreeSlots(i) > 0) then
+													if (C_Container.GetContainerNumFreeSlots(i) > 0) then
 														bagIndex = i;
 														break;
 													end
@@ -1270,10 +1270,10 @@ function Lunar.API:Load()
 				for bagIndex = 0, 4 do
 
 					-- Cycle through all our slots in the bag
-					for slotIndex = 1, GetContainerNumSlots(bagIndex) do
+					for slotIndex = 1, C_Container.GetContainerNumSlots(bagIndex) do
 
 						-- Get the item link of the item in the current slot, if it exists
-						itemLink = GetContainerItemLink(bagIndex, slotIndex);
+						itemLink = C_Container.GetContainerItemLink(bagIndex, slotIndex);
 
 						-- If the item exists ...
 						if (itemLink) then

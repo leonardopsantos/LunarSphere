@@ -2249,8 +2249,7 @@ function Lunar.Sphere.Events(self, event, arg1, arg2)
 
 			-- Grab the type of gossip we have. If it is a banker, battlemaster, taxi, or vendor,
 			-- we'll skip the gossip. Anything else, we'll leave be, since we might want to select a different option
-			--local _, gossipType, _, moreGossip = GetGossipOptions()
-			local _, gossipType, _, moreGossip = C_GossipInfo.GetOptions();
+			local _, gossipType, _, moreGossip = C_GossipInfo.GetOptions()
 
 			if ((((gossipType == "banker") or (gossipType == "battlemaster") or (gossipType == "taxi") or (gossipType == "vendor")) and (not moreGossip)) or (gossipType == "trainer" and (not moreGossip))) then
 

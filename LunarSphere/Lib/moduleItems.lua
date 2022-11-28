@@ -2457,7 +2457,7 @@ function Lunar.Items:UpdateBagContents(bagID, updateType)
 
 	local scanSize = 8;
 	local startSlot = 1;
-	local endSlot = GetContainerNumSlots(bagID);
+	local endSlot = C_Container.GetContainerNumSlots(bagID);
 	if (Lunar.Items["updateContainer" .. bagID .. "Slot"]) then
 		startSlot = Lunar.Items["updateContainer" .. bagID .. "Slot"];
 		if (startSlot > endSlot) then
@@ -2516,7 +2516,7 @@ function Lunar.Items:UpdateBagContents(bagID, updateType)
 	for slot = startSlot, endSlot do
 
 		-- Grab the slot's item link
-		itemLink = GetContainerItemLink(bagID, slot);
+		itemLink = C_Container.GetContainerItemLink(bagID, slot);
 
 		--print("1925 Lunar.Items:UpdateBagContents itemLink : ", itemLink)
 
@@ -2561,7 +2561,7 @@ function Lunar.Items:UpdateBagContents(bagID, updateType)
 
 					-- If we found a spell, we'll grab how many of that item is in the slot.
 					-- That way, we can populate the item database with a count of said item.
-					_, itemCount = GetContainerItemInfo(bagID, slot);
+					_, itemCount = C_Container.GetContainerItemInfo(bagID, slot);
 
 -- Item Spells for over 80's
 					if (itemSpell) then
@@ -2758,7 +2758,7 @@ function Lunar.Items:UpdateBagContents(bagID, updateType)
 			elseif ( Lunar.API:IsVersionClassic() == true and Lunar.Items:ClassicIsMount(itemID) ) then
 
 					-- I'm pretty sure all mounts are unique, but we'll count just in case
-					_, itemCount = GetContainerItemInfo(bagID, slot);
+					_, itemCount = C_Container.GetContainerItemInfo(bagID, slot);
 					Lunar.Items:ModifyItemDataTable("mount", updateType, itemName, itemCount, itemLevel, itemMinLevel, itemLink);
 
 			end

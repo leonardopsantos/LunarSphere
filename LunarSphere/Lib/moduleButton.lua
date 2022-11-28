@@ -2847,10 +2847,10 @@ function Lunar.Button:HideEmptyMenuButtons(compressionOnly)
 --					button:ClearAllPoints();
 					if (index <= 12 * mainButtonCount + 10) then
 						--if not (math.fmod((index + 1), 12) == 0) then
-							--button:SetPoint(point, _G["LunarSub" .. index - 1 .. "Button"], relativePoint, 0,0)
+						--	button:SetPoint(point, _G["LunarSub" .. index - 1 .. "Button"], relativePoint, 0,0)
 							button:SetPoint("Center", _G["LunarSub" .. index - 1 .. "Button"], "Center", 0,0)
 						--else
-							--button:SetPoint(point, relativeTo, relativePoint, xOfs - (xOfs / 1.1), yOfs - (yOfs / 1.1))
+						--	button:SetPoint(point, relativeTo, relativePoint, xOfs - (xOfs / 1.1), yOfs - (yOfs / 1.1))
 						--end
 					end
 --				end
