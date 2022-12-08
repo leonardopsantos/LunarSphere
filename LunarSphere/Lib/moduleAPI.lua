@@ -66,8 +66,8 @@ LUNAR_IMPORT_PATH = "Interface\\AddOns\\LunarSphere\\Imports\\";
 --LUNAR_IMPORT_PATH = "Interface\\AddOns\\LunarSphereImports\\";
 
 -- Define a static variable for extra icons we have. 2 icons are the player
--- portrait, 10 are the class icons, and 2 are the faction icons
-LUNAR_EXTRA_SPHERE_ICON_COUNT = 14;
+-- portrait, 13 are the class icons, and 2 are the faction icons
+LUNAR_EXTRA_SPHERE_ICON_COUNT = 17;
 
 -- Create our debug tooltip
 Lunar.API.debugFrameOver = _G["LSmain"];
@@ -450,7 +450,6 @@ end
 --   returns:	spellbook ID of spell, rank of spell
 --  *********************/
 function Lunar.API:GetSpellID(spellName)
-
 	-- Create our locals
 	local index, spellsInTab, spellID;
 	local spellRankNumber, spellRank, filterName;

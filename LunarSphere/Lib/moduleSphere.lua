@@ -42,7 +42,7 @@ LS_EVENT_MANA = 14;
 LS_EVENT_ENERGY = 15
 LS_EVENT_RAGE = 16;
 LS_EVENT_RUNIC = 17;
-LS_EVENT_EXTRA_POWER = 18; -- Eclipse, Soul Shards, Holy Power, etc.
+LS_EVENT_EXTRA_POWER = 18; -- Runes, Soul Shards, Holy Power, etc.
 LS_EVENT_FOCUS = 19;
 
 LS_EVENT_T_HEALTH = 20;
@@ -61,6 +61,200 @@ LS_EVENT_AMMO = 43;
 LS_EVENT_ITEM = 44; -- not in yet
 LS_EVENT_FIVE = 45;
 LS_EVENT_POWERTICK = 46; -- not in yet
+
+-- Additional Power Types
+LS_EVENT_FURY = 47;
+LS_EVENT_LUNAR_POWER = 48;
+LS_EVENT_INSANITY = 49;
+LS_EVENT_MAELSTROM = 50;
+LS_EVENT_RUNE = 51;
+LS_EVENT_SOUL_SHARD = 52;
+LS_EVENT_HOLY_POWER = 53;
+LS_EVENT_CHI = 54;
+LS_EVENT_ARCANE_CHARGE = 55;
+LS_EVENT_ESSENCE = 56;
+
+DefaultGaugeColorValues =
+{
+	[LS_EVENT_FIVE] = -- 45
+	{
+		r = 1.00;
+		g = 1.00;
+		b = 1.00;
+	};
+	[LS_EVENT_HEALTH] = -- 10
+	{
+		r = 0.00;
+		g = 1.00;
+		b = 0.00;
+	};
+	[LS_EVENT_POWER] = -- 11
+	{
+		r = 0.50;
+		g = 0.00;
+		b = 0.70;
+	};
+	[LS_EVENT_EXP] = -- 40
+	{
+		r = 0.70;
+		g = 0.00;
+		b = 0.70;
+	};
+	[LS_EVENT_REP] = -- 41
+	{
+		r = 0.00;
+		g = 0.70;
+		b = 0.70;
+	};
+	[LS_EVENT_EXTRA_POWER] = -- 18
+	{
+		r = 0.85;
+		g = 0.00;
+		b = 0.85;
+	};
+	[LS_EVENT_P_EXP] = -- 32
+	{
+		r = 0.60;
+		g = 0.00;
+		b = 0.60;
+	};
+	[LS_EVENT_T_HEALTH] = -- 20
+	{
+		r = 0.00;
+		g = 1.00;
+		b = 0.00;
+	};
+	[LS_EVENT_T_POWER] = -- 21
+	{
+		r = 0.50;
+		g = 0.00;
+		b = 0.70;
+	};
+	[LS_EVENT_MANA] = -- 14
+	{
+		r = PowerBarColor["MANA"].r;
+		g = PowerBarColor["MANA"].g;
+		b = PowerBarColor["MANA"].b;
+	};
+	[LS_EVENT_RAGE] = -- 16
+	{
+		r = PowerBarColor["RAGE"].r;
+		g = PowerBarColor["RAGE"].g;
+		b = PowerBarColor["RAGE"].b;
+	};
+	[LS_EVENT_FOCUS] = -- 19
+	{
+		r = PowerBarColor["ENERGY"].r;
+		g = PowerBarColor["ENERGY"].g;
+		b = PowerBarColor["ENERGY"].b;
+	};
+	[LS_EVENT_ENERGY] = -- 15
+	{
+		r = PowerBarColor["ENERGY"].r;
+		g = PowerBarColor["ENERGY"].g;
+		b = PowerBarColor["ENERGY"].b;
+	};
+	[LS_EVENT_COMBO] = -- 12
+	{
+		r = PowerBarColor["COMBO_POINTS"].r;
+		g = PowerBarColor["COMBO_POINTS"].g;
+		b = PowerBarColor["COMBO_POINTS"].b;
+	};
+	[LS_EVENT_RUNIC] = -- 17
+	{
+		r = PowerBarColor["RUNIC_POWER"].r;
+		g = PowerBarColor["RUNIC_POWER"].g;
+		b = PowerBarColor["RUNIC_POWER"].b;
+	};
+	[LS_EVENT_FURY] =  -- 47
+	{
+		r = PowerBarColor["FURY"].r ;
+		g = PowerBarColor["FURY"].g ;
+		b = PowerBarColor["FURY"].b ;
+	};
+	[LS_EVENT_LUNAR_POWER] =  -- 48
+	{
+		r = PowerBarColor["LUNAR_POWER"].r;
+		g = PowerBarColor["LUNAR_POWER"].g;
+		b = PowerBarColor["LUNAR_POWER"].b;
+	};
+	[LS_EVENT_INSANITY] =  -- 49
+	{
+		r = PowerBarColor["INSANITY"].r;
+		g = PowerBarColor["INSANITY"].g;
+		b = PowerBarColor["INSANITY"].b;
+	};
+	[LS_EVENT_MAELSTROM] =  -- 50
+	{
+		r = PowerBarColor["MAELSTROM"].r;
+		g = PowerBarColor["MAELSTROM"].g;
+		b = PowerBarColor["MAELSTROM"].b;
+	};
+	[LS_EVENT_RUNE] = -- 51
+	{
+		r = PowerBarColor["RUNES"].r;
+		g = PowerBarColor["RUNES"].g;
+		b = PowerBarColor["RUNES"].b;
+	};
+	[LS_EVENT_SOUL_SHARD] = -- 52
+	{
+		r = PowerBarColor["SOUL_SHARDS"].r;
+		g = PowerBarColor["SOUL_SHARDS"].g;
+		b = PowerBarColor["SOUL_SHARDS"].b;
+	};
+	[LS_EVENT_HOLY_POWER] = -- 53
+	{
+		r = PowerBarColor["HOLY_POWER"].r;
+		g = PowerBarColor["HOLY_POWER"].g;
+		b = PowerBarColor["HOLY_POWER"].b;
+	};
+	[LS_EVENT_CHI] = -- 54
+	{
+		r = PowerBarColor["CHI"].r;
+		g = PowerBarColor["CHI"].g;
+		b = PowerBarColor["CHI"].b;
+	};
+	[LS_EVENT_ARCANE_CHARGE] = -- 55
+	{
+		r = PowerBarColor["ARCANE_CHARGES"].r;
+		g = PowerBarColor["ARCANE_CHARGES"].g;
+		b = PowerBarColor["ARCANE_CHARGES"].b;
+	};
+	-- Colors are currently missing for Essence so default to using Mana until added to PowerBarColor table
+	[LS_EVENT_ESSENCE] = -- 56
+	{
+		r = 0.63;
+		g = 0.49;
+		b = 1.00;
+	};
+};
+
+function Lunar.Sphere:GetGaugeColorDefaultSettings(gaugeType, r, g, b)
+	local colorGaugeSetting;
+	local customColors = false;
+	local defaultColor = DefaultGaugeColorValues[gaugeType];
+
+	if (r or g or b) then
+		customColors = true;
+	end
+	if (not defaultColor) then
+		defaultColor = DefaultGaugeColorValues[LS_EVENT_FIVE];
+	end
+
+	colorGaugeSetting = 
+	{
+		defaultColor.r, 
+		defaultColor.g, 
+		defaultColor.b, 
+		customColors, 
+		r or defaultColor.r, 
+		g or defaultColor.g, 
+		b or defaultColor.b
+	};
+
+	return colorGaugeSetting;
+end
+
 
 -- Create our settings table. Will be overwritten if the user has saved variables.
 LunarSphereSettings = {
@@ -96,21 +290,31 @@ LunarSphereSettings = {
 	debugTuesday = true;
 	sphereScale = 1.0;
 	gaugeColor = {
-		[LS_EVENT_MANA]   = {0.0, 0.3, 1.0, false, 0.0, 0.3, 1.0};
-		[LS_EVENT_FIVE]   = {1.0, 1.0, 1.0, false, 1.0, 1.0, 1.0};
-		[LS_EVENT_HEALTH] = {0.0, 1.0, 0.0, false, 0.0, 1.0, 0.0};
-		[LS_EVENT_POWER] = {0.5, 0.0, 0.7, false, 0.5, 0.0, 0.7}; --1.3 Croq Add
-		[LS_EVENT_EXP]    = {0.7, 0.0, 0.7, false, 0.7, 0.0, 0.7};
-		[LS_EVENT_REP]    = {0.0, 0.7, 0.7, false, 0.0, 0.7, 0.7};
-		[LS_EVENT_RAGE]   = {1.0, 0.0, 0.0, false, 1.0, 0.0, 0.0};
-		[LS_EVENT_COMBO]  = {1.0, 0.0, 0.0, false, 1.0, 0.0, 0.0};
-		[LS_EVENT_ENERGY] = {1.0, 1.0, 0.0, false, 1.0, 1.0, 0.0};
-		[LS_EVENT_FOCUS] = {0.9, 0.45, 0.10, false, 0.9, 0.45, 0.10};
-		[LS_EVENT_EXTRA_POWER] = {0.85, 0.0, 0.85, false, 0.85, 0.0, 0.85};
-		[LS_EVENT_RUNIC] = {0.0, 0.8, 1.0, false, 0.0, 0.8, 1.0};
-		[LS_EVENT_P_EXP]  = {0.6, 0.0, 0.6, false, 0.6, 0.0, 0.6};
-		[LS_EVENT_T_HEALTH] = {0.0, 1.0, 0.0, false, 0.0, 1.0, 0.0};
-		[LS_EVENT_T_POWER] = {0.5, 0.0, 0.7, false, 0.5, 0.0, 0.7};
+		[LS_EVENT_FIVE] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_FIVE);
+		[LS_EVENT_HEALTH] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_HEALTH);
+		[LS_EVENT_POWER] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_POWER);
+		[LS_EVENT_EXP] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_EXP);
+		[LS_EVENT_REP] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_REP);
+		[LS_EVENT_EXTRA_POWER] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_EXTRA_POWER);
+		[LS_EVENT_P_EXP] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_P_EXP);
+		[LS_EVENT_T_HEALTH] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_T_HEALTH);
+		[LS_EVENT_T_POWER] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_T_POWER);
+		[LS_EVENT_MANA] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_MANA);
+		[LS_EVENT_RAGE] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_RAGE);
+		[LS_EVENT_FOCUS] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_FOCUS);
+		[LS_EVENT_ENERGY] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_ENERGY);
+		[LS_EVENT_COMBO] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_COMBO);
+		[LS_EVENT_RUNIC] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_RUNIC);
+		[LS_EVENT_FURY] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_FURY);
+		[LS_EVENT_LUNAR_POWER] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_LUNAR_POWER);
+		[LS_EVENT_INSANITY] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_INSANITY);
+		[LS_EVENT_MAELSTROM] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_MAELSTROM);
+		[LS_EVENT_RUNE] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_RUNE);
+		[LS_EVENT_SOUL_SHARD] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_SOUL_SHARD);
+		[LS_EVENT_HOLY_POWER] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_HOLY_POWER);
+		[LS_EVENT_CHI] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_CHI);
+		[LS_EVENT_ARCANE_CHARGE] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_ARCANE_CHARGE);
+		[LS_EVENT_ESSENCE] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_ESSENCE);
 	};
 	buttonData = {};
 	showAssignedCounts = false;
@@ -234,7 +438,7 @@ local dataTracking = {
 		[LS_EVENT_EXP] = "PLAYER_XP_UPDATE",
 		[LS_EVENT_REP] = "UPDATE_FACTION",
 		[LS_EVENT_RAGE] = "UNIT_POWER_UPDATE", --"UNIT_RAGE",
-		[LS_EVENT_COMBO] = "UNIT_COMBO_POINTS",
+		[LS_EVENT_COMBO] = "UNIT_POWER_UPDATE",
 		[LS_EVENT_ENERGY] = "UNIT_POWER_UPDATE", --"UNIT_ENERGY",
 		[LS_EVENT_FOCUS] = "UNIT_POWER_UPDATE", --"UNIT_FOCUS",
 		[LS_EVENT_EXTRA_POWER] = "UNIT_POWER_UPDATE",
@@ -243,41 +447,56 @@ local dataTracking = {
 		[LS_EVENT_T_HEALTH] = "UNIT_HEALTH",
 --		[LS_EVENT_T_POWER] = "UNIT_POWER", --"UNIT_MANA",
 		[LS_EVENT_POWER] = "UNIT_POWER_UPDATE", --Croq Added in 1.30
+		[LS_EVENT_FURY] = "UNIT_POWER_UPDATE",
+		[LS_EVENT_LUNAR_POWER] = "UNIT_POWER_UPDATE",
+		[LS_EVENT_INSANITY] = "UNIT_POWER_UPDATE",
+		[LS_EVENT_MAELSTROM] = "UNIT_POWER_UPDATE",
+		[LS_EVENT_RUNE] = "RUNE_POWER_UPDATE",
+		[LS_EVENT_SOUL_SHARD] = "UNIT_POWER_UPDATE",
+		[LS_EVENT_HOLY_POWER] = "UNIT_POWER_UPDATE",
+		[LS_EVENT_CHI] = "UNIT_POWER_UPDATE",
+		[LS_EVENT_ARCANE_CHARGE] = "UNIT_POWER_UPDATE",
+		[LS_EVENT_ESSENCE] = "UNIT_POWER_UPDATE"
 	};
 
 	-- Table for the names of the different powers
 	powerName = {
-		[0] = LS_EVENT_MANA, -- 14
-		[1] = LS_EVENT_RAGE, -- 16
-		[2] = LS_EVENT_FOCUS, -- 19
-		[3] = LS_EVENT_ENERGY, -- 15
-		[4] = "happiness",
-		[5] = LS_EVENT_RUNIC, -- 17
-		[6] = LS_EVENT_RUNIC, -- 17
-		[7] = LS_EVENT_MANA, --Croq Added in 1.30
-		[8] = LS_EVENT_RAGE, --Croq Added in 1.30
-		[9] = LS_EVENT_FOCUS, --Croq Added in 1.30
-		[10] = LS_EVENT_ENERGY, --Croq Added in 1.30
-		[11] = LS_EVENT_ENERGY, --Croq Added in 1.30 -- 1.3 Croq Add Had to add for Mealstrome (shaman)
-		[12] = LS_EVENT_ENERGY, --Croq Added in 1.30
-		[13] = LS_EVENT_ENERGY, --Croq Added in 1.30
-		[14] = LS_EVENT_ENERGY, --Croq Added in 1.30
-		[15] = LS_EVENT_ENERGY, --Croq Added in 1.30
-		[16] = LS_EVENT_ENERGY, --Croq Added in 1.30
-		[17] = LS_EVENT_ENERGY, --Croq Added in 1.30 - for demon hunters
+		[Enum.PowerType.Mana] = LS_EVENT_MANA, -- 14
+		[Enum.PowerType.Rage] = LS_EVENT_RAGE, -- 16
+		[Enum.PowerType.Focus] = LS_EVENT_FOCUS, -- 19
+		[Enum.PowerType.Energy] = LS_EVENT_ENERGY, -- 15
+		[Enum.PowerType.ComboPoints] = LS_EVENT_COMBO,
+		[Enum.PowerType.Runes] = LS_EVENT_RUNE, -- 17
+		[Enum.PowerType.RunicPower] = LS_EVENT_RUNIC, -- 17
+		[Enum.PowerType.SoulShards] = LS_EVENT_SOUL_SHARD, --Croq Added in 1.30
+		[Enum.PowerType.LunarPower] = LS_EVENT_LUNAR_POWER, --Croq Added in 1.30
+		[Enum.PowerType.HolyPower] = LS_EVENT_HOLY_POWER, --Croq Added in 1.30
+		[Enum.PowerType.Alternate] = LS_EVENT_ENERGY, --Croq Added in 1.30
+		[Enum.PowerType.Maelstrom] = LS_EVENT_MAELSTROM, --Croq Added in 1.30 -- 1.3 Croq Add Had to add for Mealstrome (shaman)
+		[Enum.PowerType.Chi] = LS_EVENT_CHI, --Croq Added in 1.30
+		[Enum.PowerType.Insanity] = LS_EVENT_INSANITY, --Croq Added in 1.30
+		[Enum.PowerType.Obsolete] = LS_EVENT_ENERGY, --Croq Added in 1.30
+		[Enum.PowerType.Obsolete2] = LS_EVENT_ENERGY, --Croq Added in 1.30
+		[Enum.PowerType.ArcaneCharges] = LS_EVENT_ARCANE_CHARGE, --Croq Added in 1.30
+		[Enum.PowerType.Fury] = LS_EVENT_FURY, --Croq Added in 1.30 - for demon hunters
+		[Enum.PowerType.Pain] = LS_EVENT_ENERGY,
+		[Enum.PowerType.Essence] = LS_EVENT_ESSENCE,
 	};
 
 	extraPowerType = {
-		["DEATHKNIGHT"] = 0,
-		["DRUID"] = 8,
-		["HUNTER"] = 0,
-		["MAGE"] = 0,
-		["PALADIN"] = 9,
-		["PRIEST"] = 0,
-		["ROGUE"] = -1,
-		["SHAMAN"] = 0,
-		["WARLOCK"] = 7,	-- Shards
-		["WARRIOR"] = 0,
+		["DEATHKNIGHT"] = Enum.PowerType.Runes,
+		["DEMONHUNTER"] = Enum.PowerType.Mana,
+		["DRUID"] = Enum.PowerType.Mana,
+		["EVOKER"] = Enum.PowerType.Essence,
+		["HUNTER"] = Enum.PowerType.Mana,
+		["MAGE"] = Enum.PowerType.ArcaneCharges,
+		["MONK"] = Enum.PowerType.Chi,
+		["PALADIN"] = Enum.PowerType.HolyPower,
+		["PRIEST"] = Enum.PowerType.Mana,
+		["ROGUE"] = Enum.PowerType.ComboPoints,
+		["SHAMAN"] = Enum.PowerType.Mana,
+		["WARLOCK"] = Enum.PowerType.SoulShards,
+		["WARRIOR"] = Enum.PowerType.Mana,
 	};
 };
 
@@ -955,10 +1174,15 @@ function Lunar.Sphere:SetSphereTextColor(r, g, b)
 end
 
 function Lunar.Sphere:ResetDefaultColor(gaugeType)
-
 	if (gaugeType == LS_EVENT_POWER) then
 		gaugeType = dataTracking.powerName[dataTracking.powerType]
+	elseif (gaugeType == LS_EVENT_EXTRA_POWER) then
+		local _, playerClass = UnitClass("player");
+		local extraPowerType = dataTracking.extraPowerType[playerClass];
+
+		gaugeType = dataTracking.powerName[extraPowerType];
 	end
+
 	LunarSphereSettings.gaugeColor[gaugeType][4] = false;
 
 --	local colorR = LunarSphereSettings.gaugeColor[gaugeType][1];
@@ -977,7 +1201,7 @@ end
 
 function Lunar.Sphere:SetInnerMarkSize(markPercents)
 
-	if (markPercents == 5) or (markPercents == 10) or (markPercents == 20) then
+	if (markPercents == 4) or (markPercents == 5) or (markPercents == 6) or (markPercents == 7) or (markPercents == 10) or (markPercents == 20) then
 		LunarSphereSettings.innerMarkSize = markPercents;
 		sphereData.gaugeInnerMarks:SetNormalTexture(LUNAR_ADDON_PATH .. "\\art\\innerGaugeMarks" .. tostring(LunarSphereSettings.innerMarkSize));
 		Lunar.Sphere:ShowInnerMarks(true);
@@ -988,8 +1212,7 @@ function Lunar.Sphere:SetInnerMarkSize(markPercents)
 end
 
 function Lunar.Sphere:SetOuterMarkSize(markPercents)
-
-	if (markPercents == 5) or (markPercents == 10) or (markPercents == 20) then
+	if (markPercents == 4) or (markPercents == 5) or (markPercents == 6) or (markPercents == 7) or (markPercents == 10) or (markPercents == 20) then
 		LunarSphereSettings.outerMarkSize = markPercents;
 		sphereData.gaugeOuterMarks:SetNormalTexture(LUNAR_ADDON_PATH .. "\\art\\outerGaugeMarks" .. tostring(LunarSphereSettings.outerMarkSize));
 		Lunar.Sphere:ShowOuterMarks(true);
@@ -1244,7 +1467,6 @@ function Lunar.Sphere:ShowSphereTextPercentage(toggle)
 end
 
 function Lunar.Sphere:SetSphereTextType(eventType, specificID)
-
 	sphereData.main:UnregisterAllEvents();
 	sphereData.main.updateCount = nil;
 
@@ -1263,6 +1485,13 @@ function Lunar.Sphere:SetSphereTextType(eventType, specificID)
 		sphereData.main:RegisterEvent(dataTracking.eventWatch[dataTracking.powerName[dataTracking.powerType]]);
 		LunarSphereSettings.sphereTextType = eventType; --dataTracking.powerName[dataTracking.powerType];
 		sphereData["sphereEvent"] = dataTracking.eventWatch[dataTracking.powerName[dataTracking.powerType]];
+	elseif (eventType == LS_EVENT_EXTRA_POWER) then
+		local _, playerClass = UnitClass("player");
+		local extraPowerType = dataTracking.extraPowerType[playerClass];
+
+		sphereData.main:RegisterEvent(dataTracking.eventWatch[dataTracking.powerName[extraPowerType]]);
+		LunarSphereSettings.sphereTextType = eventType; --dataTracking.powerName[dataTracking.powerType];
+		sphereData["sphereEvent"] = dataTracking.eventWatch[dataTracking.powerName[extraPowerType]];
 	elseif ((eventType == LS_EVENT_NONE) or (eventType == nil)) then
 		LunarSphereSettings.sphereTextType = LS_EVENT_NONE;
 	else
@@ -1274,8 +1503,6 @@ function Lunar.Sphere:SetSphereTextType(eventType, specificID)
 
 	if (eventType == LS_EVENT_P_EXP) then
 		sphereData.main:RegisterEvent("UNIT_PET");
-	elseif (eventType == LS_EVENT_COMBO) then
-		sphereData.main:RegisterEvent("PLAYER_TARGET_CHANGED");
 	elseif (eventType == LS_EVENT_SPHERE_COOLDOWN) then
 		sphereData.main:RegisterEvent("SPELL_UPDATE_COOLDOWN");
 		sphereData.main:RegisterEvent("BAG_UPDATE_COOLDOWN");
@@ -1312,7 +1539,6 @@ function Lunar.Sphere:SetInnerGaugeType(eventType, specificID)
 end
 
 function Lunar.Sphere:SetGaugeType(gaugeID, eventType, specificID)
-
 	local smallID = string.lower(string.sub(gaugeID, 1, 1)) .. string.sub(gaugeID, 2, string.len(gaugeID));
 
 	sphereData["gauge" .. gaugeID .. "Border"]:UnregisterAllEvents();
@@ -1331,8 +1557,12 @@ function Lunar.Sphere:SetGaugeType(gaugeID, eventType, specificID)
 	if (eventType == LS_EVENT_POWER) or (eventType == LS_EVENT_T_POWER)  then
 --		eventWatch = dataTracking.powerName[dataTracking.powerType];
 		eventWatch = dataTracking.powerName[UnitPowerType(sphereData["gauge" .. gaugeID .. "Border"].source)];
-	end
+	elseif (eventType == LS_EVENT_EXTRA_POWER) then
+		local _, playerClass = UnitClass("player");
+		local extraPowerType = dataTracking.extraPowerType[playerClass];
 
+		eventWatch = dataTracking.powerName[extraPowerType];
+	end
 	sphereData["gauge" .. gaugeID .. "Border"]:RegisterEvent(dataTracking.eventWatch[eventWatch]);
 
 	sphereData[gaugeID .. "Event"] = dataTracking.eventWatch[eventWatch];
@@ -1341,7 +1571,7 @@ function Lunar.Sphere:SetGaugeType(gaugeID, eventType, specificID)
 		sphereData["gauge" .. gaugeID .. "Border"]:RegisterEvent("UNIT_PET");
 	end
 
-	if (eventType == LS_EVENT_COMBO) or ((eventType >= LS_EVENT_T_HEALTH) and (eventType <= LS_EVENT_T_POWER)) then
+	if ((eventType >= LS_EVENT_T_HEALTH) and (eventType <= LS_EVENT_T_POWER)) then
 		sphereData["gauge" .. gaugeID .. "Border"]:RegisterEvent("PLAYER_TARGET_CHANGED");
 	end
 
@@ -1382,7 +1612,7 @@ function Lunar.Sphere:SetGaugeType(gaugeID, eventType, specificID)
 end
 
 function Lunar.Sphere:UpdateGauge(gaugeType)
-
+	
 	local max = math.max;
 	local spherePercent = 0;
 	local checkType, checkTypeID, gaugeHalf, gaugeCover, gauge, gaugeStart, gaugeAnimate, dir, angle;
@@ -1396,7 +1626,6 @@ function Lunar.Sphere:UpdateGauge(gaugeType)
 	if (LunarSphereSettings.sphereAlpha == 0) then
 		return;
 	end
-
 	if (gaugeType == "Inner") then
 		gaugeHalf = sphereData.gaugeInnerHalf;
 		gaugeCover = sphereData.gaugeInnerCover;
@@ -1420,7 +1649,7 @@ function Lunar.Sphere:UpdateGauge(gaugeType)
 	else
 		return;
 	end
-
+	
 	if (checkType == LS_EVENT_POWER) then --or (checkType == "energy") or (checkType == "rage"))   then
 		if UnitPowerMax("player") > 0 then
 			spherePercent =	UnitPower("player") / UnitPowerMax("player") * 100;
@@ -1430,13 +1659,28 @@ function Lunar.Sphere:UpdateGauge(gaugeType)
 	elseif (checkType == LS_EVENT_EXTRA_POWER) then
 		local _, playerClass = UnitClass("player");
 		local powerToTrack = dataTracking.extraPowerType[playerClass];
-		-- Combo points
-		if (powerToTrack == -1) then
-			spherePercent =	GetComboPoints("player") / 5 * 100;
-		-- Everything else
-		elseif (powerToTrack ~= 0) then
+
+		-- Runes
+		if (powerToTrack == 5) then
 			if UnitPowerMax("player", powerToTrack) > 0 then
-				spherePercent = UnitPower("player", powerToTrack) / UnitPowerMax("player", powerToTrack) * 100;
+				local runesReady = 0;
+
+				for runeSlot = 1, 6 do
+					local _, _, runeReady = GetRuneCooldown(runeSlot);
+
+					if (runeReady) then
+						runesReady = runesReady + 1;
+					end
+				end
+
+				spherePercent = runesReady / UnitPowerMax("player", powerToTrack) * 100;
+			else
+				spherePercent = 0;
+			end
+		-- Everything else
+		elseif (powerToTrack ~= -1) then
+			if UnitPowerMax("player", powerToTrack) > 0 then
+				spherePercent = UnitPower("player", powerToTrack, true) / UnitPowerMax("player", powerToTrack, true) * 100;
 			else
 				spherePercent = 0;
 			end
@@ -1462,9 +1706,11 @@ function Lunar.Sphere:UpdateGauge(gaugeType)
 			spherePercent = 0;
 		end
 	elseif (checkType == LS_EVENT_COMBO) then
--- Lunar.API:Print("LS_EVENT_COMBO   " .. UnitPower("player").. "   " .. UnitPowerMax("player", COMBO_POINTS)); -- Here Again
---		spherePercent =	GetComboPoints("player") / 5 * 100;
-		spherePercent = (UnitPower("player") / UnitPowerMax("player", COMBO_POINTS)) * 100;
+		if (UnitPowerMax("player", Enum.PowerType.ComboPoints) > 0) then
+			spherePercent = (UnitPower("player", Enum.PowerType.ComboPoints) / UnitPowerMax("player", Enum.PowerType.ComboPoints)) * 100;
+		else
+			spherePercent = 0;
+		end
 	elseif (checkType == LS_EVENT_FIVE) then
 		local checkMana = UnitPower("player");
 		gaugeStart = nil;
@@ -1586,18 +1832,33 @@ function Lunar.Sphere:UpdateSphere()
 	elseif (checkType == LS_EVENT_EXTRA_POWER) then
 		local _, playerClass = UnitClass("player");
 		local powerToTrack = dataTracking.extraPowerType[playerClass];
-		-- Combo points
-		if (powerToTrack == -1) then
-			if (showAsPercent) then
-				sphereText = math.floor(GetComboPoints("player") / 5 * 100) .. LunarSphereSettings.sphereTextEnd;
+
+		-- Runes
+		if (powerToTrack == 5) then
+			if UnitPowerMax("player", powerToTrack) > 0 then
+				local runesReady = 0;
+
+				for runeSlot = 1, 6 do
+					local _, _, runeReady = GetRuneCooldown(runeSlot);
+
+					if (runeReady) then
+						runesReady = runesReady + 1;
+					end
+				end
+
+				if (showAsPercent) then
+					sphereText = math.floor(runesReady / UnitPowerMax("player", powerToTrack) * 100) .. LunarSphereSettings.sphereTextEnd;
+				else
+					sphereText = runesReady;
+				end
 			else
-				sphereText = GetComboPoints("player");
+				sphereText = "0";
 			end
 		-- Everything else
-		elseif (powerToTrack ~= 0) then
+		elseif (powerToTrack ~= -1) then
 			if UnitPowerMax("player", powerToTrack) > 0 then
 				if (showAsPercent) then
-					sphereText = math.floor(UnitPower("player", powerToTrack) / UnitPowerMax("player", powerToTrack) * 100) .. LunarSphereSettings.sphereTextEnd;
+					sphereText = math.floor(UnitPower("player", powerToTrack, true) / UnitPowerMax("player", powerToTrack, true) * 100) .. LunarSphereSettings.sphereTextEnd;
 				else
 					sphereText = UnitPower("player", powerToTrack);
 				end
@@ -1710,6 +1971,14 @@ function Lunar.Sphere:UpdateDefaultColors(objectType)
 		LunarSphereSettings.gaugeColor[dataTracking.powerName[dataTracking.powerType]][5] = LunarSphereSettings[objectType .. "Color"][1]
 		LunarSphereSettings.gaugeColor[dataTracking.powerName[dataTracking.powerType]][6] = LunarSphereSettings[objectType .. "Color"][2]
 		LunarSphereSettings.gaugeColor[dataTracking.powerName[dataTracking.powerType]][7] = LunarSphereSettings[objectType .. "Color"][3]
+	elseif (LunarSphereSettings[objectType .. "Type"] == LS_EVENT_EXTRA_POWER) then
+		local _, playerClass = UnitClass("player");
+		local powerToTrack = dataTracking.extraPowerType[playerClass];
+
+		LunarSphereSettings.gaugeColor[dataTracking.powerName[powerToTrack]][4] = true;
+		LunarSphereSettings.gaugeColor[dataTracking.powerName[powerToTrack]][5] = LunarSphereSettings[objectType .. "Color"][1]
+		LunarSphereSettings.gaugeColor[dataTracking.powerName[powerToTrack]][6] = LunarSphereSettings[objectType .. "Color"][2]
+		LunarSphereSettings.gaugeColor[dataTracking.powerName[powerToTrack]][7] = LunarSphereSettings[objectType .. "Color"][3]
 	else
 		LunarSphereSettings.gaugeColor[LunarSphereSettings[objectType .. "Type"]][4] = true;
 		LunarSphereSettings.gaugeColor[LunarSphereSettings[objectType .. "Type"]][5] = LunarSphereSettings[objectType .. "Color"][1]
@@ -1793,9 +2062,14 @@ function Lunar.Sphere:UpdateGaugeColors()
 	for loopCount = 1, 2 do 
 		colorIndex = 0;
 		checkType = LunarSphereSettings[gaugeName .. "GaugeType"];
-
+		
 		if (checkType == LS_EVENT_POWER) then
 			checkType = dataTracking.powerName[dataTracking.powerType];
+		elseif (checkType == LS_EVENT_EXTRA_POWER) then
+			local _, playerClass = UnitClass("player");
+			local extraPowerType = dataTracking.extraPowerType[playerClass];
+
+			checkType = dataTracking.powerName[extraPowerType];
 		end
 
 		if (LunarSphereSettings.gaugeColor[checkType][4] == true) then
@@ -1915,11 +2189,10 @@ function Lunar.Sphere.UpdateCurrentCast()
 end
 
 function Lunar.Sphere.Events(self, event, arg1, arg2)
-
 	if (event == sphereData.sphereEvent) or (event == sphereData.InnerEvent) or (event == sphereData.OuterEvent) or (event == "PLAYER_TARGET_CHANGED") then
 
 --		if ((arg1 == self.source) or (event == "PLAYER_XP_UPDATE") or (event == "UNIT_COMBO_POINTS") or (event == "UPDATE_FACTION") or (event == "PLAYER_TARGET_CHANGED")) then
-		if ((arg1 == self.source) or (event == "PLAYER_XP_UPDATE") or (event == "UNIT_POWER_UPDATE") or (event == "UPDATE_FACTION") or (event == "PLAYER_TARGET_CHANGED")) then
+		if ((arg1 == self.source) or (event == "PLAYER_XP_UPDATE") or (event == "UNIT_POWER_UPDATE") or (event == "RUNE_POWER_UPDATE") or (event == "UPDATE_FACTION") or (event == "PLAYER_TARGET_CHANGED")) then
 			local gaugeType = "sphere";
 			if (self == sphereData.gaugeOuterBorder) then
 				gaugeType = "Outer";
@@ -1928,7 +2201,6 @@ function Lunar.Sphere.Events(self, event, arg1, arg2)
 			end
 
 			-- If the mana went down, update the mana tracking for the 5 second timer
-
 			if ((event == "UNIT_MANA") and (self.source == "player") and (dataTracking.powerType == 0) ) then
 				if (dataTracking.playerMana < UnitPower("player")) then
 					dataTracking.playerMana = UnitPower("player");

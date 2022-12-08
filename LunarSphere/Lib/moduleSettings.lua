@@ -100,7 +100,10 @@ Lunar.Object.dropdownData = {
 		},
 	["Gauge_Marks"] = {
 		{Lunar.Locale["MARKS_ZERO"], 0},
+		{Lunar.Locale["MARKS_FOUR"], 4},
 		{Lunar.Locale["MARKS_FIVE"], 5},
+		{Lunar.Locale["MARKS_SIX"], 6},
+		{Lunar.Locale["MARKS_SEVEN"], 7},
 		{Lunar.Locale["MARKS_TEN"], 10},
 		{Lunar.Locale["MARKS_TWENTY"], 20},
 		},

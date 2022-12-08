@@ -409,14 +409,24 @@ function LunarSphere_VariablesLoaded()
 	-- Fix our extra power text to be the proper power for our class
 	local _, playerClass = UnitClass("player");
 	local powerType = NONE;
-	if (playerClass == "PALADIN") then
+
+	if (playerClass == "DEATHKNIGHT") then
+		powerType = RUNES
+	elseif (playerClass == "MAGE") then
+		powerType = ARCANE_CHARGES;
+	elseif (playerClass == "MONK") then
+		powerType = CHI;
+	elseif (playerClass == "PALADIN") then
 		powerType = HOLY_POWER;
-	elseif (playerClass == "WARLOCK") then
-		powerType = SOUL_SHARDS;
-	elseif (playerClass == "DRUID") then
-		powerType = ECLIPSE;
 	elseif (playerClass == "ROGUE") then
 		powerType = COMBAT_TEXT_SHOW_COMBO_POINTS_TEXT;
+	elseif (playerClass == "WARLOCK") then
+		powerType = SOUL_SHARDS;
+	elseif (playerClass == "DRUID") or (playerClass == "SHAMAN") or (playerClass == "PRIEST") then
+		powerType = MANA;
+	elseif (playerClass == "EVOKER") then
+		-- Need to update this to use the correct power token when Blizzard adds it
+		powerType = "Essence"
 	end
 	Lunar.Locale["EVENT_EXTRA_POWER"] = (string.gsub(Lunar.Locale["EVENT_EXTRA_POWER"], "___", powerType));
 
@@ -1524,6 +1534,29 @@ function LunarSphere_BackwardsCompatibility()
 		LunarSphereSettings.showStartupMessage = true;
 		LunarSphereSettings.startupMessage =
 				"Welcome to Legion";
+	end
+	
+	-- Set this to the correct version before release
+	if (LunarSphereSettings.versionID < 1.52) then
+		-- LunarSphereSettings.versionID = 1.52;
+		LunarSphereSettings.fooled = nil;
+		LunarSphereSettings.gaugeColor[LS_EVENT_COMBO] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_COMBO);
+		LunarSphereSettings.gaugeColor[LS_EVENT_FURY] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_FURY);
+		LunarSphereSettings.gaugeColor[LS_EVENT_LUNAR_POWER] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_LUNAR_POWER);
+		LunarSphereSettings.gaugeColor[LS_EVENT_INSANITY] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_INSANITY);
+		LunarSphereSettings.gaugeColor[LS_EVENT_MAELSTROM] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_MAELSTROM);
+		LunarSphereSettings.gaugeColor[LS_EVENT_RUNE] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_RUNE);
+		LunarSphereSettings.gaugeColor[LS_EVENT_SOUL_SHARD] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_SOUL_SHARD);
+		LunarSphereSettings.gaugeColor[LS_EVENT_HOLY_POWER] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_HOLY_POWER);
+		LunarSphereSettings.gaugeColor[LS_EVENT_CHI] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_CHI);
+		LunarSphereSettings.gaugeColor[LS_EVENT_ARCANE_CHARGE] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_ARCANE_CHARGE);
+		LunarSphereSettings.gaugeColor[LS_EVENT_ESSENCE] = Lunar.Sphere:GetGaugeColorDefaultSettings(LS_EVENT_ESSENCE);
+
+		-- Lunar.showStartupMessage = Lunar.showStartupMessage or LunarSphereSettings.showStartupMessage;
+		-- Lunar.startupMessage = Lunar.startupMessage or LunarSphereSettings.startupMessage;
+		-- LunarSphereSettings.showStartupMessage = true;
+		-- LunarSphereSettings.startupMessage =
+		-- 		"Welcome to Dragonflight";
 	end
 end
 
