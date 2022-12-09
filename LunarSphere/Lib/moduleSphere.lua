@@ -255,9 +255,8 @@ function Lunar.Sphere:GetGaugeColorDefaultSettings(gaugeType, r, g, b)
 	return colorGaugeSetting;
 end
 
-
 -- Create our settings table. Will be overwritten if the user has saved variables.
-LunarSphereSettings = {
+Lunar.Sphere.defaultSettings = {
 	versionID = Lunar.Sphere.version;
 	firstRun = true;
 	showInner = true;
@@ -274,6 +273,7 @@ LunarSphereSettings = {
 	innerMarkDark = false;
 	innerGaugeAngle = 90;
 	innerGaugeDirection = -1;
+	showInnerGaugeShine = true;
 	outerGaugeColor = {0.0, 1.0, 0.0};
 	outerGaugeType = LS_EVENT_HEALTH;
 	outerGaugeTypeID = nil;
@@ -282,6 +282,7 @@ LunarSphereSettings = {
 	outerMarkDark = false;
 	outerGaugeAngle = 90;
 	outerGaugeDirection = -1;
+	showOuterGaugeShine = true;
 	sphereTextType = LS_EVENT_NONE;
 	sphereTextTypeID = nil;
 	sphereTextEnd = "%";
@@ -327,10 +328,11 @@ LunarSphereSettings = {
 	vividMana = {0.0, 0.0, 1.0};
 	vividManaRange = {0.6, 0.2, 1.0};
 	vividRange = {1.0, 0.0, 0.0};
+	vividButtons = false;
 	gaugeFill = 4;
 	gaugeBorder = 3;
 	gaugeBorderColor = {1,1,1};
-	showSphereEditGlow = 1;
+	showSphereEditGlow = true;
 	reagentList = {};
 	timeOffset = 0;
 	keepArmor = true;
@@ -343,6 +345,7 @@ LunarSphereSettings = {
 	buttonDistance = 6;
 	buttonOffset = 0;
 	buttonSpacing = 100;
+	showButtonShine = false;
 	tooltipType = 1;
 	yellowTooltipType = 0;
 	greenTooltipType = 0;
@@ -362,6 +365,8 @@ LunarSphereSettings = {
 	xOfs = 0;
 	yOfs = 0;
 };
+
+LunarSphereSettings = Lunar.Sphere.defaultSettings;
 
 LunarSphereGlobal = {};
 LunarSphereGlobal.artDatabase = {};

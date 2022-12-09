@@ -33,9 +33,9 @@
 lib\moduleLocale.lua
 lib\moduleMemory.lua
 lib\moduleAPI.lua
-lib\moduleTemplate.lua
 lib\moduleButton.lua
 lib\moduleSphere.lua
+lib\moduleTemplate.lua
 lib\moduleItems.lua
 lib\moduleObject.lua
 lib\moduleSettings.lua

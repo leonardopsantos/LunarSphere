@@ -23,6 +23,75 @@ Lunar.Template.version = 1.52;
 
 -- Create our template database
 Lunar.Template.template = {};
+
+function mergeSettings(destination, ...)
+	local source;
+
+	for i = 1, select("#", ...) do
+		source = select(i, ...);
+		for k, v in pairs(source) do 
+			destination[k] = v;
+		end
+	end
+
+	return destination;
+end
+
+local defaultSphereTemplateSettings =
+{
+	["submenuCompression"] = Lunar.Sphere.defaultSettings.submenuCompression,
+	["showSphereEditGlow"] = Lunar.Sphere.defaultSettings.showSphereEditGlow,
+	["buttonOffset"] = Lunar.Sphere.defaultSettings.buttonOffset,
+	["buttonSpacing"] = Lunar.Sphere.defaultSettings.buttonSpacing,
+	["showOuter"] = Lunar.Sphere.defaultSettings.showOuter,
+	["showInner"] = Lunar.Sphere.defaultSettings.showInner,
+	["sphereTextType"] = Lunar.Sphere.defaultSettings.sphereTextType,
+	["subMenuButtonDistance"] = Lunar.Sphere.defaultSettings.subMenuButtonDistance,
+	["outerGaugeAnimate"] = Lunar.Sphere.defaultSettings.outerGaugeAnimate,
+	["sphereTextEnd"] = Lunar.Sphere.defaultSettings.sphereTextEnd,
+	["sphereScale"] = Lunar.Sphere.defaultSettings.sphereScale,
+	["buttonDistance"] = Lunar.Sphere.defaultSettings.buttonDistance,
+	["outerGaugeType"] = Lunar.Sphere.defaultSettings.outerGaugeType,
+	["showAssignedCounts"] = Lunar.Sphere.defaultSettings.showAssignedCounts,
+	["innerGaugeType"] = Lunar.Sphere.defaultSettings.innerGaugeType,
+	["menuButtonDistance"] = Lunar.Sphere.defaultSettings.menuButtonDistance,
+	["innerGaugeAnimate"] = Lunar.Sphere.defaultSettings.innerGaugeAnimate,
+	["xOfs"] = Lunar.Sphere.defaultSettings.xOfs,
+	["yOfs"] = Lunar.Sphere.defaultSettings.yOfs,
+	["relativePoint"] = Lunar.Sphere.defaultSettings.relativePoint,
+};
+
+local defaultSkinTemplateSettings =
+{
+	["showSphereShine"] = Lunar.Sphere.defaultSettings.showSphereShine,
+	["innerMarkSize"] = Lunar.Sphere.defaultSettings.innerMarkSize,
+	["showOuterGaugeShine"] = Lunar.Sphere.defaultSettings.showOuterGaugeShine,
+	["tooltipBorder"] = Lunar.Sphere.defaultSettings.tooltipBorder,
+	["buttonColor"] = Lunar.Sphere.defaultSettings.buttonColor,
+	["sphereColor"] =  Lunar.Sphere.defaultSettings.sphereColor,
+	["vividMana"] = Lunar.Sphere.defaultSettings.vividMana,
+	["buttonSkin"] = Lunar.Sphere.defaultSettings.buttonSkin,
+	["vividManaRange"] = Lunar.Sphere.defaultSettings.vividManaRange,
+	["vividButtons"] = Lunar.Sphere.defaultSettings.vividButtons;
+	["gaugeBorderColor"] = Lunar.Sphere.defaultSettings.gaugeBorderColor,
+	["gaugeBorder"] = Lunar.Sphere.defaultSettings.gaugeBorder,
+	["showInnerGaugeShine"] = Lunar.Sphere.defaultSettings.showInnerGaugeShine,
+	["outerMarkDark"] = Lunar.Sphere.defaultSettings.outerMarkDark,
+	["gaugeFill"] = Lunar.Sphere.defaultSettings.gaugeFill,
+	["outerGaugeColor"] = Lunar.Sphere.defaultSettings.outerGaugeColor,
+	["customSphereColor"] = Lunar.Sphere.defaultSettings.customSphereColor,
+	["vividRange"] = Lunar.Sphere.defaultSettings.vividRange,
+	["menuButtonColor"] = Lunar.Sphere.defaultSettings.menuButtonColor,
+	["innerGaugeColor"] = Lunar.Sphere.defaultSettings.innerGaugeColor,
+	["innerMarkDark"] = Lunar.Sphere.defaultSettings.innerMarkDark,
+	["gaugeColor"] = Lunar.Sphere.defaultSettings.gaugeColor,
+	["tooltipBackground"] = Lunar.Sphere.defaultSettings.tooltipBackground,
+	["skinAllTooltips"] = Lunar.Sphere.defaultSettings.skinAllTooltips,
+	["outerMarkSize"] = Lunar.Sphere.defaultSettings.outerMarkSize,
+	["sphereSkin"] = Lunar.Sphere.defaultSettings.sphereSkin,
+	["showButtonShine"] = Lunar.Sphere.defaultSettings.showButtonShine,
+};
+
 --[[
 Lunar.Locale = {
 	["TEMPLATE_DEATHKNIGHT"] = "LS Unholy Templar",
@@ -42,201 +111,8 @@ Lunar.Locale = {
 Lunar.Template.template[1] = 
 {
 	["listData"] = Lunar.Locale["TEMPLATE_DEFAULT"] .. ":::ANY:::10101:::",
-	["sphere"] = {
-		["submenuCompression"] = true,
-		["showSphereEditGlow"] = true,
-		["buttonOffset"] = 0,
-		["buttonSpacing"] = 100,
-		["showOuter"] = true,
-		["showInner"] = true,
-		["sphereTextType"] = 0,
-		["subMenuButtonDistance"] = 4,
-		["outerGaugeAnimate"] = true,
-		["sphereTextEnd"] = "%",
-		["sphereScale"] = 1,
-		["buttonDistance"] = 8,
-		["outerGaugeType"] = 10,
-		["showAssignedCounts"] = false,
-		["innerGaugeType"] = 11,
-		["menuButtonDistance"] = 58,
-		["innerGaugeAnimate"] = true,
-		["xOfs"] = 0,
-		["yOfs"] = 0,
-		["relativePoint"] = "CENTER",
-	},
-	["skin"] = {
-		["showSphereShine"] = true,
-		["innerMarkSize"] = 10,
-		["showOuterGaugeShine"] = true,
-		["tooltipBorder"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			1, -- [4]
-		},
-		["buttonColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["sphereColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-		["vividMana"] = {
-			0, -- [1]
-			0, -- [2]
-			1, -- [3]
-		},
-		["buttonSkin"] = 36,
-		["vividManaRange"] = {
-			0.6, -- [1]
-			0.2, -- [2]
-			1, -- [3]
-		},
-		["gaugeBorderColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["gaugeBorder"] = 3,
-		["showInnerGaugeShine"] = true,
-		["outerMarkDark"] = false,
-		["gaugeFill"] = 4,
-		["outerGaugeColor"] = {
-			0, -- [1]
-			1, -- [2]
-			0, -- [3]
-		},
-		["customSphereColor"] = true,
-		["vividRange"] = {
-			1, -- [1]
-			0, -- [2]
-			0, -- [3]
-		},
-		["menuButtonColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-		["innerGaugeColor"] = {
-			0, -- [1]
-			0.3, -- [2]
-			1, -- [3]
-		},
-		["innerMarkDark"] = false,
-		["gaugeColor"] = {
-			[45] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				1, -- [7]
-			},
-			[12] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[40] = {
-				0.7, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.7, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[15] = {
-				1, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[16] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[14] = {
-				0, -- [1]
-				0.3, -- [2]
-				1, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.3, -- [6]
-				1, -- [7]
-			},
-			[41] = {
-				0, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.7, -- [6]
-				0.7, -- [7]
-			},
-			[20] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[21] = {
-				0.5, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.5, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[10] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[32] = {
-				0.6, -- [1]
-				0, -- [2]
-				0.6, -- [3]
-				false, -- [4]
-				0.6, -- [5]
-				0, -- [6]
-				0.6, -- [7]
-			},
-		},
-		["tooltipBackground"] = {
-			0.05, -- [1]
-			0.05, -- [2]
-			0.1, -- [3]
-			0.75, -- [4]
-		},
-		["outerMarkSize"] = 10,
-		["sphereSkin"] = 1,
-		["showButtonShine"] = false,
-	},
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = defaultSkinTemplateSettings,
 	["buttonData"] = {
 		nil, -- [1]
 		nil, -- [2]
@@ -274,206 +150,15 @@ Lunar.Template.template[1] =
 		}, -- [8]
 		["mainButtonCount"] = 10,
 	},
-}
+};
 
 Lunar.Template.template[2] = 
 {
 	["listData"] = Lunar.Locale["TEMPLATE_MAGE"] .. ":::MAGE:::10101:::",
-	["sphere"] = {
-		["submenuCompression"] = true,
-		["showSphereEditGlow"] = true,
-		["yOfs"] = 0,
-		["buttonOffset"] = 0,
-		["buttonSpacing"] = 100,
-		["showOuter"] = true,
-		["showInner"] = true,
-		["sphereTextType"] = 0,
-		["subMenuButtonDistance"] = 4,
-		["outerGaugeAnimate"] = true,
-		["sphereTextEnd"] = "%",
-		["sphereScale"] = 1,
-		["relativePoint"] = "Center",
-		["xOfs"] = 0,
-		["buttonDistance"] = 8,
-		["outerGaugeType"] = 10,
-		["showAssignedCounts"] = false,
-		["innerGaugeType"] = 11,
-		["menuButtonDistance"] = 58,
-		["innerGaugeAnimate"] = true,
-	},
-	["skin"] = {
-		["showSphereShine"] = true,
-		["innerMarkSize"] = 10,
-		["showOuterGaugeShine"] = true,
-		["tooltipBorder"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			1, -- [4]
-		},
-		["buttonColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["sphereColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["vividMana"] = {
-			0, -- [1]
-			0, -- [2]
-			1, -- [3]
-		},
-		["buttonSkin"] = 36,
-		["vividManaRange"] = {
-			0.6, -- [1]
-			0.2, -- [2]
-			1, -- [3]
-		},
-		["gaugeBorderColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["gaugeBorder"] = 3,
-		["showInnerGaugeShine"] = true,
-		["outerMarkDark"] = false,
-		["gaugeFill"] = 4,
-		["outerGaugeColor"] = {
-			0, -- [1]
-			1, -- [2]
-			0, -- [3]
-		},
-		["customSphereColor"] = true,
-		["vividRange"] = {
-			1, -- [1]
-			0, -- [2]
-			0, -- [3]
-		},
-		["menuButtonColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-		["innerGaugeColor"] = {
-			0, -- [1]
-			0.3, -- [2]
-			1, -- [3]
-		},
-		["innerMarkDark"] = false,
-		["gaugeColor"] = {
-			[45] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				1, -- [7]
-			},
-			[12] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[40] = {
-				0.7, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.7, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[15] = {
-				1, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[16] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[14] = {
-				0, -- [1]
-				0.3, -- [2]
-				1, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.3, -- [6]
-				1, -- [7]
-			},
-			[41] = {
-				0, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.7, -- [6]
-				0.7, -- [7]
-			},
-			[20] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[21] = {
-				0.5, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.5, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[10] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[32] = {
-				0.6, -- [1]
-				0, -- [2]
-				0.6, -- [3]
-				false, -- [4]
-				0.6, -- [5]
-				0, -- [6]
-				0.6, -- [7]
-			},
-		},
-		["tooltipBackground"] = {
-			0.05, -- [1]
-			0.05, -- [2]
-			0.1, -- [3]
-			0.75, -- [4]
-		},
-		["outerMarkSize"] = 10,
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
 		["sphereSkin"] = 18,
-		["showButtonShine"] = false,
-	},
+	}),
 	["buttonData"] = {
 		{
 			["buttonTypeData"] = "002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000",
@@ -917,208 +602,21 @@ Lunar.Template.template[2] =
 		},
 		["mainButtonCount"] = 10,
 	},
-}
+};
 
 Lunar.Template.template[3] = 
 {
 	["listData"] = Lunar.Locale["TEMPLATE_DRUID"] .. ":::DRUID:::10101:::",
-	["sphere"] = {
-		["submenuCompression"] = true,
-		["showSphereEditGlow"] = true,
-		["yOfs"] = 0,
-		["buttonOffset"] = 0,
-		["buttonSpacing"] = 100,
-		["showOuter"] = true,
-		["showInner"] = true,
-		["sphereTextType"] = 0,
-		["subMenuButtonDistance"] = 4,
-		["outerGaugeAnimate"] = true,
-		["sphereTextEnd"] = "%",
-		["sphereScale"] = 1,
-		["relativePoint"] = "Center",
-		["xOfs"] = 0,
-		["buttonDistance"] = 8,
-		["outerGaugeType"] = 10,
-		["showAssignedCounts"] = false,
-		["innerGaugeType"] = 11,
-		["menuButtonDistance"] = 58,
-		["innerGaugeAnimate"] = true,
-	},
-	["skin"] = {
-		["showSphereShine"] = true,
-		["innerMarkSize"] = 10,
-		["showOuterGaugeShine"] = true,
-		["tooltipBorder"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			1, -- [4]
-		},
-		["buttonColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["sphereColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["gaugeBorderColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["gaugeBorder"] = 3,
-		["vividMana"] = {
-			0, -- [1]
-			0, -- [2]
-			1, -- [3]
-		},
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
 		["vividButtons"] = true,
-		["vividManaRange"] = {
-			0.6, -- [1]
-			0.2, -- [2]
-			1, -- [3]
-		},
-		["gaugeFill"] = 4,
 		["outerGaugeColor"] = {
 			0.1372549019607843, -- [1]
 			1, -- [2]
 			0, -- [3]
 		},
-		["showInnerGaugeShine"] = true,
-		["outerMarkDark"] = false,
-		["customSphereColor"] = true,
-		["innerGaugeColor"] = {
-			0, -- [1]
-			0.3, -- [2]
-			1, -- [3]
-		},
-		["innerMarkDark"] = false,
-		["vividRange"] = {
-			1, -- [1]
-			0, -- [2]
-			0, -- [3]
-		},
-		["skinAllTooltips"] = false,
-		["showButtonShine"] = false,
-		["menuButtonColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-		["gaugeColor"] = {
-			[45] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				true, -- [4]
-				0, -- [5]
-				0.592156862745098, -- [6]
-				1, -- [7]
-			},
-			[32] = {
-				0.6, -- [1]
-				0, -- [2]
-				0.6, -- [3]
-				false, -- [4]
-				0.6, -- [5]
-				0, -- [6]
-				0.6, -- [7]
-			},
-			[40] = {
-				0.7, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.7, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[15] = {
-				1, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[16] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[14] = {
-				0, -- [1]
-				0.3, -- [2]
-				1, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.3, -- [6]
-				1, -- [7]
-			},
-			[12] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[20] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[41] = {
-				0, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.7, -- [6]
-				0.7, -- [7]
-			},
-			[21] = {
-				0.5, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.5, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[10] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				true, -- [4]
-				0.1372549019607843, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-		},
-		["tooltipBackground"] = {
-			0.05, -- [1]
-			0.05, -- [2]
-			0.1, -- [3]
-			0.75, -- [4]
-		},
-		["outerMarkSize"] = 10,
 		["sphereSkin"] = 16,
-		["buttonSkin"] = 36,
-	},
+	}),
 	["buttonData"] = {
 		{
 			["isMenu"] = true,
@@ -1528,205 +1026,20 @@ Lunar.Template.template[3] =
 		},
 		["mainButtonCount"] = 10,
 	},
-}
+};
 
 Lunar.Template.template[4] = {
 	["listData"] = Lunar.Locale["TEMPLATE_WARLOCK"] .. ":::WARLOCK:::10101:::",
-	["sphere"] = {
-		["submenuCompression"] = true,
-		["showSphereEditGlow"] = true,
-		["buttonOffset"] = 0,
-		["buttonSpacing"] = 100,
-		["showOuter"] = true,
-		["showInner"] = true,
-		["sphereTextType"] = 2,
-		["subMenuButtonDistance"] = 4,
-		["outerGaugeAnimate"] = true,
-		["sphereTextEnd"] = "%",
-		["sphereScale"] = 1,
-		["outerGaugeType"] = 10,
-		["showAssignedCounts"] = false,
-		["buttonDistance"] = 8,
-		["innerGaugeType"] = 11,
-		["innerGaugeAnimate"] = true,
-		["menuButtonDistance"] = 58,
-		["xOfs"] = 0,
-		["yOfs"] = 0,
-		["relativePoint"] = "CENTER",
-	},
-	["skin"] = {
-		["showSphereShine"] = true,
-		["innerMarkSize"] = 10,
-		["showOuterGaugeShine"] = true,
-		["tooltipBorder"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			1, -- [4]
-		},
-		["buttonColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
+		
 		["sphereColor"] = {
 			0.7450980392156863, -- [1]
 			0.7450980392156863, -- [2]
 			0.7450980392156863, -- [3]
 		},
-		["vividMana"] = {
-			0, -- [1]
-			0, -- [2]
-			1, -- [3]
-		},
-		["buttonSkin"] = 36,
-		["vividManaRange"] = {
-			0.6, -- [1]
-			0.2, -- [2]
-			1, -- [3]
-		},
-		["gaugeBorderColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["gaugeBorder"] = 3,
-		["showInnerGaugeShine"] = true,
-		["outerMarkDark"] = false,
-		["gaugeFill"] = 4,
-		["outerGaugeColor"] = {
-			0, -- [1]
-			1, -- [2]
-			0, -- [3]
-		},
-		["customSphereColor"] = true,
-		["vividRange"] = {
-			1, -- [1]
-			0, -- [2]
-			0, -- [3]
-		},
-		["menuButtonColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-		["innerGaugeColor"] = {
-			0, -- [1]
-			0.3, -- [2]
-			1, -- [3]
-		},
-		["innerMarkDark"] = false,
-		["gaugeColor"] = {
-			[45] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				1, -- [7]
-			},
-			[12] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[14] = {
-				0, -- [1]
-				0.3, -- [2]
-				1, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.3, -- [6]
-				1, -- [7]
-			},
-			[15] = {
-				1, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[16] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[40] = {
-				0.7, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.7, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[32] = {
-				0.6, -- [1]
-				0, -- [2]
-				0.6, -- [3]
-				false, -- [4]
-				0.6, -- [5]
-				0, -- [6]
-				0.6, -- [7]
-			},
-			[20] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[41] = {
-				0, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.7, -- [6]
-				0.7, -- [7]
-			},
-			[21] = {
-				0.5, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.5, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[10] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-		},
-		["tooltipBackground"] = {
-			0.05, -- [1]
-			0.05, -- [2]
-			0.1, -- [3]
-			0.75, -- [4]
-		},
-		["outerMarkSize"] = 10,
 		["sphereSkin"] = 12,
-		["showButtonShine"] = false,
-	},
+	}),
 	["buttonData"] = {
 		{
 			["isMenu"] = true,
@@ -2340,206 +1653,20 @@ Lunar.Template.template[4] = {
 		},
 		["mainButtonCount"] = 10,
 	},
-}
+};
 
 Lunar.Template.template[5] = {
 	["listData"] = Lunar.Locale["TEMPLATE_WARRIOR"] .. ":::WARRIOR:::10101:::",
-	["sphere"] = {
-		["submenuCompression"] = true,
-		["showSphereEditGlow"] = true,
-		["buttonOffset"] = 0,
-		["buttonSpacing"] = 100,
-		["showOuter"] = true,
-		["showInner"] = true,
-		["sphereTextType"] = 0,
-		["subMenuButtonDistance"] = 4,
-		["outerGaugeAnimate"] = true,
-		["sphereTextEnd"] = "%",
-		["sphereScale"] = 1,
-		["outerGaugeType"] = 10,
-		["showAssignedCounts"] = false,
-		["buttonDistance"] = 8,
-		["innerGaugeType"] = 11,
-		["innerGaugeAnimate"] = true,
-		["menuButtonDistance"] = 58,
-		["xOfs"] = 0,
-		["yOfs"] = 0,
-		["relativePoint"] = "CENTER",
-	},
-	["skin"] = {
-		["showSphereShine"] = true,
-		["innerMarkSize"] = 10,
-		["showOuterGaugeShine"] = true,
-		["tooltipBorder"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			1, -- [4]
-		},
-		["buttonColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["sphereColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["gaugeBorderColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["vividMana"] = {
-			0, -- [1]
-			0, -- [2]
-			1, -- [3]
-		},
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
 		["vividButtons"] = true,
-		["vividManaRange"] = {
-			0.6, -- [1]
-			0.2, -- [2]
-			1, -- [3]
-		},
-		["gaugeBorder"] = 3,
-		["gaugeFill"] = 4,
-		["showInnerGaugeShine"] = true,
-		["outerMarkDark"] = false,
-		["outerGaugeColor"] = {
-			0, -- [1]
-			1, -- [2]
-			0, -- [3]
-		},
-		["customSphereColor"] = true,
 		["innerGaugeColor"] = {
 			1, -- [1]
 			0, -- [2]
 			0, -- [3]
 		},
-		["vividRange"] = {
-			1, -- [1]
-			0, -- [2]
-			0, -- [3]
-		},
-		["showButtonShine"] = false,
-		["innerMarkDark"] = false,
-		["buttonSkin"] = 36,
-		["gaugeColor"] = {
-			[45] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				1, -- [7]
-			},
-			[12] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[40] = {
-				0.7, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.7, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[15] = {
-				1, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[16] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[14] = {
-				0, -- [1]
-				0.3, -- [2]
-				1, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.3, -- [6]
-				1, -- [7]
-			},
-			[41] = {
-				0, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.7, -- [6]
-				0.7, -- [7]
-			},
-			[20] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[21] = {
-				0.5, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.5, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[10] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[32] = {
-				0.6, -- [1]
-				0, -- [2]
-				0.6, -- [3]
-				false, -- [4]
-				0.6, -- [5]
-				0, -- [6]
-				0.6, -- [7]
-			},
-		},
-		["tooltipBackground"] = {
-			0.05, -- [1]
-			0.05, -- [2]
-			0.1, -- [3]
-			0.75, -- [4]
-		},
-		["outerMarkSize"] = 10,
 		["sphereSkin"] = 19,
-		["menuButtonColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-	},
+	}),
 	["buttonData"] = {
 		{
 			["isMenu"] = true,
@@ -2859,205 +1986,15 @@ Lunar.Template.template[5] = {
 			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
 		},
 	},
-}
+};
 
 Lunar.Template.template[6] = {
 	["listData"] = Lunar.Locale["TEMPLATE_HUNTER"] .. ":::HUNTER:::10101:::",
-	["sphere"] = {
-		["submenuCompression"] = true,
-		["showSphereEditGlow"] = true,
-		["buttonOffset"] = 0,
-		["buttonSpacing"] = 100,
-		["showOuter"] = true,
-		["showInner"] = true,
-		["sphereTextType"] = 0,
-		["subMenuButtonDistance"] = 4,
-		["outerGaugeAnimate"] = true,
-		["sphereTextEnd"] = "%",
-		["sphereScale"] = 1,
-		["menuButtonDistance"] = 58,
-		["outerGaugeType"] = 10,
-		["showAssignedCounts"] = false,
-		["innerGaugeType"] = 11,
-		["buttonDistance"] = 8,
-		["innerGaugeAnimate"] = true,
-		["xOfs"] = 0,
-		["yOfs"] = 0,
-		["relativePoint"] = "CENTER",
-	},
-	["skin"] = {
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
 		["showSphereShine"] = false,
-		["innerMarkSize"] = 10,
-		["showOuterGaugeShine"] = true,
-		["tooltipBorder"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			1, -- [4]
-		},
-		["buttonColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["sphereColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["vividMana"] = {
-			0, -- [1]
-			0, -- [2]
-			1, -- [3]
-		},
-		["vividButtons"] = false,
-		["vividManaRange"] = {
-			0.6, -- [1]
-			0.2, -- [2]
-			1, -- [3]
-		},
-		["customSphereColor"] = true,
-		["gaugeFill"] = 4,
-		["showInnerGaugeShine"] = true,
-		["outerMarkDark"] = false,
-		["outerGaugeColor"] = {
-			0, -- [1]
-			1, -- [2]
-			0, -- [3]
-		},
-		["buttonSkin"] = 36,
-		["vividRange"] = {
-			1, -- [1]
-			0, -- [2]
-			0, -- [3]
-		},
-		["gaugeBorderColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["menuButtonColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-		["innerMarkDark"] = false,
-		["innerGaugeColor"] = {
-			0, -- [1]
-			0.3, -- [2]
-			1, -- [3]
-		},
-		["gaugeColor"] = {
-			[45] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				1, -- [7]
-			},
-			[32] = {
-				0.6, -- [1]
-				0, -- [2]
-				0.6, -- [3]
-				false, -- [4]
-				0.6, -- [5]
-				0, -- [6]
-				0.6, -- [7]
-			},
-			[40] = {
-				0.7, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.7, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[15] = {
-				1, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[16] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[14] = {
-				0, -- [1]
-				0.3, -- [2]
-				1, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.3, -- [6]
-				1, -- [7]
-			},
-			[12] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[10] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[41] = {
-				0, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.7, -- [6]
-				0.7, -- [7]
-			},
-			[21] = {
-				0.5, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.5, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[20] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-		},
-		["tooltipBackground"] = {
-			0.05, -- [1]
-			0.05, -- [2]
-			0.1, -- [3]
-			0.75, -- [4]
-		},
-		["outerMarkSize"] = 10,
 		["sphereSkin"] = 15,
-		["gaugeBorder"] = 3,
-	},
+	}),
 	["buttonData"] = {
 		{
 			["isMenu"] = true,
@@ -3587,205 +2524,15 @@ Lunar.Template.template[6] = {
 		},
 		["mainButtonCount"] = 10,
 	},
-}
+};
 
 Lunar.Template.template[7] = {
 	["listData"] = Lunar.Locale["TEMPLATE_PRIEST"] .. ":::PRIEST:::10101:::",
-	["sphere"] = {
-		["submenuCompression"] = true,
-		["showSphereEditGlow"] = true,
-		["buttonOffset"] = 0,
-		["buttonSpacing"] = 100,
-		["showOuter"] = true,
-		["showInner"] = true,
-		["sphereTextType"] = 0,
-		["subMenuButtonDistance"] = 4,
-		["outerGaugeAnimate"] = true,
-		["sphereTextEnd"] = "%",
-		["sphereScale"] = 1,
-		["menuButtonDistance"] = 58,
-		["outerGaugeType"] = 10,
-		["showAssignedCounts"] = false,
-		["innerGaugeType"] = 11,
-		["buttonDistance"] = 8,
-		["innerGaugeAnimate"] = true,
-		["xOfs"] = 0,
-		["yOfs"] = 0,
-		["relativePoint"] = "CENTER",
-	},
-	["skin"] = {
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
 		["showSphereShine"] = false,
-		["innerMarkSize"] = 10,
-		["showOuterGaugeShine"] = true,
-		["tooltipBorder"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			1, -- [4]
-		},
-		["buttonColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["sphereColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["vividMana"] = {
-			0, -- [1]
-			0, -- [2]
-			1, -- [3]
-		},
-		["vividButtons"] = false,
-		["vividManaRange"] = {
-			0.6, -- [1]
-			0.2, -- [2]
-			1, -- [3]
-		},
-		["customSphereColor"] = true,
-		["gaugeFill"] = 4,
-		["showInnerGaugeShine"] = true,
-		["outerMarkDark"] = false,
-		["outerGaugeColor"] = {
-			0, -- [1]
-			1, -- [2]
-			0, -- [3]
-		},
-		["buttonSkin"] = 36,
-		["vividRange"] = {
-			1, -- [1]
-			0, -- [2]
-			0, -- [3]
-		},
-		["gaugeBorderColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["menuButtonColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-		["innerMarkDark"] = false,
-		["innerGaugeColor"] = {
-			0, -- [1]
-			0.3, -- [2]
-			1, -- [3]
-		},
-		["gaugeColor"] = {
-			[45] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				1, -- [7]
-			},
-			[32] = {
-				0.6, -- [1]
-				0, -- [2]
-				0.6, -- [3]
-				false, -- [4]
-				0.6, -- [5]
-				0, -- [6]
-				0.6, -- [7]
-			},
-			[40] = {
-				0.7, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.7, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[15] = {
-				1, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[16] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[14] = {
-				0, -- [1]
-				0.3, -- [2]
-				1, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.3, -- [6]
-				1, -- [7]
-			},
-			[12] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[10] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[41] = {
-				0, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.7, -- [6]
-				0.7, -- [7]
-			},
-			[21] = {
-				0.5, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.5, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[20] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-		},
-		["tooltipBackground"] = {
-			0.05, -- [1]
-			0.05, -- [2]
-			0.1, -- [3]
-			0.75, -- [4]
-		},
-		["outerMarkSize"] = 10,
 		["sphereSkin"] = 13,
-		["gaugeBorder"] = 3,
-	},
+	}),
 	["buttonData"] = {
 		{
 			["buttonTypeData"] = "001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -4191,205 +2938,15 @@ Lunar.Template.template[7] = {
 		},
 		["mainButtonCount"] = 10,
 	},
-}
+};
 
 Lunar.Template.template[8] = {
 	["listData"] = Lunar.Locale["TEMPLATE_PALADIN"] .. ":::PALADIN:::10101:::",
-	["sphere"] = {
-		["submenuCompression"] = true,
-		["showSphereEditGlow"] = true,
-		["buttonOffset"] = 0,
-		["buttonSpacing"] = 100,
-		["showOuter"] = true,
-		["showInner"] = true,
-		["sphereTextType"] = 0,
-		["subMenuButtonDistance"] = 4,
-		["outerGaugeAnimate"] = true,
-		["sphereTextEnd"] = "%",
-		["sphereScale"] = 1,
-		["menuButtonDistance"] = 58,
-		["outerGaugeType"] = 10,
-		["showAssignedCounts"] = false,
-		["innerGaugeType"] = 11,
-		["buttonDistance"] = 8,
-		["innerGaugeAnimate"] = true,
-		["xOfs"] = 0,
-		["yOfs"] = 0,
-		["relativePoint"] = "CENTER",
-	},
-	["skin"] = {
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
 		["showSphereShine"] = false,
-		["innerMarkSize"] = 10,
-		["showOuterGaugeShine"] = true,
-		["tooltipBorder"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			1, -- [4]
-		},
-		["buttonColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["sphereColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["vividMana"] = {
-			0, -- [1]
-			0, -- [2]
-			1, -- [3]
-		},
-		["vividButtons"] = false,
-		["vividManaRange"] = {
-			0.6, -- [1]
-			0.2, -- [2]
-			1, -- [3]
-		},
-		["customSphereColor"] = true,
-		["gaugeFill"] = 4,
-		["showInnerGaugeShine"] = true,
-		["outerMarkDark"] = false,
-		["outerGaugeColor"] = {
-			0, -- [1]
-			1, -- [2]
-			0, -- [3]
-		},
-		["buttonSkin"] = 36,
-		["vividRange"] = {
-			1, -- [1]
-			0, -- [2]
-			0, -- [3]
-		},
-		["gaugeBorderColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["menuButtonColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-		["innerMarkDark"] = false,
-		["innerGaugeColor"] = {
-			0, -- [1]
-			0.3, -- [2]
-			1, -- [3]
-		},
-		["gaugeColor"] = {
-			[45] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				1, -- [7]
-			},
-			[32] = {
-				0.6, -- [1]
-				0, -- [2]
-				0.6, -- [3]
-				false, -- [4]
-				0.6, -- [5]
-				0, -- [6]
-				0.6, -- [7]
-			},
-			[40] = {
-				0.7, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.7, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[15] = {
-				1, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[16] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[14] = {
-				0, -- [1]
-				0.3, -- [2]
-				1, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.3, -- [6]
-				1, -- [7]
-			},
-			[12] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[10] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[41] = {
-				0, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.7, -- [6]
-				0.7, -- [7]
-			},
-			[21] = {
-				0.5, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.5, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[20] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-		},
-		["tooltipBackground"] = {
-			0.05, -- [1]
-			0.05, -- [2]
-			0.1, -- [3]
-			0.75, -- [4]
-		},
-		["outerMarkSize"] = 10,
 		["sphereSkin"] = 11,
-		["gaugeBorder"] = 3,
-	},
+	}),
 	["buttonData"] = {
 		{
 			["buttonTypeData"] = "130131000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -5058,205 +3615,15 @@ Lunar.Template.template[8] = {
 		},
 		["mainButtonCount"] = 10,
 	},
-}
+};
 
 Lunar.Template.template[9] = {
 	["listData"] = Lunar.Locale["TEMPLATE_SHAMAN"] .. ":::SHAMAN:::10101:::",
-	["sphere"] = {
-		["submenuCompression"] = true,
-		["showSphereEditGlow"] = true,
-		["buttonOffset"] = 0,
-		["buttonSpacing"] = 100,
-		["showOuter"] = true,
-		["showInner"] = true,
-		["sphereTextType"] = 0,
-		["subMenuButtonDistance"] = 4,
-		["outerGaugeAnimate"] = true,
-		["sphereTextEnd"] = "%",
-		["sphereScale"] = 1,
-		["menuButtonDistance"] = 58,
-		["outerGaugeType"] = 10,
-		["showAssignedCounts"] = false,
-		["innerGaugeType"] = 11,
-		["buttonDistance"] = 8,
-		["innerGaugeAnimate"] = true,
-		["xOfs"] = 0,
-		["yOfs"] = 0,
-		["relativePoint"] = "CENTER",
-	},
-	["skin"] = {
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
 		["showSphereShine"] = false,
-		["innerMarkSize"] = 10,
-		["showOuterGaugeShine"] = true,
-		["tooltipBorder"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			1, -- [4]
-		},
-		["buttonColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["sphereColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["vividMana"] = {
-			0, -- [1]
-			0, -- [2]
-			1, -- [3]
-		},
-		["vividButtons"] = false,
-		["vividManaRange"] = {
-			0.6, -- [1]
-			0.2, -- [2]
-			1, -- [3]
-		},
-		["customSphereColor"] = true,
-		["gaugeFill"] = 4,
-		["showInnerGaugeShine"] = true,
-		["outerMarkDark"] = false,
-		["outerGaugeColor"] = {
-			0, -- [1]
-			1, -- [2]
-			0, -- [3]
-		},
-		["buttonSkin"] = 36,
-		["vividRange"] = {
-			1, -- [1]
-			0, -- [2]
-			0, -- [3]
-		},
-		["gaugeBorderColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["menuButtonColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-		["innerMarkDark"] = false,
-		["innerGaugeColor"] = {
-			0, -- [1]
-			0.3, -- [2]
-			1, -- [3]
-		},
-		["gaugeColor"] = {
-			[45] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				1, -- [7]
-			},
-			[32] = {
-				0.6, -- [1]
-				0, -- [2]
-				0.6, -- [3]
-				false, -- [4]
-				0.6, -- [5]
-				0, -- [6]
-				0.6, -- [7]
-			},
-			[40] = {
-				0.7, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.7, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[15] = {
-				1, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[16] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[14] = {
-				0, -- [1]
-				0.3, -- [2]
-				1, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.3, -- [6]
-				1, -- [7]
-			},
-			[12] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[10] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[41] = {
-				0, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.7, -- [6]
-				0.7, -- [7]
-			},
-			[21] = {
-				0.5, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.5, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[20] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-		},
-		["tooltipBackground"] = {
-			0.05, -- [1]
-			0.05, -- [2]
-			0.1, -- [3]
-			0.75, -- [4]
-		},
-		["outerMarkSize"] = 10,
 		["sphereSkin"] = 14,
-		["gaugeBorder"] = 3,
-	},
+	}),
 	["buttonData"] = {
 		{
 			["buttonTypeData"] = "031041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
@@ -5954,205 +4321,15 @@ Lunar.Template.template[9] = {
 		},
 		["mainButtonCount"] = 10,
 	},
-}
+};
 
 Lunar.Template.template[10] = {
 	["listData"] = Lunar.Locale["TEMPLATE_DEATHKNIGHT"] .. ":::DEATHKNIGHT:::10101:::",
-	["sphere"] = {
-		["submenuCompression"] = true,
-		["showSphereEditGlow"] = true,
-		["buttonOffset"] = 0,
-		["buttonSpacing"] = 100,
-		["showOuter"] = true,
-		["showInner"] = true,
-		["sphereTextType"] = 0,
-		["subMenuButtonDistance"] = 4,
-		["outerGaugeAnimate"] = true,
-		["sphereTextEnd"] = "%",
-		["sphereScale"] = 1,
-		["menuButtonDistance"] = 58,
-		["outerGaugeType"] = 10,
-		["showAssignedCounts"] = false,
-		["innerGaugeType"] = 11,
-		["buttonDistance"] = 8,
-		["innerGaugeAnimate"] = true,
-		["xOfs"] = 0,
-		["yOfs"] = 0,
-		["relativePoint"] = "CENTER",
-	},
-	["skin"] = {
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
 		["showSphereShine"] = false,
-		["innerMarkSize"] = 10,
-		["showOuterGaugeShine"] = true,
-		["tooltipBorder"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			1, -- [4]
-		},
-		["buttonColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["sphereColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["vividMana"] = {
-			0, -- [1]
-			0, -- [2]
-			1, -- [3]
-		},
-		["vividButtons"] = false,
-		["vividManaRange"] = {
-			0.6, -- [1]
-			0.2, -- [2]
-			1, -- [3]
-		},
-		["customSphereColor"] = true,
-		["gaugeFill"] = 4,
-		["showInnerGaugeShine"] = true,
-		["outerMarkDark"] = false,
-		["outerGaugeColor"] = {
-			0, -- [1]
-			1, -- [2]
-			0, -- [3]
-		},
-		["buttonSkin"] = 36,
-		["vividRange"] = {
-			1, -- [1]
-			0, -- [2]
-			0, -- [3]
-		},
-		["gaugeBorderColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["menuButtonColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-		["innerMarkDark"] = false,
-		["innerGaugeColor"] = {
-			0, -- [1]
-			0.3, -- [2]
-			1, -- [3]
-		},
-		["gaugeColor"] = {
-			[45] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				1, -- [7]
-			},
-			[32] = {
-				0.6, -- [1]
-				0, -- [2]
-				0.6, -- [3]
-				false, -- [4]
-				0.6, -- [5]
-				0, -- [6]
-				0.6, -- [7]
-			},
-			[40] = {
-				0.7, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.7, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[15] = {
-				1, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[16] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[14] = {
-				0, -- [1]
-				0.3, -- [2]
-				1, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.3, -- [6]
-				1, -- [7]
-			},
-			[12] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[10] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[41] = {
-				0, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.7, -- [6]
-				0.7, -- [7]
-			},
-			[21] = {
-				0.5, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.5, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[20] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-		},
-		["tooltipBackground"] = {
-			0.05, -- [1]
-			0.05, -- [2]
-			0.1, -- [3]
-			0.75, -- [4]
-		},
-		["outerMarkSize"] = 10,
 		["sphereSkin"] = 20,
-		["gaugeBorder"] = 3,
-	},
+	}),
 	["buttonData"] = {
 		{
 			["buttonTypeData"] = "002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000",
@@ -6793,205 +4970,15 @@ Lunar.Template.template[10] = {
 		},
 		["mainButtonCount"] = 10,
 	},
-}
+};
 
 Lunar.Template.template[11] = {
 	["listData"] = Lunar.Locale["TEMPLATE_ROGUE"] .. ":::ROGUE:::10101:::",
-	["sphere"] = {
-		["submenuCompression"] = true,
-		["showSphereEditGlow"] = true,
-		["buttonOffset"] = 0,
-		["buttonSpacing"] = 100,
-		["showOuter"] = true,
-		["showInner"] = true,
-		["sphereTextType"] = 0,
-		["subMenuButtonDistance"] = 4,
-		["outerGaugeAnimate"] = true,
-		["sphereTextEnd"] = "%",
-		["sphereScale"] = 1,
-		["menuButtonDistance"] = 58,
-		["outerGaugeType"] = 10,
-		["showAssignedCounts"] = false,
-		["innerGaugeType"] = 11,
-		["buttonDistance"] = 8,
-		["innerGaugeAnimate"] = true,
-		["xOfs"] = 0,
-		["yOfs"] = 0,
-		["relativePoint"] = "CENTER",
-	},
-	["skin"] = {
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
 		["showSphereShine"] = false,
-		["innerMarkSize"] = 10,
-		["showOuterGaugeShine"] = true,
-		["tooltipBorder"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-			1, -- [4]
-		},
-		["buttonColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["sphereColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["vividMana"] = {
-			0, -- [1]
-			0, -- [2]
-			1, -- [3]
-		},
-		["vividButtons"] = false,
-		["vividManaRange"] = {
-			0.6, -- [1]
-			0.2, -- [2]
-			1, -- [3]
-		},
-		["customSphereColor"] = true,
-		["gaugeFill"] = 4,
-		["showInnerGaugeShine"] = true,
-		["outerMarkDark"] = false,
-		["outerGaugeColor"] = {
-			0, -- [1]
-			1, -- [2]
-			0, -- [3]
-		},
-		["buttonSkin"] = 36,
-		["vividRange"] = {
-			1, -- [1]
-			0, -- [2]
-			0, -- [3]
-		},
-		["gaugeBorderColor"] = {
-			1, -- [1]
-			1, -- [2]
-			1, -- [3]
-		},
-		["menuButtonColor"] = {
-			0.3, -- [1]
-			0.6, -- [2]
-			1, -- [3]
-		},
-		["innerMarkDark"] = false,
-		["innerGaugeColor"] = {
-			0, -- [1]
-			0.3, -- [2]
-			1, -- [3]
-		},
-		["gaugeColor"] = {
-			[45] = {
-				1, -- [1]
-				1, -- [2]
-				1, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				1, -- [7]
-			},
-			[32] = {
-				0.6, -- [1]
-				0, -- [2]
-				0.6, -- [3]
-				false, -- [4]
-				0.6, -- [5]
-				0, -- [6]
-				0.6, -- [7]
-			},
-			[40] = {
-				0.7, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.7, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[15] = {
-				1, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[16] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[14] = {
-				0, -- [1]
-				0.3, -- [2]
-				1, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.3, -- [6]
-				1, -- [7]
-			},
-			[12] = {
-				1, -- [1]
-				0, -- [2]
-				0, -- [3]
-				false, -- [4]
-				1, -- [5]
-				0, -- [6]
-				0, -- [7]
-			},
-			[10] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-			[41] = {
-				0, -- [1]
-				0.7, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0, -- [5]
-				0.7, -- [6]
-				0.7, -- [7]
-			},
-			[21] = {
-				0.5, -- [1]
-				0, -- [2]
-				0.7, -- [3]
-				false, -- [4]
-				0.5, -- [5]
-				0, -- [6]
-				0.7, -- [7]
-			},
-			[20] = {
-				0, -- [1]
-				1, -- [2]
-				0, -- [3]
-				false, -- [4]
-				0, -- [5]
-				1, -- [6]
-				0, -- [7]
-			},
-		},
-		["tooltipBackground"] = {
-			0.05, -- [1]
-			0.05, -- [2]
-			0.1, -- [3]
-			0.75, -- [4]
-		},
-		["outerMarkSize"] = 10,
 		["sphereSkin"] = 17,
-		["gaugeBorder"] = 3,
-	},
+	}),
 	["buttonData"] = {
 		{
 			["buttonTypeData"] = "002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000002000000",
@@ -7632,7 +5619,148 @@ Lunar.Template.template[11] = {
 		},
 		["mainButtonCount"] = 10,
 	},
-}
+};
+
+Lunar.Template.template[12] =
+{
+	["listData"] = Lunar.Locale["TEMPLATE_MONK"] .. ":::MONK:::10101:::",
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
+		["showSphereShine"] = false,
+		["sphereSkin"] = 23,
+	}),
+	["buttonData"] = {
+		nil, -- [1]
+		nil, -- [2]
+		nil, -- [3]
+		{
+			["buttonTypeData"] = "021011000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionData"] = "||001||iHoney Bread||002||iRefreshing Spring Water||003|| ||00X|| ",
+			["showCount"] = true,
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_Food_11||002||Interface\\Icons\\INV_Drink_07||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [4]
+		{
+			["buttonTypeData"] = "031041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Potion_131||002|| ||003|| ||00X|| ",
+			["actionData"] = "||001||i ||002||i ||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [5]
+		{
+			["buttonTypeData"] = "080001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionData"] = "||001||i ||002||iitem:6948||003|| ||00X|| ",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_Foot_Centaur||002||Interface\\Icons\\INV_Misc_Rune_01||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [6]
+		{
+			["buttonTypeData"] = "131000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionData"] = "||001||t/use 14||002|| ||003|| ||00X|| ",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_QuestionMark||002|| ||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [7]
+		{
+			["buttonTypeData"] = "130000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_QuestionMark||002|| ||003|| ||00X|| ",
+			["actionData"] = "||001||t/use 13||002|| ||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [8]
+		["mainButtonCount"] = 10,
+	},
+};
+
+Lunar.Template.template[13] =
+{
+	["listData"] = Lunar.Locale["TEMPLATE_DEMONHUNTER"] .. ":::DEMONHUNTER:::10101:::",
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
+		["showSphereShine"] = false,
+		["sphereSkin"] = 24,
+	}),
+	["buttonData"] =  {
+		nil, -- [1]
+		nil, -- [2]
+		nil, -- [3]
+		{
+			["buttonTypeData"] = "021011000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionData"] = "||001||iHoney Bread||002||iRefreshing Spring Water||003|| ||00X|| ",
+			["showCount"] = true,
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_Food_11||002||Interface\\Icons\\INV_Drink_07||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [4]
+		{
+			["buttonTypeData"] = "031041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Potion_131||002|| ||003|| ||00X|| ",
+			["actionData"] = "||001||i ||002||i ||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [5]
+		{
+			["buttonTypeData"] = "080001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionData"] = "||001||i ||002||iitem:6948||003|| ||00X|| ",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_Foot_Centaur||002||Interface\\Icons\\INV_Misc_Rune_01||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [6]
+		{
+			["buttonTypeData"] = "131000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionData"] = "||001||t/use 14||002|| ||003|| ||00X|| ",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_QuestionMark||002|| ||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [7]
+		{
+			["buttonTypeData"] = "130000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_QuestionMark||002|| ||003|| ||00X|| ",
+			["actionData"] = "||001||t/use 13||002|| ||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [8]
+		["mainButtonCount"] = 10,
+	},
+};
+
+Lunar.Template.template[14] =
+{
+	["listData"] = Lunar.Locale["TEMPLATE_EVOKER"] .. ":::EVOKER:::10101:::",
+	["sphere"] = defaultSphereTemplateSettings,
+	["skin"] = mergeSettings({}, defaultSkinTemplateSettings, {
+		["showSphereShine"] = false,
+		["sphereSkin"] = 25,
+	}),
+	["buttonData"] =  {
+		nil, -- [1]
+		nil, -- [2]
+		nil, -- [3]
+		{
+			["buttonTypeData"] = "021011000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionData"] = "||001||iHoney Bread||002||iRefreshing Spring Water||003|| ||00X|| ",
+			["showCount"] = true,
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_Food_11||002||Interface\\Icons\\INV_Drink_07||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [4]
+		{
+			["buttonTypeData"] = "031041000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Potion_131||002|| ||003|| ||00X|| ",
+			["actionData"] = "||001||i ||002||i ||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [5]
+		{
+			["buttonTypeData"] = "080001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionData"] = "||001||i ||002||iitem:6948||003|| ||00X|| ",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_Foot_Centaur||002||Interface\\Icons\\INV_Misc_Rune_01||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [6]
+		{
+			["buttonTypeData"] = "131000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionData"] = "||001||t/use 14||002|| ||003|| ||00X|| ",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_QuestionMark||002|| ||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [7]
+		{
+			["buttonTypeData"] = "130000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+			["actionTexture"] = "||001||Interface\\Icons\\INV_Misc_QuestionMark||002|| ||003|| ||00X|| ",
+			["actionData"] = "||001||t/use 13||002|| ||003|| ||00X|| ",
+			["buttonSettings"] = "1110000111000011100001110000111000011100001110000111000011100001110000111000011100001110000",
+		}, -- [8]
+		["mainButtonCount"] = 10,
+	},
+};
 
 function Lunar.Template:LoadTemplateData()
 
