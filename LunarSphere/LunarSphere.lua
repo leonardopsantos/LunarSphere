@@ -270,7 +270,6 @@ function LunarSphere_OnEvent(self, event)
 		hooksecurefunc("GameTooltip_OnHide", Lunar.Button.TooltipOnHide);
 		hooksecurefunc("GameTooltip_SetDefaultAnchor", Lunar.Button.SetDefaultAnchor);
 
-		hooksecurefunc("ToggleDropDownMenu", Lunar.Object.SkinDropDown);
 --		hooksecurefunc("CompanionButton_OnDrag", Lunar.Button.CompanionButton_OnDrag);
 --hooksecurefunc(
 --ToggleDropDownMenu

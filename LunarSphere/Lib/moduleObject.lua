@@ -919,40 +919,6 @@ function Lunar.Object:SubmenuFunction(listName, updateFunction)
 	HideDropDownMenu(1);
 end
 
-function Lunar.Object:SkinDropDown(level, value, dropDownFrame, anchorName, xOffset, yOffset, menuList)
-
-	local backdrop = _G["DropDownList" .. UIDROPDOWNMENU_MENU_LEVEL .. "Backdrop"];
-	-- This is an awful hack, but for the life of me I can't find where this
-	-- f*cking global object is being created. This is why we *DO NOT* use
-	-- global variables!
-	OnLoadCheckMixin(backdrop)
-	if not Lunar.Object.dropdownSkin then
-		Lunar.Object.dropdownSkinLS = _G["LSSetttingsGaugeOptionsContainer"]:GetBackdrop()
-		Lunar.Object.dropdownSkinColor = { backdrop:GetBackdropColor() };
-		Lunar.Object.dropdownSkin = backdrop:GetBackdrop()
-	end
-
-	local menuObj;
-	if (type(UIDROPDOWNMENU_OPEN_MENU) == "table") then
-		menuObj = UIDROPDOWNMENU_OPEN_MENU
-	elseif (type(UIDROPDOWNMENU_OPEN_MENU) == "string") then
-		menuObj = _G[UIDROPDOWNMENU_OPEN_MENU];
-	else
-		menuObj = nil;
-	end
-
-	if (menuObj) then
-		if (menuObj.lunarMenu) then
-			backdrop:SetBackdrop(Lunar.Object.dropdownSkinLS);
-			backdrop:SetBackdropColor(0.2,0.2,0.2,1.0);
-			backdrop:SetFrameLevel(0);
-		else
-			backdrop:SetBackdrop(Lunar.Object.dropdownSkin);
-			backdrop:SetBackdropColor(unpack(Lunar.Object.dropdownSkinColor));
-		end
-	end
-end
-
 function Lunar.Object.SetSetting(self)
 	LunarSphereSettings[string.match(self:GetName(), "LSSettings(.*)")] = (self:GetChecked() == true)
 end
