@@ -2405,19 +2405,25 @@ function Lunar.Items:GetHealthStoneStrength(itemId)
 		19009, -- healthstone (Classic & BCC)
 		22103, -- master healthstone (only in BCC)
 		22104, -- master healthstone (only in BCC)
-		22105  -- master healthstone (only in BCC)
+		22105, -- master healthstone (only in BCC)
+		36892, -- fel-healthstone : 0 points in Improved Healthstone (only in WotLK)
+		36893, -- fel-healthstone : 1 points in Improved Healthstone (only in WotLK)
+		36894 -- fel-healthstone : 2 points in Improved Healthstone (only in WotLK)
 	}
 
 	local str = {
-		100,   -- minor healthstone (all clients)
+		100,  -- minor healthstone (all clients)
 		110,  -- minor healthstone (Classic & BCC)
 		120,  -- minor healthstone (Classic & BCC)
-		500,   -- healthstone (Classic & BCC)
+		500,  -- healthstone (Classic & BCC)
 		550,  -- healthstone (Classic & BCC)
 		600,  -- healthstone (Classic & BCC)
 		2080, -- master healthstone (only in BCC)
 		2288, -- master healthstone (only in BCC)
-		2496  -- master healthstone (only in BCC)
+		2496, -- master healthstone (only in BCC)
+		4280, -- fel-healthstone : 0 points in Improved Healthstone (only in WotLK)
+		4708, -- fel-healthstone : 1 points in Improved Healthstone (only in WotLK)
+		5136  -- fel-healthstone : 2 points in Improved Healthstone (only in WotLK)
 	}
 
 	for index, id in ipairs(items) do
