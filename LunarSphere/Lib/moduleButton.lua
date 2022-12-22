@@ -1343,6 +1343,8 @@ function Lunar.Button:Create(name, parent, includeHeader)
 
 	button.texture = icon;
 
+	button.SlotBackground:SetAlpha(0);
+
 	button.readyShine = _G[name .. "Cooldown"];
 	button.readyShine:ClearAllPoints();
 	button.readyShine:SetPoint("Center", 0, -1);
@@ -1351,13 +1353,14 @@ function Lunar.Button:Create(name, parent, includeHeader)
 	button.readyShine:SetAlpha(1);
 
 	button.cooldown = button:CreateTexture("BACKGROUND");
-	button.cooldown:SetTexture(LUNAR_ART_PATH .. "background");
+	-- SetPortraitToTexture is not working with custom textures so we use a generic icon instead.
+	-- The icon doesn't actually matter since we change use SetVertexColor to make it appear black.
+	button.cooldown:SetTexture("Interface/Icons/INV_Misc_QuestionMark");
 	button.cooldown:SetWidth(25);
 	button.cooldown:SetHeight(25);
 	button.cooldown:SetAlpha(1);
 	button.cooldown:SetVertexColor(0,0,0);
-
---	drawEdge
+	
 	button.cooldown:SetPoint("CENTER", button, "CENTER");
 	SetPortraitToTexture(button.cooldown, button.cooldown:GetTexture());
 	button.cooldown:Hide();
@@ -1406,6 +1409,7 @@ function Lunar.Button:Create(name, parent, includeHeader)
 	border:SetPoint("CENTER", 0, -1);
 	border:SetWidth(32);
 	border:SetHeight(32);
+	border:SetBlendMode("ADD");
 
 	-- Resize our pushed graphic and center it in the proper location
 	pushed:ClearAllPoints();
