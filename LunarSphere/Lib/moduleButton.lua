@@ -1266,7 +1266,6 @@ end
 --  * Returns: the new button
 --  *********************
 function Lunar.Button:Create(name, parent, includeHeader)
-
 	-- If no parent was specified, we attach to the main UI. Otherwise,
 	-- we just use the specified parent
 	if (parent == nil) then
@@ -1298,7 +1297,14 @@ function Lunar.Button:Create(name, parent, includeHeader)
 	end
 
 	-- Make our new button accept mouse clicks
-	button:RegisterForClicks("LeftButtonUp", "MiddleButtonUp", "RightButtonUp", "Button4Up", "Button5Up");
+	local onKeyDown = GetCVar("ActionButtonUseKeyDown") == "1";
+
+	if (onKeyDown) then
+		button:RegisterForClicks("LeftButtonDown", "MiddleButtonDown", "RightButtonDown", "Button4Down", "Button5Down");
+	else
+		button:RegisterForClicks("LeftButtonUp", "MiddleButtonUp", "RightButtonUp", "Button4Up", "Button5Up");
+	end
+
 	button:RegisterForDrag("LeftButton", "MiddleButton", "RightButton", "Button4", "Button5")
 	button:SetClampedToScreen(true);
 	button:SetMovable(true);
@@ -1415,9 +1421,9 @@ function Lunar.Button:Create(name, parent, includeHeader)
 
 	-- Set our button's default icon, make it round, make it transparent a little bit, resize
 	-- and then center it where it needs to go
-	icon:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background");
-	SetPortraitToTexture(icon, icon:GetTexture());
-	icon:SetAlpha(0.5);
+	-- icon:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Background");
+	-- SetPortraitToTexture(icon, icon:GetTexture());
+	-- icon:SetAlpha(0.5);
 	icon:ClearAllPoints();
 	icon:SetWidth(25);
 	icon:SetHeight(25);

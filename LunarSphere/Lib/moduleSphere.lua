@@ -806,7 +806,15 @@ function Lunar.Sphere:Initialize()
 
 	sphereData.main:SetMovable(true);
 	sphereData.main:RegisterForDrag("LeftButton");
-	sphereData.main:RegisterForClicks("LeftButtonUp", "MiddleButtonUp", "RightButtonUp");
+
+	local onKeyDown = GetCVar("ActionButtonUseKeyDown") == "1";
+
+	if (onKeyDown) then
+		sphereData.main:RegisterForClicks("LeftButtonDown", "MiddleButtonDown", "RightButtonDown");
+	else
+		sphereData.main:RegisterForClicks("LeftButtonUp", "MiddleButtonUp", "RightButtonUp");
+	end
+
 	sphereData.main:SetScript("OnDragStart", 
 	function (self) 
 		if (LunarSphereSettings.sphereMoveable) then
