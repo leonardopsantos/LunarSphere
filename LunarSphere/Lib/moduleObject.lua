@@ -306,6 +306,8 @@ function Lunar.Object:CreateImage(xLoc, yLoc, objectWidth, objectHeight, objectN
 	tempObject = CreateFrame("Button", "LSSettings" .. objectName, objectParent, "ActionButtonTemplate");
 
 	local background = tempObject:GetNormalTexture();
+	local highlight = tempObject:GetHighlightTexture();
+	local pushed = tempObject:GetPushedTexture();
 
 	tempObject:SetPoint("Topleft", xLoc, yLoc);
 	tempObject:SetSize(objectWidth, objectHeight);
@@ -313,6 +315,14 @@ function Lunar.Object:CreateImage(xLoc, yLoc, objectWidth, objectHeight, objectN
 	tempObject:SetNormalTexture(imagePath);
 
 	background:SetSize(tempObject:GetSize());
+
+	pushed:ClearAllPoints();
+	pushed:SetSize(objectWidth + 6, objectHeight + 6);
+	pushed:SetPoint("CENTER", 2, -2);
+
+	highlight:ClearAllPoints();
+	highlight:SetSize(objectWidth + 3, objectHeight + 3);
+	highlight:SetPoint("CENTER", 0, 0);
 
 	return tempObject;
 end
