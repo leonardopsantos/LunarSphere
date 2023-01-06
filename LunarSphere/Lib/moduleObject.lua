@@ -303,31 +303,64 @@ function Lunar.Object:CreateImage(xLoc, yLoc, objectWidth, objectHeight, objectN
 	-- Parse the image page for the "$addon" string and replace it with the addon's path
 	imagePath = string.gsub(imagePath, "$addon", LUNAR_ADDON_PATH);
 
-	tempObject = CreateFrame("Button", "LSSettings" .. objectName, objectParent, "ActionButtonTemplate")
+	tempObject = CreateFrame("Button", "LSSettings" .. objectName, objectParent, "ActionButtonTemplate");
+
+	local background = tempObject:GetNormalTexture();
+
 	tempObject:SetPoint("Topleft", xLoc, yLoc);
-	tempObject:SetWidth(objectWidth);
-	tempObject:SetHeight(objectHeight);
+	tempObject:SetSize(objectWidth, objectHeight);
 	tempObject:EnableMouse(false);
-	tempObject:SetNormalTexture(imagePath)
-	local t = tempObject:GetNormalTexture()
-	t:SetSize(tempObject:GetSize())
+	tempObject:SetNormalTexture(imagePath);
+
+	background:SetSize(tempObject:GetSize());
+
 	return tempObject;
 end
 
 function Lunar.Object:CreateIconPlaceholder(xLoc, yLoc, objectName, objectParent, acceptAssignment)
-
 	-- Set our local
 	local tempObject;
 
-	tempObject = CreateFrame("Button", "LSSettings" .. objectName, objectParent, "ActionButtonTemplate")
+	tempObject = CreateFrame("Button", "LSSettings" .. objectName, objectParent, "ActionButtonTemplate");
 
+	local background = tempObject:GetNormalTexture();
+	local highlight = tempObject:GetHighlightTexture();
+	local pushed = tempObject:GetPushedTexture();
+	local icon = tempObject.icon;
+	local border = tempObject.Border;
+	local cooldown = tempObject.cooldown;
+
+	tempObject:ClearAllPoints();
 	tempObject:SetPoint("Topleft", xLoc, yLoc);
-	tempObject:SetWidth(32);
-	tempObject:SetHeight(32);
-	tempObject:GetNormalTexture():ClearAllPoints();
-	tempObject:GetNormalTexture():SetPoint("Center");
-	tempObject:GetNormalTexture():SetWidth(54);
-	tempObject:GetNormalTexture():SetHeight(54);
+	tempObject:SetSize(32, 32);
+
+	local width, height = tempObject:GetSize();
+
+	background:ClearAllPoints();
+	background:SetSize(width + 6, height + 6);
+	background:SetPoint("CENTER", 2, -2);
+
+	pushed:ClearAllPoints();
+	pushed:SetSize(width + 6, height + 6);
+	pushed:SetPoint("CENTER", 2, -2);
+
+	highlight:ClearAllPoints();
+	highlight:SetSize(width + 3, height + 3);
+	highlight:SetPoint("CENTER", 0, 0);
+
+	icon:ClearAllPoints();
+	icon:SetSize(tempObject:GetSize());
+	icon:SetPoint("CENTER", 0, 0);
+
+	cooldown:ClearAllPoints();
+	cooldown:SetSize(tempObject:GetSize());
+	cooldown:SetPoint("CENTER", 0, 0);
+
+	border:ClearAllPoints();
+	border:SetPoint("CENTER", 0, 0);
+	border:SetSize(tempObject:GetSize());
+	border:SetBlendMode("ADD");
+
 	tempObject:EnableMouse(false);
 
 	if (acceptAssignment) then

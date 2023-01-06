@@ -366,10 +366,6 @@ function Lunar.Settings:Initialize()
 
 		-- Action assignment box
 		tempObject = Lunar.Object:CreateIconPlaceholder(12, sectionY - 74, "sphereActionAssign", tempFrameContainer, true);
-		tempObject:SetWidth(24);
-		tempObject:SetHeight(24);
-		tempObject:GetNormalTexture():SetWidth(40);
-		tempObject:GetNormalTexture():SetHeight(40);
 		tempObject:SetScript("OnClick", Lunar.Object.SphereActionIconPlaceHolder_OnClick)
 		tempObject:SetScript("OnReceiveDrag", Lunar.Object.SphereActionIconPlaceHolder_OnClick);
 		if (LunarSphereSettings.sphereAction) then
@@ -1483,10 +1479,6 @@ function Lunar.Settings:Initialize()
 
 				-- Action assignment box
 				tempObject = Lunar.Object:CreateIconPlaceholder(139, sectionY - 1, "assignmentAction", tempFrameContainer, true);
-				tempObject:SetWidth(24);
-				tempObject:SetHeight(24);
-				tempObject:GetNormalTexture():SetWidth(40);
-				tempObject:GetNormalTexture():SetHeight(40);
 				tempObject:SetScript("OnClick", Lunar.Object.SpeechIconPlaceHolder_OnClick)
 				tempObject:SetScript("OnReceiveDrag", Lunar.Object.SpeechIconPlaceHolder_OnClick);
 
@@ -4281,48 +4273,34 @@ function Lunar.Settings.StanceIcon_Click(self, button)
 		id = button:GetID();
 	end
 
---[[	local stanceIconName = string.match(self:GetName(), "LSSettings(.*)Icon");
-	local currentStance = _G["LSSettings" .. stanceIconName .. "Icon0"].currentStance or 0;
-
-	_G["LSSettings" .. stanceIconName .. "Icon" .. currentStance]:UnlockHighlight();
-	_G["LSSettings" .. stanceIconName .. "Icon" .. currentStance]:GetHighlightTexture():SetVertexColor(1,1,1);
-	_G["LSSettings" .. stanceIconName .. "Icon0"].currentStance = self:GetID();
-	_G["LSSettings" .. stanceIconName .. "Icon" .. self:GetID()]:LockHighlight();
-	_G["LSSettings" .. stanceIconName .. "Icon" .. self:GetID()]:GetHighlightTexture():SetVertexColor(0,1,0);
---]]
 	_G["LSSettingsStanceIcon" .. Lunar.Button.currentStance]:UnlockHighlight();
 	_G["LSSettingsStanceIcon" .. Lunar.Button.currentStance]:GetHighlightTexture():SetVertexColor(1,1,1);
 	Lunar.Button.currentStance = id;
 	_G["LSSettingsStanceIcon" .. Lunar.Button.currentStance]:LockHighlight();
 	_G["LSSettingsStanceIcon" .. Lunar.Button.currentStance]:GetHighlightTexture():SetVertexColor(0,1,0);
 
---	if (stanceIconName == "Stance") then
-		Lunar.Settings:ReadButtonSettings();
---	elseif (stanceIconName == "SphereStance") then
---		Lunar.Settings:ReadButtonSettings(true);
---	end
+	Lunar.Settings:ReadButtonSettings();
 end
 
 function Lunar.Settings:ReadButtonSettings(sphere)
 	
 	local clickType, buttonType, buttonTexture, currentStance, buttonID, useCached, objectName, keybind;
 
---	if (Lunar.Settings.buttonEdit > 0) then --not (sphere) then
-		for clickType = 0, 3 do 
-			if (clickType ~= 0) then
-				_G["LSSettingsshowIcon" .. clickType]:SetChecked(false);			
-			end
-			_G["LSSettingsshowCount" .. clickType]:SetChecked(false);
-			_G["LSSettingsshowCooldown" .. clickType]:SetChecked(false);
+	for clickType = 0, 3 do 
+		if (clickType ~= 0) then
+			_G["LSSettingsshowIcon" .. clickType]:SetChecked(false);			
 		end
+		_G["LSSettingsshowCount" .. clickType]:SetChecked(false);
+		_G["LSSettingsshowCooldown" .. clickType]:SetChecked(false);
+	end
 
-		_G["LSSettingsshowIcon" .. Lunar.Button:GetButtonSetting(Lunar.Settings.buttonEdit, Lunar.Button.currentStance, LUNAR_GET_SHOW_ICON, true)]:SetChecked(true);
-		_G["LSSettingsshowCount" .. Lunar.Button:GetButtonSetting(Lunar.Settings.buttonEdit, Lunar.Button.currentStance, LUNAR_GET_SHOW_COUNT, true)]:SetChecked(true);
-		_G["LSSettingsshowCooldown" .. Lunar.Button:GetButtonSetting(Lunar.Settings.buttonEdit, Lunar.Button.currentStance, LUNAR_GET_SHOW_COOLDOWN, true)]:SetChecked(true);
-		buttonID = Lunar.Settings.buttonEdit;
-		currentStance = Lunar.Button.currentStance;
-		useCached = true
-		objectName = "button"
+	_G["LSSettingsshowIcon" .. Lunar.Button:GetButtonSetting(Lunar.Settings.buttonEdit, Lunar.Button.currentStance, LUNAR_GET_SHOW_ICON, true)]:SetChecked(true);
+	_G["LSSettingsshowCount" .. Lunar.Button:GetButtonSetting(Lunar.Settings.buttonEdit, Lunar.Button.currentStance, LUNAR_GET_SHOW_COUNT, true)]:SetChecked(true);
+	_G["LSSettingsshowCooldown" .. Lunar.Button:GetButtonSetting(Lunar.Settings.buttonEdit, Lunar.Button.currentStance, LUNAR_GET_SHOW_COOLDOWN, true)]:SetChecked(true);
+	buttonID = Lunar.Settings.buttonEdit;
+	currentStance = Lunar.Button.currentStance;
+	useCached = true
+	objectName = "button"
 --	else
 --		buttonID = 0;
 --		currentStance = _G["LSSettingsSphereStanceIcon0"].currentStance or (0);
@@ -4519,8 +4497,38 @@ function Lunar.Settings.SetButtonMenuValue(self)
 	Lunar.Button:SetupMenuAngle(Lunar.Settings.buttonEdit);
 end
 
-function Lunar.Settings:StanceIconSetup(stanceIconName, stanceIconWidthBoundry, maxIconWidth, currentStance, useStances)
+function setStanceIconDimensions(iconObject, size)
+	local background = iconObject:GetNormalTexture();
+	local highlight = iconObject:GetHighlightTexture();
+	local pushed = iconObject:GetPushedTexture();
+	local icon = iconObject.icon;
+	local border = iconObject.Border;
 
+	iconObject:SetSize(size, size);
+
+	background:ClearAllPoints();
+	background:SetSize(size, size);
+	background:SetPoint("CENTER", 0, 0);
+
+	pushed:ClearAllPoints();
+	pushed:SetSize(size + 3, size + 3);
+	pushed:SetPoint("CENTER", 2, -2);
+
+	highlight:ClearAllPoints();
+	highlight:SetSize(size, size);
+	highlight:SetPoint("CENTER", 0, 0);
+
+	icon:ClearAllPoints();
+	icon:SetSize(size, size);
+	icon:SetPoint("CENTER", iconObject, 0, 0);
+
+	border:ClearAllPoints();
+	border:SetPoint("CENTER", 0, -1);
+	border:SetSize(size, size);
+	border:SetBlendMode("ADD");
+end
+
+function Lunar.Settings:StanceIconSetup(stanceIconName, stanceIconWidthBoundry, maxIconWidth, currentStance, useStances)
 	-- Setup our stance icons. The first stance will always be visible (normal
 	-- form) and the others will only be visible if the player has it unlocked and
 	-- the "Use Stances" option is turned on.
@@ -4544,20 +4552,21 @@ function Lunar.Settings:StanceIconSetup(stanceIconName, stanceIconWidthBoundry, 
 	end
 	for x = 0, maxX do 
 		iconObject = _G[stanceIconName .. "StanceIcon" .. x];
+
 		if (x == 0) and (Lunar.Button.defaultStance == 0) then
 			SetPortraitTexture(iconObject:GetNormalTexture(), "player");
-			iconObject:SetWidth(stanceWidth);
+			setStanceIconDimensions(iconObject, stanceWidth);
 		else
 			iconObject:SetNormalTexture("");
-			iconObject:SetWidth(1);
+			setStanceIconDimensions(iconObject, 1);
 		end
 		if (x > 0) then
-			iconObject:SetWidth(1);
+			setStanceIconDimensions(iconObject, 1);
 			iconObject:Hide();
 			if (x <= maxX) then
 				if (x == 1) and (Lunar.Button.defaultStance == 1) and not (useStances == true)  then
 					SetPortraitTexture(iconObject:GetNormalTexture(), "player");
-					iconObject:SetWidth(stanceWidth);
+					setStanceIconDimensions(iconObject, stanceWidth);
 					iconObject:Show();
 				else
 					shiftIcon, shiftActive, shiftCastable, shiftID = GetShapeshiftFormInfo(x);
@@ -4579,9 +4588,11 @@ function Lunar.Settings:StanceIconSetup(stanceIconName, stanceIconWidthBoundry, 
 						if (shiftActive) then
 							shiftIcon = GetSpellTexture(shiftID);
 						end
+
 						iconObject:SetNormalTexture(shiftIcon);
 						iconObject:GetNormalTexture():SetTexCoord(0.1,0.9,0.1,0.9);
-						iconObject:SetWidth(stanceWidth);
+						setStanceIconDimensions(iconObject, stanceWidth);
+
 						if (useStances) then
 							iconObject:Show();
 						end
