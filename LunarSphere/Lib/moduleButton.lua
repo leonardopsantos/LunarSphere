@@ -5865,22 +5865,21 @@ function Lunar.Button.UpdateCooldown(self, filter)
 		-- that we're looking at
 		enable = 1;
 		if (actionType == "spell") then
---TWW
-			--if (C_Spell.GetSpellCooldown(actionName).startTime ~= 0) then
-			--startTime = C_Spell.GetSpellCooldown(actionName).startTime;
-			--duration = C_Spell.GetSpellCooldown(actionName).duration;
-			--enable = C_Spell.GetSpellCooldown(actionName).isEnabled;
-			
-			--if (enable) then
-			--	enable = 1;
-			--else
-			--	enable = 0;
-			--end
 
-			--end
+			if (C_Spell.GetSpellCooldown(actionName).startTime ~= 0) then
+					--TWW
+					--startTime = C_Spell.GetSpellCooldown(actionName).startTime;
+					--duration = C_Spell.GetSpellCooldown(actionName).duration;
+					--enable = C_Spell.GetSpellCooldown(actionName).isEnabled;
+				
+					--if (enable) then
+					--	enable = 1;
+					--else
+					--	enable = 0;
+					--end
 			
-			startTime, duration, enable = C_Spell.GetSpellCooldown(actionName);
-
+				startTime, duration, enable = C_Spell.GetSpellCooldown(actionName);
+			end
 			--startTime, duration, enable = C_SpellBook.GetSpellBookItemCooldown(actionName);
 		elseif (actionType == "item") then
 			startTime, duration = Lunar.API:GetItemCooldown(actionName);
