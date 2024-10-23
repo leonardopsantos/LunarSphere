@@ -177,12 +177,12 @@ function LunarSphere_OnEvent(self, event)
 		if (not Lunar.varLoaded) then
 			LunarSphere_VariablesLoaded();
 		end
-
+--TWW
 		-- Load up our exporter and get our export database ready
-		local isLoaded = IsAddOnLoaded("LunarSphereExporter");
+		local isLoaded = C_AddOns.IsAddOnLoaded("LunarSphereExporter");
 		if ( not isLoaded ) then
-			EnableAddOn("LunarSphereExporter") 
-			isLoaded = LoadAddOn("LunarSphereExporter");
+			C_AddOns.EnableAddOn("LunarSphereExporter") 
+			isLoaded = C_AddOns.LoadAddOn("LunarSphereExporter");
 		end
 		
 		if (Lunar.Settings.BuildTemplateList) then
