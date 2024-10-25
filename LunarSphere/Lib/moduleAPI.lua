@@ -100,7 +100,8 @@ Lunar.API.debugTooltipUpdater:SetScript("OnUpdate", function(self, arg1)
 
 	if (Lunar.API.debugTooltipTimer > 0.3) then
 		Lunar.API.debugTooltipTimer = 0;
-		Lunar.API.debugFrameOver = GetMouseFocus();
+--TWW		Lunar.API.debugFrameOver = GetMouseFoci();
+		--Lunar.API.debugFrameOver = GetMouseFocus();
 		Lunar.API.debugTooltip:Hide();
 		if (IsControlKeyDown() and IsAltKeyDown() and Lunar.API.debugFrameOver) then
 			Lunar.API.debugTooltip:ClearLines();
@@ -422,23 +423,24 @@ function Lunar.API:FilterCooldown(startTime, duration)
 
 		-- If there is at least 1 second, format the string to show the number
 		-- of hours, minutes, or seconds left (whichever is larger)
-		if (tempCooldown > 0) then
-			if (tempCooldown > 3600) then
-				tempCooldown = tostring(math.ceil(tempCooldown / 3600)) .. "h";
-			elseif (tempCooldown > 60) then
-				tempCooldown = tostring(math.ceil(tempCooldown / 60)) .. "m";
-			else
-				tempCooldown = tostring(math.ceil(tempCooldown));
-			end
-		else
+		--if (tempCooldown > 0) then
+		--	if (tempCooldown > 3600) then
+		--		tempCooldown = tostring(math.ceil(tempCooldown / 3600)) .. "h";
+		--	elseif (tempCooldown > 60) then
+		--		tempCooldown = tostring(math.ceil(tempCooldown / 60)) .. "m";
+		--	else
+		--		tempCooldown = tostring(math.ceil(tempCooldown));
+		--	end
+		--else
 			tempCooldown = "0";
-		end
+		--end
 
 	end
 	
 	-- Return our results
 	return tempCooldown;
 end
+
 
 -- /***********************************************
 --   GetSpellID
@@ -469,50 +471,115 @@ function Lunar.API:GetSpellID(spellName)
 			spellRankNumber = tonumber(spellRankNumber);
 		end
 		spellRank = string.match(spellName, "%((.*)%)");
+-- Changed for TWW 7/24 commented out
 --		if (spellRank) then
 --			spellRank = spellRank;
 --		end
 	end
 
 	-- Obtain the total number of spells the player knows
-	for index = 1, MAX_SKILLLINE_TABS do
-		_, _, _, spellsInTab = GetSpellTabInfo(index);
-		totalSpells = totalSpells + spellsInTab;
-	end
-
--- Fix for people who don't put the ";" at the end of the macro ... if I want to include it
---
---	if (string.sub(spellName, string.len(spellName)) == "\n") then
---		spellName = string.sub(spellName, 1, string.len(spellName) - 1);		
+-- Changed for TWW 7/24
+--	for index = 1, MAX_SKILLLINE_TABS do
+--	for index = 1, GetNumSpellTabs() do
+--		_, _, _, spellsInTab = GetSpellTabInfo(index);
+--		totalSpells = totalSpells + spellsInTab;
+--		totalSpells = totalSpells + select(4, GetSpellTabInfo(index));
 --	end
 
-	-- Search every spell in player's spellbook. If the name matches our
-	-- spell that we're searching for, save the ID...
-	for index = 1, totalSpells do
-		scanName, scanRank = GetSpellBookItemName(index, BOOKTYPE_SPELL);
-		if (string.lower(scanName) == filterName) then
+	for i = 1, C_SpellBook.GetNumSpellBookSkillLines() do
+		local skillLineInfo = C_SpellBook.GetSpellBookSkillLineInfo(i)
+		local offset, numSlots = skillLineInfo.itemIndexOffset, skillLineInfo.numSpellBookItems
+		for j = offset+1, offset+numSlots do
+			local scanName, spellRank = C_SpellBook.GetSpellBookItemName(j, Enum.SpellBookSpellBank.Player)
+			local spellID = select(2,C_SpellBook.GetSpellBookItemType(j, Enum.SpellBookSpellBank.Player))
+			--print(i, j, name, subName, spellID)
+			
+			if (string.lower(scanName) == filterName) then
+				spellID = index;
+			else
 
-			spellID = index;
-
-			-- Track the current rank of the spell. If we hit the rank
-			-- we're looking for, if it exists, exit now
-			rankFound = rankFound + 1;
-			if (spellRank) and (string.lower(scanRank) == spellRank) then
-				break;
+				if (spellID) then
+					break;
+				end
 			end
-		else
-			-- If our spell was found and we're still searching, we stop searching
-			-- when we find the first spell after the one we found
-			if (spellID) then
-				break;
-			end
+			return spellID, spellRank;
 		end
 	end
-
-	-- Return our results
-	return spellID, spellRank;
-	
 end
+
+---- /***********************************************
+----   GetSpellID
+----
+----   Something I wish Blizzard had in their API. Takes a spell name and spits out
+----   the spellbook ID of that spell
+----
+----   accepts:	name of spell
+----   returns:	spellbook ID of spell, rank of spell
+----  *********************/
+--function Lunar.API:GetSpellID(spellName)
+--	-- Create our locals
+--	local index, spellsInTab, spellID;
+--	local spellRankNumber, spellRank, filterName;
+--	local totalSpells, rankFound = 0, 0;
+
+--	local scanName, scanRank;
+
+--	-- Separate part of the spell name from the rank;
+--	spellName = string.lower(spellName or (""));
+--	filterName = string.match(spellName, "(.*)%(");
+--	filterName = filterName or spellName;
+
+--	-- If the spell name exists, grab the rank if it also exists and convert it to a number
+--	if (filterName) and (filterName) ~= "" then
+--		spellRankNumber = string.match(spellName, "(%d)");
+--		if (spellRankNumber) then
+--			spellRankNumber = tonumber(spellRankNumber);
+--		end
+--		spellRank = string.match(spellName, "%((.*)%)");
+----		if (spellRank) then
+----			spellRank = spellRank;
+----		end
+--	end
+
+--	-- Obtain the total number of spells the player knows
+--	for index = 1, MAX_SKILLLINE_TABS do
+--		_, _, _, spellsInTab = GetSpellTabInfo(index);
+--		totalSpells = totalSpells + spellsInTab;
+--	end
+
+---- Fix for people who don't put the ";" at the end of the macro ... if I want to include it
+----
+----	if (string.sub(spellName, string.len(spellName)) == "\n") then
+----		spellName = string.sub(spellName, 1, string.len(spellName) - 1);		
+----	end
+
+--	-- Search every spell in player's spellbook. If the name matches our
+--	-- spell that we're searching for, save the ID...
+--	for index = 1, totalSpells do
+--		scanName, scanRank = GetSpellBookItemName(index, BOOKTYPE_SPELL);
+--		if (string.lower(scanName) == filterName) then
+
+--			spellID = index;
+
+--			-- Track the current rank of the spell. If we hit the rank
+--			-- we're looking for, if it exists, exit now
+--			rankFound = rankFound + 1;
+--			if (spellRank) and (string.lower(scanRank) == spellRank) then
+--				break;
+--			end
+--		else
+--			-- If our spell was found and we're still searching, we stop searching
+--			-- when we find the first spell after the one we found
+--			if (spellID) then
+--				break;
+--			end
+--		end
+--	end
+
+--	-- Return our results
+--	return spellID, spellRank;
+	
+--end
 
 
 function Lunar.API:IsInAQ()
@@ -779,7 +846,8 @@ function Lunar.API:MultiAddToTooltip(actionType, actionName, index, firstLineApp
 	if (actionType == "spell") then
 --		spellID, spellRank = Lunar.API:GetSpellID(actionName);
 
-		spellID = GetSpellLink(actionName);
+--TWW added C_Spell
+		spellID = C_Spell.GetSpellLink(actionName);
 		--_, spellRank = GetSpellBookItemName(actionName);
 		if (not Lunar.API:IsVersionClassic() and spellID and (spellID:len() > 0)) then
 			Lunar.Items.tooltip:SetHyperlink(spellID);

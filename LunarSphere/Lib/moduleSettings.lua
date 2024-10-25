@@ -370,7 +370,7 @@ function Lunar.Settings:Initialize()
 		tempObject:SetScript("OnReceiveDrag", Lunar.Object.SphereActionIconPlaceHolder_OnClick);
 		if (LunarSphereSettings.sphereAction) then
 			if GetSpellInfo(LunarSphereSettings.sphereAction) then
-				objectTexture = GetSpellTexture(LunarSphereSettings.sphereAction);
+				objectTexture = C_Spell.GetSpellTexture(LunarSphereSettings.sphereAction);         -- beofre TWW        objectTexture = GetSpellTexture(LunarSphereSettings.sphereAction);
 			else
 				objectTexture = GetItemIcon(LunarSphereSettings.sphereAction);	
 			end
@@ -4586,7 +4586,8 @@ function Lunar.Settings:StanceIconSetup(stanceIconName, stanceIconWidthBoundry, 
 
 					if (shiftIcon) then
 						if (shiftActive) then
-							shiftIcon = GetSpellTexture(shiftID);
+							shiftIcon = C_Spell.GetSpellTexture(shiftID);        -- before TWW:    shiftIcon = C_Spell.GetSpellTexture(shiftID); 
+
 						end
 
 						iconObject:SetNormalTexture(shiftIcon);
@@ -4984,6 +4985,7 @@ if not (LunarSphereSettings.memoryDisableSpeech) then
 		UIDropDownMenu_SetSelectedValue(_G["LSSettingsassignmentSelection"], 0);
 		_G["LSSettingsassignmentSelectionText"]:SetText(Lunar.Object.dropdownData["Speech_Assign"][1][1]);
 		_G["LSSettingsassignmentActionIcon"]:SetTexture("");
+--tww		--_G["LSSettingsassignmentActionIcon"]:TextureBase:SetTexture("");
 	end
 
 	function Lunar.Settings:ActionList_PrepareAction()
@@ -5004,30 +5006,29 @@ if not (LunarSphereSettings.memoryDisableSpeech) then
 			Lunar.Button.CompanionType = nil;
 			Lunar.Button.CompanionID = nil;
 
-			if (cursorType == "spell") then
-				actionName, actionRank = GetSpellBookItemName(cursorID, cursorData);
-				objectTexture = GetSpellTexture(cursorID, cursorData);
+          if (cursorType == "spell") then
+                actionName, actionRank = C_SpellBook.GetSpellBookItemName(cursorID, cursorData);   --Before TWW:        actionName, actionRank = GetSpellBookItemName(cursorID, cursorData);
+                objectTexture = C_Spell.GetSpellTexture(cursorID);                            --Before TWW:        objectTexture = GetSpellTexture(cursorID, cursorData);    
 
-				-- Fix for Call Pet for hunters.
-				local _, spellID = GetSpellBookItemInfo(cursorID, cursorData);
-				local spellName = GetSpellInfo(spellID);
-				if (actionName ~= spellName) then
-					actionName = spellName;
-				end
+                -- Fix for Call Pet for hunters.
+                local spellID = C_SpellBook.GetSpellBookItemInfo(cursorID, cursorData);     --Before TWW:        local _, spellID = GetSpellBookItemInfo(cursorID, cursorData);
+                local spellName = C_Spell.GetSpellInfo(spellID).name;                       --Before TWW:        local spellName = GetSpellInfo(spellID);
+                if (actionName ~= spellName) then
+                    actionName = spellName;
+                end
 
-			elseif (cursorType == "item") then
-				actionName, _, _, _, _, _, _, _, _, objectTexture = GetItemInfo(cursorID);
-				actionName = GetItemSpell(actionName);
-			end
+            elseif (cursorType == "item") then
+                actionName, _, _, _, _, _, _, _, _, objectTexture = GetItemInfo(cursorID);
+                actionName = C_Item.GetItemSpell(actionName);                                 --Not exactly TWW but "This function was deprecated in patch 10.2.6 but it is unclear when it will be removed.":     actionName = GetItemSpell(actionName);    
+            end
 
-			if (actionName) then
-				if (actionRank) and (actionRank ~= "") and (not (string.find(actionRank, "%d"))) then --and not (actionRank == Lunar.Speech.summonText) then
-					button.actionData = actionName .. "(" .. actionRank .. "):::" .. objectTexture;
-				else
-					button.actionData = actionName .. ":::" .. objectTexture;
-				end
-			end
-
+            if (actionName) then
+                if (actionRank) and (actionRank ~= "") and (not (string.find(actionRank, "%d"))) then --and not (actionRank == Lunar.Speech.summonText) then
+                    button.actionData = actionName .. "(" .. actionRank .. "):::" .. objectTexture;
+                else
+                    button.actionData = actionName .. ":::" .. objectTexture;
+                end
+            end
 		end
 
 		ClearCursor();

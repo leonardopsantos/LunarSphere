@@ -172,7 +172,7 @@ function Lunar.Speech:Initialize()
 	Lunar.Speech:LoadLibrary();
 	Lunar.Speech:UpdateRegisteredSpells();
 
-	summonText = select(2, GetSpellInfo(23214));
+	summonText = select(2, C_Spell.GetSpellInfo(23214));
 	Lunar.Speech.summonText = summonText;
 
 end
@@ -190,7 +190,7 @@ function Lunar.Speech.OnEvent(self, event, unit, target, castGUID, spellID)
 	-- order to catch spells that have a cast time.
 
 	if (event == "UNIT_SPELLCAST_SENT") then
-		self.spellName, self.spellRank = GetSpellInfo(spellID);
+		self.spellName, self.spellRank = C_Spell.GetSpellInfo(spellID);
 		self.spellTarget = target;
 
 		-- If the target data doesn't exist, grab it from the player target if possible
