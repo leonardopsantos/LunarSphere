@@ -3517,6 +3517,7 @@ function Lunar.Button:Assign(self, clickType, stance)
 		if (cursorType == "spell") then
 
 --TWW			-- Get the name of the spell and its texture
+if ( Lunar.API:IsVersionCata() == false ) then
 			--_, spellID = GetSpellBookItemInfo(objectSpellID, objectData);
 			objectName = C_Spell.GetSpellName(objectID);
 			--objectName = C_SpellBook.GetSpellBookItemName(objectID, objectData);
@@ -3532,8 +3533,62 @@ function Lunar.Button:Assign(self, clickType, stance)
 			--spellName = C_Spell.GetSpellName(objectSpellID);
 
 			-- Fix for Call Pet for hunters.
-			--if (objectName ~= spellName) then
 			if (objectName ~= spellInfo.name) then
+				objectName = overrideSpellID;
+
+			-- Fix for normal sheep polymorph
+			elseif (objectSpellID == 118) then
+				objectName = overrideSpellID;
+			else
+--				if (objectName ~= nextSpellName) then
+--					if (string.find(spellRank, "%d")) then
+--						spellRank = "";
+--						objectName = Lunar.API:FixFaerie(objectName);
+--					end
+					if (spellRank == "()") then
+						spellRank = "";
+						objectName = Lunar.API:FixFaerie(objectName);
+					end
+--				end
+--TWW				-- We don't want spell ranks on the first spell tab data or the professions tab ... these are generic
+				--if (objectID <= (select(4, GetSpellTabInfo(1))) or overrideSpellID >= (select(3, GetSpellTabInfo(5)))) then
+				--	spellRank = "";
+				--end
+	--			objectName = objectName .. spellRank;
+			end
+else
+			--_, spellID = GetSpellBookItemInfo(objectSpellID, objectData);
+			objectName = GetSpellBookItemName(objectID, objectData);
+			objectTexture = GetSpellTexture(objectSpellID);
+			spellName = GetSpellInfo(objectSpellID);
+			
+			-- Fix for Call Pet for hunters.
+			if (objectName ~= spellName) then
+				objectName = overrideSpellID;
+			-- Fix for normal sheep polymorph
+			elseif (objectSpellID == 118) then
+				objectName = overrideSpellID;
+			else
+--				if (objectName ~= nextSpellName) then
+--					if (string.find(spellRank, "%d")) then
+--						spellRank = "";
+--						objectName = Lunar.API:FixFaerie(objectName);
+--					end
+					if (spellRank == "()") then
+						spellRank = "";
+						objectName = Lunar.API:FixFaerie(objectName);
+					end
+--				end
+--TWW				-- We don't want spell ranks on the first spell tab data or the professions tab ... these are generic
+				--if (objectID <= (select(4, GetSpellTabInfo(1))) or overrideSpellID >= (select(3, GetSpellTabInfo(5)))) then
+				--	spellRank = "";
+				--end
+	--			objectName = objectName .. spellRank;
+			end
+end
+
+			-- Fix for Call Pet for hunters.
+			if (objectName ~= spellName) then
 				objectName = overrideSpellID;
 			-- Fix for normal sheep polymorph
 			elseif (objectSpellID == 118) then
@@ -3562,7 +3617,12 @@ function Lunar.Button:Assign(self, clickType, stance)
 			cursorType = "spell";
 			objectName = objectID;
 			objectTexture = objectData;
+if ( Lunar.API:IsVersionCata() == false ) then
 			self:SetAttribute("*"..cursorType .. "2-S" .. stance .. clickType, C_Spell.GetSpellInfo(objectName));
+else
+	self:SetAttribute("*"..cursorType .. "2-S" .. stance .. clickType, GetSpellInfo(objectName));
+
+end
 
 		elseif (cursorType == "flyout") then
 
@@ -3944,7 +4004,20 @@ function Lunar.Button:AssignByType(button, clickType, buttonType, stance, lastUs
 			if (string.sub(objectName, 1, 2) == "**") then
 				objectName = string.sub(objectName, 3);
 --				objectName, _, objectTexture = string.match(objectName, "%*%*(.*)~(.*)~(.*)") --string.sub(objectName, 3);
+				if ( Lunar.API:IsVersionCata() == false ) then	
+if ( Lunar.API:IsVersionCata() == false ) then
 				objectTexture = select(3, C_Spell.GetSpellInfo(objectName));
+else
+				objectTexture = select(3, GetSpellInfo(objectName));
+end
+else
+if ( Lunar.API:IsVersionCata() == false ) then
+				objectTexture = select(3, C_Spell.GetSpellInfo(objectName));
+else
+				objectTexture = select(3, GetSpellInfo(objectName));
+end
+
+end
 				cursorType = "spell";
 			end
 
@@ -4022,9 +4095,15 @@ function Lunar.Button:AssignByType(button, clickType, buttonType, stance, lastUs
 --TWW
 					if (objectData) then
 						-- Get the name of the spell and its texture
+if ( Lunar.API:IsVersionCata() == false ) then
 						--objectName = GetSpellBookItemName(objectID, objectData);
 						objectName = C_Spell.GetSpellName(objectID);
 						objectTexture = C_Spell.GetSpellTexture(objectID, objectData);
+else
+						--objectName = GetSpellBookItemName(objectID, objectData);
+						objectName = GetSpellName(objectID);
+						objectTexture = GetSpellTexture(objectID, objectData);
+end
 					end
 
 				-- If it was an item drag ...
@@ -4201,15 +4280,21 @@ end
 				if (buttonType == 132) then
 					button:SetAttribute("*type-S" .. stance  .. clickType, cursorType)
 					button:SetAttribute("*"..cursorType .. "-S" .. stance .. clickType, objectName); -- tempName);
-					button:SetAttribute("*"..cursorType .. "2-S" .. stance .. clickType, C_Spell.GetSpellInfo(objectName)); -- tempName);
+					if ( Lunar.API:IsVersionRetail()) then
+					button:SetAttribute("*"..cursorType .. "2-S" .. stance .. clickType, C_Spell.GetSpellName(objectName)); -- tempName);
+					else
+					button:SetAttribute("*"..cursorType .. "2-S" .. stance .. clickType, GetSpellInfo(objectName)); -- tempName);
+					end
 				elseif ( Lunar.API:IsVersionRetail() or Lunar.API:IsVersionWotLK() ) then
 					--print("4194 : ", "*type-S" .. stance  .. clickType, "macrotext")
 					button:SetAttribute("*type-S" .. stance  .. clickType, "macrotext")
---				local tempName = select(1, C_Spell.GetSpellInfo(objectName));
+--				local tempName = select(1, GetSpellInfo(objectName));
 					button:SetAttribute("*macrotext-S" .. stance .. clickType, objectName); -- tempName);
---TWW need to research
+					if ( Lunar.API:IsVersionRetail()) then
 					button:SetAttribute("*macrotext2-S" .. stance .. clickType, "/stopcasting\n/cast [nomounted] " .. (C_Spell.GetSpellName(objectName) or "")  .. "\n/dismount"); -- tempName);
-					--button:SetAttribute("*macrotext2-S" .. stance .. clickType, "/stopcasting\n/cast [nomounted] " .. (C_Spell.GetSpellInfo(objectName) or "")  .. "\n/dismount"); -- tempName);
+					else
+					button:SetAttribute("*macrotext2-S" .. stance .. clickType, "/stopcasting\n/cast [nomounted] " .. (GetSpellInfo(objectName) or "")  .. "\n/dismount"); -- tempName);
+					end
 --"/cast [nomounted] " .. objectName .. "\n/dismount"
 				elseif (Lunar.API:IsVersionRetail() == false ) then
 					-- OMG, could this be more complicated? We have to set
@@ -4593,7 +4678,11 @@ function Lunar.Button:LoadButtonData(buttonID)
 							if (macroAction) then
 								_,_,_,_,_,_,_,_,_,newTexture = GetItemInfo(macroAction);
 								if not newTexture then
+if ( Lunar.API:IsVersionCata() == false ) then
 									newTexture = C_Spell.GetSpellTexture(macroAction);
+else
+newTexture = GetSpellTexture(macroAction);
+end
 								end
 							end
 							if string.find(macroBody, "#show") and not string.find(macroBody, "#showt") then
@@ -4658,7 +4747,12 @@ function Lunar.Button:LoadButtonData(buttonID)
 							_G[buttonName]:SetAttribute("*type-S" .. stance .. clickType, cursorType)
 							_G[buttonName]:SetAttribute("*" ..cursorType .. "-S" .. stance .. clickType, objectName)
 							if (tostring(tonumber(objectName)) == objectName) then
+if ( Lunar.API:IsVersionCata() == false ) then
 								_G[buttonName]:SetAttribute("*" ..cursorType .. "2-S" .. stance .. clickType, C_Spell.GetSpellInfo(objectName));
+else
+_G[buttonName]:SetAttribute("*" ..cursorType .. "2-S" .. stance .. clickType, GetSpellInfo(objectName));
+
+end
 								_G[buttonName]:SetAttribute("*" ..cursorType .. "-S" .. stance .. clickType, objectName);
 							end
 						end
@@ -5230,7 +5324,11 @@ Lunar.eventHandler = {
 			-- Get spell ID and check it against the arg
 			--local _, spellID = C_SpellBook.GetSpellBookItemInfo((C_Spell.GetSpellInfo(self.actionName)) or "");
 --TWW
+if ( Lunar.API:IsVersionCata() == false ) then
 			local _, spellID = C_Spell.GetSpellInfo(self.actionName);
+else
+local _, spellID = GetSpellInfo(self.actionName);
+end
 			if (spellID == arg1) then
 				self.procGlow:Hide();
 				self.procGlowShown = nil;
@@ -5242,7 +5340,13 @@ Lunar.eventHandler = {
 			-- Get spell ID and check it against the arg
 			--local _, spellID = C_SpellBook.GetSpellBookItemInfo((C_Spell.GetSpellInfo(self.actionName)) or "");
 --TWW
-			local _, spellID = C_Spell.GetSpellInfo(self.actionName);
+			--local _, spellID = C_Spell.GetSpellInfo(self.actionName);
+if ( Lunar.API:IsVersionCata() == false ) then
+			local _, spellID = C_Spell.GetSpellIDForSpellIdentifier(self.actionName);
+else
+local _, spellID = GetSpellIDForSpellIdentifier(self.actionName);
+
+end
 			if (spellID == arg1) then
 				self.procGlow:Show();
 				self.procGlowShown = true;
@@ -5650,6 +5754,7 @@ function Lunar.Button:UpdateCount(self)
 	if (not self.actionTypeCount) then
 		if (self:GetID() == 0) then
 			self.actionNameCount = LunarSphereSettings.sphereAction or ("") 
+if ( Lunar.API:IsVersionCata() == false ) then
 			if C_Spell.GetSpellInfo(self.actionNameCount) then
 				self.actionTypeCount = "spell";
 				Lunar.Button:FindSpellReagent(self, self.currentStance, -1, self.actionNameCount, self.actionTypeCount)
@@ -5657,6 +5762,15 @@ function Lunar.Button:UpdateCount(self)
 				self.actionTypeCount = "item";
 				LunarSphereSettings.buttonData[0].showCount = true;
 			end
+else
+			if GetSpellInfo(self.actionNameCount) then
+				self.actionTypeCount = "spell";
+				Lunar.Button:FindSpellReagent(self, self.currentStance, -1, self.actionNameCount, self.actionTypeCount)
+			else
+				self.actionTypeCount = "item";
+				LunarSphereSettings.buttonData[0].showCount = true;
+			end
+end
 		else
 			local clickType = Lunar.Button:GetButtonSetting(self:GetID(), self.currentStance, LUNAR_GET_SHOW_COUNT)
 			_, self.actionTypeCount, self.actionNameCount = Lunar.Button:GetButtonData(self:GetID(), self.currentStance, clickType);
@@ -5675,7 +5789,11 @@ function Lunar.Button:UpdateCount(self)
 		
 		-- Possibly just switch actionType and actionName to "item" and the reagent name, instead of this code ... to save space?
 		if (actionType == "spell") and (self.spellReagent) then
+if ( Lunar.API:IsVersionCata() == false ) then
 			reagentCount = C_Spell.GetSpellCount(actionName) or (0);
+else
+			reagentCount = GetSpellCount(actionName) or (0);
+end
 			if (reagentCount > 0) then
 				if (self:GetID() > 0) then
 					_G[self:GetName() .. "Count"]:Show();
@@ -5838,6 +5956,7 @@ function Lunar.Button.UpdateCooldown(self, filter)
 		if (not button.actionTypeCooldown) then
 			if (self:GetID() == 0) then
 				self.actionNameCooldown = LunarSphereSettings.sphereAction or ("") 
+if ( Lunar.API:IsVersionCata() == false ) then
 				if C_Spell.GetSpellInfo(self.actionNameCooldown) then
 					self.actionTypeCooldown = "spell";
 					LunarSphereSettings.buttonData[0].showCount = true;
@@ -5845,6 +5964,15 @@ function Lunar.Button.UpdateCooldown(self, filter)
 					self.actionTypeCooldown = "item";
 					LunarSphereSettings.buttonData[0].showCount = true;
 				end
+else
+				if GetSpellInfo(self.actionNameCooldown) then
+					self.actionTypeCooldown = "spell";
+					LunarSphereSettings.buttonData[0].showCount = true;
+				else
+					self.actionTypeCooldown = "item";
+					LunarSphereSettings.buttonData[0].showCount = true;
+				end
+end
 			else
 				button.actionButtonTypeCooldown, button.actionTypeCooldown, button.actionNameCooldown = Lunar.Button:GetButtonData(button:GetID(), button.currentStance, button.cooldownID);
 				if (button.actionTypeCooldown == "spell") then
@@ -5866,7 +5994,7 @@ function Lunar.Button.UpdateCooldown(self, filter)
 		enable = 1;
 		if (actionType == "spell") then
 
-			if (C_Spell.GetSpellCooldown(actionName).startTime ~= 0) then
+			--if (C_Spell.GetSpellCooldown(actionName).startTime ~= 0) then
 					--TWW
 					--startTime = C_Spell.GetSpellCooldown(actionName).startTime;
 					--duration = C_Spell.GetSpellCooldown(actionName).duration;
@@ -5877,10 +6005,15 @@ function Lunar.Button.UpdateCooldown(self, filter)
 					--else
 					--	enable = 0;
 					--end
-			
+			if ( Lunar.API:IsVersionCata() == false ) then
+
 				startTime, duration, enable = C_Spell.GetSpellCooldown(actionName);
+			else
+				startTime, duration, enable = GetSpellCooldown(actionName);
+
 			end
-			--startTime, duration, enable = C_SpellBook.GetSpellBookItemCooldown(actionName);
+			--end
+			--startTime, duration, enable = C_SpellBook.GetSpellBookItemCooldown(actionName); --TWW uncommented
 		elseif (actionType == "item") then
 			startTime, duration = Lunar.API:GetItemCooldown(actionName);
 		elseif (actionType == "macro") or (actionType == "macrotext") then
@@ -5895,7 +6028,11 @@ function Lunar.Button.UpdateCooldown(self, filter)
 				if GetItemInfo(actionName) then
 					startTime, duration = Lunar.API:GetItemCooldown(actionName);
 				else
+if ( Lunar.API:IsVersionCata() == false ) then
 					startTime, duration, enable = C_Spell.GetSpellCooldown(actionName);
+else
+					startTime, duration, enable = GetSpellCooldown(actionName);
+end
 					--startTime = C_Spell.GetSpellCooldown(actionName).startTime;
 					--duration = C_Spell.GetSpellCooldown(actionName).duration;
 					--enabled = C_Spell.GetSpellCooldown(actionName).isEnabled;
@@ -6050,7 +6187,11 @@ function Lunar.Button.OnUpdate(self, elapsed, button)
 		local actionType = self:GetAttribute("updateIconType");
 		local actionName = self:GetAttribute("updateIconName");
 		if (actionType == "spell") then
+if ( Lunar.API:IsVersionCata() == false ) then
 			self.texture:SetTexture(C_Spell.GetSpellTexture(actionName));
+else
+			self.texture:SetTexture(GetSpellTexture(actionName));
+end
 		end
 	end
 
@@ -6234,10 +6375,9 @@ function Lunar.Button:UpdateUsable(self, filter, rangeOnly)
 
 --TWW Change
 			--_, spellLink = C_Spellbook.GetSpellBookItemInfo(self.actionName);
+if ( Lunar.API:IsVersionCata() == false ) then
 			_, spellLink = C_Spell.GetSpellInfo(self.actionName);
 			texture = C_Spell.GetSpellTexture(self.actionName);
-			--icon = C_Spell.GetSpellTexture(self.actionName);
-
 --TWW might need these but they are broken
 			if (not spellLink) then
 				spellLink = C_Spell.GetSpellInfo(self.actionName);
@@ -6247,6 +6387,23 @@ function Lunar.Button:UpdateUsable(self, filter, rangeOnly)
 			if (rank) then
 				name = name .. "(" .. rank .. ")";
 			end
+else
+_, spellLink = GetSpellInfo(self.actionName);
+texture = GetSpellTexture(self.actionName);
+--TWW might need these but they are broken
+			if (not spellLink) then
+				spellLink = GetSpellInfo(self.actionName);
+			end
+
+			name, rank = GetSpellInfo(self.actionName) or "";
+			if (rank) then
+				name = name .. "(" .. rank .. ")";
+			end
+
+end
+
+			--icon = C_Spell.GetSpellTexture(self.actionName);
+
 
 
 			spellLink = spellLink or ("");
@@ -6254,7 +6411,11 @@ function Lunar.Button:UpdateUsable(self, filter, rangeOnly)
 			if not (rangeOnly == true) then
 --TWW Change commented
 				--isUsable, notEnoughMana = IsUsableSpell(spellLink); --self.actionName);
+if ( Lunar.API:IsVersionCata() == false ) then
 				isUsable, notEnoughMana = C_Spell.IsSpellUsable(self.actionName);
+else
+	isUsable, notEnoughMana = IsUsableSpell(spellLink); --self.actionName);
+end
 				-- Adjust for spell mounts since we assign by number. They can always be used ... kinda.
 				if (not isUsable) then
 					if (tostring(tonumber(self.actionName)) == self.actionName) then
@@ -6275,13 +6436,25 @@ function Lunar.Button:UpdateUsable(self, filter, rangeOnly)
 					SetPortraitToTexture(self.texture, texture);
 				end
 			end
---TWW Change Updated with C_Spell in front... looks like the bliz IsSpellinRange may be bugged C_Spell.IsSpellInRange(spellIdentifier [, targetUnit]
+--TWW Change Updated with C_Spell in front... looks like the bliz IsSpellinRange may be bugged C_Spell.IsSpellInRange(spellIdentifier [, targetUnit])
+if ( Lunar.API:IsVersionCata() == false ) then
 			if (C_Spell.IsAutoAttackSpell(self.actionName) and not C_Spell.IsCurrentSpell(self.actionName)) then
 				local border = _G[self:GetName().."Border"];
 				if (border) then
 					border:Hide();
 				end
 			end
+else
+			if (IsAttackSpell(self.actionName) and not IsCurrentSpell(self.actionName)) then
+				local border = _G[self:GetName().."Border"];
+				if (border) then
+					border:Hide();
+				end
+			end
+			inRange = IsSpellInRange(name, "target"); --self.actionName, "target");
+			--inRange = IsSpellInRange(name, "target"); --self.actionName, "target");
+			--inRange = IsSpellBookItemInRange(name, "target"); --self.actionName, "target");
+end
 			--inRange = IsSpellInRange(name, "target"); --self.actionName, "target");
 			--inRange = C_Spell.IsSpellInRange(name, "target"); --self.actionName, "target");
 			--inRange = C_SpellBook.IsSpellBookItemInRange(name, "target"); --self.actionName, "target");
@@ -6319,7 +6492,11 @@ function Lunar.Button:UpdateUsable(self, filter, rangeOnly)
 					end
 				else
 					if not (rangeOnly == true) then
+if ( Lunar.API:IsVersionCata() == false ) then
 						isUsable, notEnoughMana = C_Spell.IsSpellUsable(macroAction);
+else
+						isUsable, notEnoughMana = IsUsableSpell(macroAction);
+end
 						self.notEnoughMana = notEnoughMana;
 						self.isUsable = isUsable;
 					end
@@ -6409,13 +6586,25 @@ function Lunar.Button:UpdateSpellState(self)
 			local border = _G[self:GetName().."Border"];
 			if (border) then
 --TWW Change 
-				if ( (C_Spell.IsAutoAttackSpell(self.actionName) and C_Spell.IsCurrentSpell(self.actionName)) 							or C_Spell.IsCurrentSpell(self.actionName) 
+if ( Lunar.API:IsVersionCata() == false ) then
+				if ( (C_Spell.IsAutoAttackSpell(self.actionName) and C_Spell.IsCurrentSpell(self.actionName)) 							
+					or C_Spell.IsCurrentSpell(self.actionName) 
 					or C_Spell.IsAutoRepeatSpell(self.actionName) ) then --spellID, Enum.SpellBookSpellBank.Player)) then
 					border:SetVertexColor(1,1,0);
 					border:Show();
 				else
 					border:Hide();
 				end
+else
+				if ( (IsAttackSpell(self.actionName) and IsCurrentSpell(self.actionName)) 							
+					or IsCurrentSpell(self.actionName) 
+					or IsAutoRepeatSpell(self.actionName) ) then --spellID, Enum.SpellBookSpellBank.Player)) then
+					border:SetVertexColor(1,1,0);
+					border:Show();
+				else
+					border:Hide();
+				end
+end
 
 				-- Paladins and Death Knights get some love too, for their auras/presences
 				--REMOVED as DKs, Hunters and Paladins no longer have stances
@@ -6550,7 +6739,11 @@ function Lunar.Button:UpdateIcon(button)
 					if (objectName) then
 						_,_,_,_,_,_,_,_,_,newTexture = GetItemInfo(objectName); --GetActionFromMacroText(macroBody));
 						if not newTexture then
+if ( Lunar.API:IsVersionCata() == false ) then
 							newTexture = C_Spell.GetSpellTexture(objectName);
+else
+							newTexture = GetSpellTexture(objectName);
+end
 						end
 					end
 				end
@@ -6577,7 +6770,11 @@ function Lunar.Button:UpdateIcon(button)
 		if (not newTexture) then
 			local spellID = Lunar.API:GetSpellID(objectName);
 			if (spellID) then
+if ( Lunar.API:IsVersionCata() == false ) then
 				newTexture = C_Spell.GetSpellTexture(spellID, "spell");
+else
+				newTexture = GetSpellTexture(spellID, "spell");
+end
 			end
 		end
 --]]
@@ -6607,7 +6804,14 @@ function Lunar.Button:GetIconTexture(cursorType, objectID, objectData)
 
 		-- Get the name of the spell and its texture
 --		objectName = GetSpellBookItemName(objectID, objectData);
+--TWW
+if ( Lunar.API:IsVersionCata() == false ) then
 		objectTexture = C_Spell.GetSpellTexture(objectID, objectData);
+else
+		--objectName = GetSpellBookItemName(objectID, objectData);
+		objectTexture = GetSpellTexture(objectID, objectData);
+
+end
 
 	-- If it was an item drag ...
 	elseif (cursorType == "item") then
@@ -7252,7 +7456,11 @@ function Lunar.Button:SetTooltip(self)
 								else
 									-- Make sure we don't show spell IDs
 									if (actionName == tostring(tonumber(actionName))) then
+if ( Lunar.API:IsVersionCata() == false ) then
 										actionName = C_Spell.GetSpellInfo(actionName);
+else
+										actionName = GetSpellInfo(actionName);
+end
 									end
 										
 									myGameTooltip:AddLine(buttonName .. actionName .. " " .. itemCount .. keybindText, 1, 1, 1);

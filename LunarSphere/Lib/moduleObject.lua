@@ -687,7 +687,11 @@ function Lunar.Object.DropdownInitialize(self, dropdownObject, listName, modifyS
 								objectTexture = "";
 								if (objectName) then
 									if (buttonType >= 80) and (buttonType < 90) then
+		if ( Lunar.API:IsVersionCata() == false ) then
 										objectTexture = select(3, C_Spell.GetSpellInfo(string.sub(objectName, 3)));
+else
+objectTexture = select(3, GetSpellInfo(string.sub(objectName, 3)));
+end
 									else
 										_,_,_,_,_,_,_,_,_,objectTexture = GetItemInfo(objectName);
 									end
@@ -899,7 +903,11 @@ function Lunar.Object:SubmenuFunction(listName, updateFunction)
 			objectTexture = "";
 			if (objectName) then
 				if (buttonType >= 80) and (buttonType < 90) then
+if ( Lunar.API:IsVersionCata() == false ) then
 					objectTexture = select(3, C_Spell.GetSpellInfo(string.sub(objectName, 3)));
+else
+					objectTexture = select(3, GetSpellInfo(string.sub(objectName, 3)));
+end
 				else
 					_,_,_,_,_,_,_,_,_,objectTexture = GetItemInfo(objectName);
 				end
@@ -1077,6 +1085,7 @@ function Lunar.Object.IconPlaceHolder_OnClick(self)
 
 		if (updateType == "spell") then
 --TWW
+if ( Lunar.API:IsVersionCata() == false ) then
 			_, spellRank = C_SpellBook.GetSpellBookItemName(updateID, Enum.SpellBookSpellBank.Player);
 			--_, spellRank = C_SpellBook.GetSpellBookItemName(updateID, updateData);
 --			nextSpellName = C_SpellBook.GetSpellBookItemName(updateID + 1, updateData);
@@ -1088,6 +1097,17 @@ function Lunar.Object.IconPlaceHolder_OnClick(self)
 			--objectTexture = C_Spell.GetSpellTexture(updateID, updateData);
 			objectTexture = C_Spell.GetSpellTexture(updateID);
 			spellName = C_Spell.GetSpellInfo(updateTrueSpellID);
+else
+			_, spellRank = GetSpellBookItemName(updateID, updateData);
+--			nextSpellName = GetSpellBookItemName(updateID + 1, updateData);
+			spellRank = "(" .. spellRank .. ")";
+
+			--_, spellID = GetSpellBookItemInfo(updateID, updateData);
+			actionName = GetSpellBookItemName(updateID, updateData);
+			objectTexture = GetSpellTexture(updateID, updateData);
+			spellName = GetSpellInfo(updateTrueSpellID);
+
+end
 
 			-- Fix for Call Pet for hunters.
 			if (actionName ~= spellName) then
@@ -1200,8 +1220,13 @@ function Lunar.Object.SphereActionIconPlaceHolder_OnClick(self)
 		local actionName, objectTexture;
 
 		if (cursorType == "spell") then
-			actionName = GetSpellBookItemName(cursorID, cursorData);
+			if ( Lunar.API:IsVersionCata() == false ) then
+			actionName = C_Spellbook.GetSpellBookItemName(cursorID, cursorData);
 			objectTexture = C_Spell.GetSpellTexture(cursorID, cursorData);
+			else
+			actionName = GetSpellBookItemName(cursorID, cursorData);
+			objectTexture = GetSpellTexture(cursorID, cursorData);
+			end
 		elseif (updateType == "battlepet") then
 			-- Set the name of the spell and its texture
 			_, _, _, _, _, _, _, actionName, objectTexture, _, displayID = C_PetJournal.GetPetInfoByPetID(updateID);

@@ -539,8 +539,8 @@ function Lunar.Items:BuildLookupStrings()
 			end
 		end
 	end
-
-	searchData.drink		 = C_Spell.GetSpellInfo(430);
+if ( Lunar.API:IsVersionCata() == false ) then	
+	searchData.drink	= C_Spell.GetSpellInfo(430);
 	searchData.food		 = C_Spell.GetSpellInfo(433);
 	searchData.potionHealing = C_Spell.GetSpellInfo(441); -- healing-potion
 	searchData.potionMana	 = C_Spell.GetSpellInfo(2023); -- restore-mana
@@ -550,6 +550,18 @@ function Lunar.Items:BuildLookupStrings()
 	searchData.refreshment	 = C_Spell.GetSpellInfo(44166);
 
 	Lunar.Locale["_SUMMON"] = select(2, C_Spell.GetSpellInfo(688))
+else
+	searchData.drink	= GetSpellInfo(430);
+	searchData.food		 = GetSpellInfo(433);
+	searchData.potionHealing = GetSpellInfo(441); -- healing-potion
+	searchData.potionMana	 = GetSpellInfo(2023); -- restore-mana
+	searchData.energyDrink	 = GetSpellInfo(9512);
+	searchData.bandage	 = GetSpellInfo(746);
+	searchData.healthStone	 = GetSpellInfo(6262); -- minor-healthstone (works for Retail)
+	searchData.refreshment	 = GetSpellInfo(44166);
+
+	Lunar.Locale["_SUMMON"] = select(2, GetSpellInfo(688))
+end
 
 	-- Now, run through each entry in the search data and make sure it has a spell attached to it.
 	-- Make sure we skip mount, rage potion, and charges
@@ -1363,7 +1375,11 @@ function Lunar.Items:UpdateLowHighItems()
 	local canFly = Lunar.API:IsFlyableArea()
 	local inAQ = Lunar.API:IsInAQ();
 	local Lunar_Seahorse = 0;
-    local Lunar_AbyssalMount_Name, _ = C_Spell.GetSpellInfo(75207);
+	if ( Lunar.API:IsVersionCata() == false ) then
+    		local Lunar_AbyssalMount_Name, _ = C_Spell.GetSpellInfo(75207);
+	else
+		local Lunar_AbyssalMount_Name, _ = GetSpellInfo(75207);
+	end
 
 	local playerLevel = UnitLevel("player");
 
@@ -2084,7 +2100,11 @@ function Lunar.Items:RetailScanForSpellMounts()
 	--local locKalimdor, locEastern, locOutland, locNorthrend, locMaelstrom, locPandaren, locDreanor = GetMapContinents();
 --TWW Commented
         --local name, description, standingID, _ = GetFactionInfoByID(1271)
+if ( Lunar.API:IsVersionCata() == false ) then	
 	local name, description, standingID, _ = C_Reputation.GetFactionDataByID(1271)
+else
+	local name, description, standingID, _ = GetFactionInfoByID(1271)
+end
 
 	local LunarProfValue = Lunar.API:UserGetProfession();
 	local mountIDs;
@@ -2702,7 +2722,12 @@ function Lunar.Items:ModifyItemDataTable(tableName, modifyType, itemName, itemCo
 						itemData[tableName][pos].spell = GetItemSpell(itemName);
 					else
 						--print("Lunar.Items:ModifyItemDataTable 2349", tableName, modifyType, itemName, itemCount, itemLevel, itemMinLevel, string.sub(itemName, 3))
+if ( Lunar.API:IsVersionCata() == false ) then
 						itemData[tableName][pos].spell = C_Spell.GetSpellInfo(string.sub(itemName, 3));
+else
+itemData[tableName][pos].spell = GetSpellInfo(string.sub(itemName, 3));
+
+end
 						itemData[tableName][pos].spellMount = true;
 						itemData[tableName][pos].itemID = "spellMount";
 					end

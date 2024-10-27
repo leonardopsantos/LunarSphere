@@ -485,7 +485,7 @@ function Lunar.API:GetSpellID(spellName)
 --		totalSpells = totalSpells + spellsInTab;
 --		totalSpells = totalSpells + select(4, GetSpellTabInfo(index));
 --	end
-
+if ( Lunar.API:IsVersionCata() == false ) then
 	for i = 1, C_SpellBook.GetNumSpellBookSkillLines() do
 		local skillLineInfo = C_SpellBook.GetSpellBookSkillLineInfo(i)
 		local offset, numSlots = skillLineInfo.itemIndexOffset, skillLineInfo.numSpellBookItems
@@ -505,6 +505,16 @@ function Lunar.API:GetSpellID(spellName)
 			return spellID, spellRank;
 		end
 	end
+else
+
+	for index = 1, MAX_SKILLLINE_TABS do
+	for index = 1, GetNumSpellTabs() do
+		_, _, _, spellsInTab = GetSpellTabInfo(index);
+		totalSpells = totalSpells + spellsInTab;
+		totalSpells = totalSpells + select(4, GetSpellTabInfo(index));
+	end
+end
+end
 end
 
 ---- /***********************************************
@@ -847,7 +857,11 @@ function Lunar.API:MultiAddToTooltip(actionType, actionName, index, firstLineApp
 --		spellID, spellRank = Lunar.API:GetSpellID(actionName);
 
 --TWW added C_Spell
+if ( Lunar.API:IsVersionCata() == false ) then
 		spellID = C_Spell.GetSpellLink(actionName);
+else
+		spellID = GetSpellLink(actionName);
+end
 		--_, spellRank = GetSpellBookItemName(actionName);
 		if (not Lunar.API:IsVersionClassic() and spellID and (spellID:len() > 0)) then
 			Lunar.Items.tooltip:SetHyperlink(spellID);
@@ -2713,7 +2727,7 @@ function Lunar.API:Load()
 	--		return;
 	--	end
 
-		local buttonName, spellRank, spellName;
+	--	local buttonName, spellRank, spellName;
 
 
 		local param = Lunar.Button.drDamageParam;
@@ -2724,8 +2738,8 @@ function Lunar.API:Load()
 			if button.actionType == "spell" and button.buttonType == 1 and button.spellReagent == nil then
 				if LunarSphereSettings.enableDrDamage == true then
 					_G[buttonName .. "Count"]:Show()
-					_, param[paramOffset + 1] = GetSpellBookItemName(button.actionName);
-	--				_, spellRank = GetSpellBookItemName(button.actionName);
+					_, param[paramOffset + 1] = C_Spellbook.GetSpellBookItemName(button.actionName); --TWW
+	--				_, spellRank = C_Spellbook.GetSpellBookItemName(button.actionName); --TWW
 					if (string.find(button.actionName, "%(")) then
 						spellName = string.match(button.actionName, "(.*)%(");
 					else
@@ -2745,8 +2759,8 @@ function Lunar.API:Load()
 					if button.actionType == "spell" and button.buttonType == 1 and button.spellReagent == nil then
 						if LunarSphereSettings.enableDrDamage == true then
 							_G[buttonName .. "Count"]:Show()
-							_, param[paramOffset + 1] = GetSpellBookItemName(button.actionName);
-	--						_, spellRank = GetSpellBookItemName(button.actionName);
+							_, param[paramOffset + 1] = C_Spellbook.GetSpellBookItemName(button.actionName); --TWW
+	--						_, spellRank = C_Spellbook.GetSpellBookItemName(button.actionName); -TWW
 							if (string.find(button.actionName, "%(")) then
 								spellName = string.match(button.actionName, "(.*)%(");
 							else
@@ -2775,7 +2789,8 @@ function Lunar.API:GetItemCooldown(itemData)
 	-- grab the item ID and return the cooldown from it. Pain in the
 	-- ass, but the way we need to do it currently.
 
-	local _, itemLink = GetItemInfo(itemData);
+	--TWW
+	local _, itemLink = C_Item.GetItemInfo(itemData);
 
 	local itemID = Lunar.API:GetItemID(itemLink)
 
@@ -2955,6 +2970,11 @@ end
 --   false - Client is BCC, WotLKC or Classic
 --
 function Lunar.API:IsVersionWotLK()
+	_, _, _, t = GetBuildInfo();
+    return (t > 20000) and (t < 70000);
+end
+
+function Lunar.API:IsVersionCata()
 	_, _, _, t = GetBuildInfo();
     return (t > 20000) and (t < 70000);
 end
