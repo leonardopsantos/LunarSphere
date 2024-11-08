@@ -898,7 +898,6 @@ function Lunar.Speech.ParseSpeech(self, speech)
 		speech = string.gsub(speech, "<portal>", strtrim(string.match(self.spellName, ":(.*)") or ("")));
 	end
 
-	local forceChannel;
 
 	-- Play sound effects
 	if string.find(speech, "<sound=") then
@@ -916,29 +915,33 @@ function Lunar.Speech.ParseSpeech(self, speech)
 		PlaySoundFile(soundFile);
 	end
 
+	local forceChannel = "SAY";
 	if string.find(speech, "<say>") then
 		speech = string.gsub(speech, "<say>", "");
 		forceChannel = "SAY";
-	end
-	if string.find(speech, "<yell>") then
+		if not IsInInstance() then
+			speech = 'says, "'..speech..'"'
+			forceChannel = "EMOTE"
+		end
+	elseif string.find(speech, "<yell>") then
 		speech = string.gsub(speech, "<yell>", "");
 		forceChannel = "YELL";
-	end
-	if string.find(speech, "<party>") then
+	elseif string.find(speech, "<party>") then
 		speech = string.gsub(speech, "<party>", "");
 		forceChannel = "PARTY";
-	end
-	if string.find(speech, "<raid>") then
+	elseif string.find(speech, "<raid>") then
 		speech = string.gsub(speech, "<raid>", "");
 		forceChannel = "RAID";
-	end
-	if string.find(speech, "<emote>") then
+	elseif string.find(speech, "<emote>") then
 		speech = string.gsub(speech, "<emote>", "");
 		forceChannel = "EMOTE";
-	end
-	if string.find(speech, "<whisper>") then
+	elseif string.find(speech, "<whisper>") then
 		speech = string.gsub(speech, "<whisper>", "");
 		forceChannel = "WHISPER";
+	-- SendChatMessage() requires a hardware event if outside, so EMOTE instead
+	elseif not IsInInstance() then
+		speech = 'says, "'..speech..'"'
+		forceChannel = "EMOTE"
 	end
 
 	return speech, forceChannel;
@@ -1006,7 +1009,7 @@ function Lunar.Speech.RunScript(self, scriptName)
 			-- If we are to broadcast to the party or raid channels, but we aren't
 			-- in a raid or a party, set our channel to none.
 
-			if (channel == "PARTY") and (GetNumPartyMembers() == 0) then
+			if (channel == "PARTY") and (GetNumSubgroupMembers() == 0) then
 				channel = "NONE";
 			elseif (channel == "RAID") and not UnitInRaid("player") then
 				channel = "NONE";
@@ -1079,23 +1082,20 @@ function Lunar.Speech.RunScript(self, scriptName)
 					-- Grab the parsed data for this current line of speech and say it.
 
 					if (speechLine) then
-						
-						speechLine, forceChannel = Lunar.Speech.ParseSpeech(self, speechLine);
 
+						speechLine, forceChannel = Lunar.Speech.ParseSpeech(self, speechLine);
 						if ((channel == "WHISPER") and not forceChannel) or (forceChannel == "WHISPER") then
 							local whisperTarget = self.spellTarget or UnitName("target");
 							if (whisperTarget) ~= "" then
 								SendChatMessage(speechLine, "WHISPER", nil, whisperTarget);
 							end
 						else
-							if ( (forceChannel or channel) ~= "SAY" ) or IsInInstance() then
-								SendChatMessage(speechLine, forceChannel or (channel));
-							end
+							SendChatMessage(speechLine, forceChannel or channel);
 						end
 					end
 				end
 			end
-		end	
+		end
 	end
 end
 
