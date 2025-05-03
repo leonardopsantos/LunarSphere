@@ -2421,7 +2421,8 @@ function Lunar.API:Load()
 
 				-- If we need to update the coordinates, do so
 				if (Lunar.API.minimapShowCoords) then
-					local x, y = GetPlayerMapPosition("player")
+					local position = C_Map.GetPlayerMapPosition(C_Map.GetBestMapForUnit("player"), "player")
+					local x, y = position and position:GetXY() or 0, 0
 					if (x == 0) and (y == 0) then
 						if (IsInInstance() == nil) or (select(2, IsInInstance()) == "pvp") then
 	--						SetMapToCurrentZone();

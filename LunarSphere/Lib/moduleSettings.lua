@@ -5015,20 +5015,23 @@ if not (LunarSphereSettings.memoryDisableSpeech) then
 			Lunar.Button.CompanionID = nil;
 
 			if (cursorType == "spell") then
-				actionName, actionRank = Lunar.API:GetSpellBookItemName(cursorID, cursorData);
-				objectTexture = C_Spell.GetSpellTexture(cursorID, cursorData);
+				actionName, actionRank = C_SpellBook.GetSpellBookItemName(cursorID, Enum.SpellBookSpellBank.Player);
+				objectTexture = C_SpellBook.GetSpellBookItemTexture(cursorID, Enum.SpellBookSpellBank.Player);
 
 				-- Fix for Call Pet for hunters.
-				local _, spellID = C_SpellBook.GetSpellBookItemInfo(cursorID, cursorData);
-				local spellName = GetSpellInfo(spellID);
-				if (actionName ~= spellName) then
-					actionName = spellName;
+				local spellBookItemInfo = C_SpellBook.GetSpellBookItemInfo(cursorID, Enum.SpellBookSpellBank.Player);
+				local spellInfo = GetSpellInfo(spellBookItemInfo.spellID);
+				if spellInfo and spellInfo.name and actionName ~= spellInfo.name then
+					actionName = spellInfo.name;
 				end
 
 			elseif (cursorType == "item") then
-				actionName, _, _, _, _, _, _, _, _, objectTexture = GetItemInfo(cursorID);
-				actionName = GetItemSpell(actionName);
+				actionName, _, _, _, _, _, _, _, _, objectTexture = C_Item.GetItemInfo(cursorID);
+				actionName = C_Item.GetItemSpell(actionName);
 			end
+
+			print("Action Name: " .. actionName);
+
 
 			if (actionName) then
 				if (actionRank) and (actionRank ~= "") and (not (string.find(actionRank, "%d"))) then --and not (actionRank == Lunar.Speech.summonText) then
@@ -5069,6 +5072,7 @@ if not (LunarSphereSettings.memoryDisableSpeech) then
 		else
 			local spellID = self:GetID() + _G["LSSettingsAssignActionSlider"]:GetValue();
 			local scriptID = _G["LSSettingsscriptSelection"].selectedValue or (0);
+			if not LunarSpeechLibrary.script[scriptID].spells then return end
 			local spellData = LunarSpeechLibrary.script[scriptID].spells[spellID];
 			if IsControlKeyDown() then
 				if (self:GetID() > 0) then

@@ -1344,9 +1344,9 @@ function Lunar.Button:Create(name, parent, includeHeader)
 	local name = "Lunar" .. name .. "Button";
 	local button;
 	if (includeHeader) then
-		button = CreateFrame("CheckButton", name, parent, "SecureActionButtonTemplate, ActionButtonTemplate, SecureHandlerClickTemplate, SecureHandlerStateTemplate, SecureHandlerEnterLeaveTemplate");
-	else
-		button = CreateFrame("CheckButton", name, parent, "SecureActionButtonTemplate, ActionButtonTemplate"); --, SecureHandlerClickTemplate, SecureHandlerEnterLeaveTemplate, SecureHandlerShowHideTemplate, ActionButtonTemplate")
+		button = CreateFrame("CheckButton", name, parent, "ActionButtonTemplate, SecureActionButtonTemplate, SecureHandlerClickTemplate, SecureHandlerStateTemplate, SecureHandlerEnterLeaveTemplate");
+		else
+			button = CreateFrame("CheckButton", name, parent, "ActionButtonTemplate, SecureActionButtonTemplate"); --, SecureHandlerClickTemplate, SecureHandlerEnterLeaveTemplate, SecureHandlerShowHideTemplate, ActionButtonTemplate")
 	end
 
 	-- Make our new button accept mouse clicks

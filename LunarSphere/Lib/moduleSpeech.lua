@@ -316,9 +316,9 @@ function Lunar.Speech:Export(wipeOldData, scriptID)
 
 	-- Check to see if the exporter is loaded. If not, load it up
 	local theReason;
-	local isLoaded = IsAddOnLoaded("LunarSphereExporter");
+	local isLoaded = C_AddOns.IsAddOnLoaded("LunarSphereExporter");
 	if ( not isLoaded ) then
-		isLoaded, theReason = LoadAddOn("LunarSphereExporter");
+		isLoaded, theReason = C_AddOns.IsAddOnLoaded("LunarSphereExporter");
 	end
 
 	-- If it was successfully loaded, run the exporter and export our data.
@@ -1026,7 +1026,7 @@ function Lunar.Speech.RunScript(self, scriptName)
 			if (channel == "ANY") or (channel == "ANYGROUP") then
 				if UnitInRaid("player") then
 					channel = "RAID";
-				elseif (GetNumPartyMembers() > 0) then
+				elseif (GetNumSubgroupMembers() > 0) then
 					channel = "PARTY";
 				else
 					if (channel == "ANY") then
